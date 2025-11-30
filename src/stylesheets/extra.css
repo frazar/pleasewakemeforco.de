@@ -1,0 +1,29 @@
+/*
+Documentation: https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#custom-colors-docsstylesheetsextracss
+Color definitions: https://github.com/squidfunk/mkdocs-material/blob/master/src/templates/assets/stylesheets/main/_colors.scss
+*/
+[data-md-color-scheme="default"] {
+    --md-primary-fg-color: #303030;
+    --md-primary-fg-color--light: #ebebeb;
+    --md-primary-fg-color--dark: #aeaeae;
+
+    /* Accent color shades */
+    --md-accent-fg-color: #505050;
+    --md-accent-fg-color--transparent: #50505016;
+    --md-accent-bg-color: #505050;
+    --md-accent-bg-color--light: #50505011;
+}
+
+[data-md-color-scheme="slate"] {
+    --md-hue: 200deg;
+    --md-primary-fg-color: #0d3a8a;
+    --md-primary-bg-color: #cecece;
+    --md-primary-fg-color--light: #abdbe3;
+    --md-primary-fg-color--dark: #063970;
+
+    /* Accent color shades */
+    --md-accent-fg-color: #505050;
+    --md-accent-fg-color--transparent: #50505010;
+    --md-accent-bg-color: #505050;
+    --md-accent-bg-color--light: #ebebeb;
+}

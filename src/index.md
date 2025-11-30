@@ -1,17 +1,17 @@
-# Welcome to MkDocs
+What makes you hungry?
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+No, I'm not talking about food.
 
-## Commands
+What makes you _hungry_.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+Have you haver taken a 12-hour flight? If not, the experience goes a little bit like this. You're sitting in an uncomfortable position, with your leg space shrunk to the minimum the airline could get. Often, someone loud is seated in the row right behind you. One might attempt to find some solace in the media tablet embedded in the seat right in front, but that rarely works out. The luckiest thing that can happen to you is to fall asleep, exhausted, and fast-forward to the landing.
 
-## Project layout
+Some airlines however, allow you to set a note on the tablet saying "Please wake me for food". That is convenient if you're hungry enough that you want to interrupt that blissful nap that you're taking. But what could make you _that_ hungry?
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+For me that's code.
+
+Pretty code, ugly code. Working code, buggy code. You name it.
+
+My name is Francesco Zardi and I'm the author of this blog.
+
+---
