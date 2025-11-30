@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+# Documentation: https://www.mkdocs.org/user-guide/configuration/
+site_name: Please wake me for code
+site_url: https://pleasewakemeforco.de
+theme:
+    name: material
+docs_dir: src
+site_dir: docs

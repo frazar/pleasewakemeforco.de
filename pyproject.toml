@@ -1,0 +1,9 @@
+[project]
+name = "pleasewakemeforco-de"
+version = "0.1.0"
+description = "Source code for the website https://pleasewakemeforco.de"
+readme = "README.md"
+requires-python = "==3.13"
+dependencies = [
+    "mkdocs-material>=9.7.0",
+]
