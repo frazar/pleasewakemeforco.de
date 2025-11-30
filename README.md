@@ -2,7 +2,8 @@
 
 The `docs` folder of the `main` branch of this repo is published to the
 [pleasewakemeforco.de](https://pleasewakemeforco.de/) website using [GitHub Pages](https://docs.github.com/en/pages).
-The `docs` folder contains a static site generated with [MkDocs](https://www.mkdocs.org/).
+The `docs` folder contains a static site generated with [MkDocs](https://www.mkdocs.org/) and the 
+[Material theme for MkDocs](squidfunk.github.io/mkdocs-material/).
 
 
 # Development
