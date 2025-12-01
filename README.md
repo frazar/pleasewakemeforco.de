@@ -8,7 +8,7 @@ The `docs` folder contains a static site generated with [MkDocs](https://www.mkd
 
 # Development
 
-## Intial setup (1st time only)
+## Initial setup (1st time only)
 
 When you set up the development environment for the first time:
 
@@ -18,7 +18,7 @@ When you set up the development environment for the first time:
 4.  Create a dedicated virtual environment
 
     ```bash
-    uv .venv
+    uv venv
     ```
 
 ## Normal workflow
