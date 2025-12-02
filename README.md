@@ -34,7 +34,7 @@ To work on the repository
 2.  Now you can show a live preview of your changes accessible at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
     ```bash
-    uv run --frozen mkdocs serve --livereload --watch src --watch mkdocs.yml
+    uv run --frozen mkdocs serve --livereload --watch src --watch mkdocs.yml --watch overrides
     ```
 
     or rebuild the `docs/` folder with

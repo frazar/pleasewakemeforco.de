@@ -12,6 +12,6 @@ For me that's code.
 
 Pretty code, ugly code. Working code, buggy code. You name it.
 
-My name is Francesco Zardi and I'm the author of this blog.
+My name is Francesco and this is my blog.
 
 ---
