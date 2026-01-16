@@ -113,11 +113,13 @@ You see, the nice thing about my FRITZ!Box 7530 router is that it has OpenWRT
 support. Malignant minds might think that I have been dying for an excuse to rip
 out the stock firmware and install OpenWRT.
 
-Flashing OpenWRT was a piece of cake, also thanks to 
-[the very detailed page of the OpenWRT wiki](https://openwrt.org/toh/avm/avm_fritz_box_7530).
-I then started combining the ADSL parameters provided by my ISP with the many
-examples [in the wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
-After a little bit of trial and error, I found the right network configuration for my VDSL connection:
+Flashing OpenWRT was a piece of cake, also thanks to [the very detailed page of
+the OpenWRT wiki](https://openwrt.org/toh/avm/avm_fritz_box_7530). I then
+started combining the ADSL parameters provided by my ISP with the many examples
+[in the
+wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations). After
+a little bit of trial and error, I found the right network configuration for my
+VDSL connection:
 
 ```
 config atm-bridge 'atm'
@@ -159,7 +161,7 @@ So I start surfing, but something is off. Sometimes, website fail to load.
 Software updates don't go through. In most cases, the issues are intermittent,
 almost forgivable. But in other cases the issues reproducing consistently.
 
-Here are a few exmaples:
+Here are a few examples:
 
 - On a Debian box, `docker login ghcr.io` would _always_ fail
 
