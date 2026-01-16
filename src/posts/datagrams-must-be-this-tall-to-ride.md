@@ -16,18 +16,17 @@ About that time my ISP was dropping IP datagrams of a certain size.
 
 ## Entrée
 
-It's July 2025.
-The end of the month is nearing, and my 2-year-long Internet Service Provider (ISP) contract
-is bound to expire.
+It's July 2025. The end of the month is nearing, and my 2-year-long Internet
+Service Provider (ISP) contract is bound to expire.
 
 Here in Germany, ADSL contracts are not cheap. Luckily, you can save a
 non-negligible amount of money if you sign up for a 2-year contract. This kind
 of contract typically has an initial period of time in which you get a
 discounted monthly fee. I'm talking about a _big_ discount. As big as 3x lower
 fees for the first 12 months. After the initial period, the fee goes back to
-normal, but you can't cancel the contract before the end of the 2nd year. 
-On average, you save some money, but you must endure the annoyance of
-switching to a different ISP after the second year.
+normal, but you can't cancel the contract before the end of the 2nd year. On
+average, you save some money, but you must endure the annoyance of switching to
+a different ISP after the second year.
 
 So I set to find a new ISP and, thanks to [Check24
 website](https://www.check24.de/), found the ISP with the best offer of the
@@ -40,8 +39,8 @@ The homepage of Maingau Energie
 
 The company is small compared to the German telecom titans, but their reviews
 seem solid. Also, Maingau Energie does not force you to buy or rent their ADSL
-modem. Cherry on top: they explicitly mentioned my current ADSL modem, a second hand
-[FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
+modem. Cherry on top: they explicitly mentioned my current ADSL modem, a second
+hand [FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
 compatible.
 
 So I subscribed. Little did I know about what I was really signing up for.
@@ -70,17 +69,17 @@ suggesting that the physical link and the ADSL parameters are working. I double
 check all the configurations, the credentials, and the physical connections, but
 nothing changes. I leave it alone for some time, hoping it's just some network
 configuration that has not yet propagated fully. After a few days, I try a hard
-reset of the ADSL modem and repeat the whole process once more. But alas, PPPoE 
+reset of the ADSL modem and repeat the whole process once more. But alas, PPPoE
 still shows no signs of life.
 
-I then decide to reach to technical support via email. I detail my issues, 
-attaching screenshots of the current configuration, the ADSL status, and the the 
-error I face. Soon, I get a new technician appointment. I learn from the 
+I then decide to reach to technical support via email. I detail my issues,
+attaching screenshots of the current configuration, the ADSL status, and the the
+error I face. Soon, I get a new technician appointment. I learn from the
 technician that they know nothing about PPPoE, and that the only thing they can
-do is to check the quality of the ADSL connection with a handheld device. 
-This is not at all different from the one the first technician used when they
-setup the line. So, I'm very little surprised when my ADSL line turns out to
-be working fine.
+do is to check the quality of the ADSL connection with a handheld device. This
+is not at all different from the one the first technician used when they setup
+the line. So, I'm very little surprised when my ADSL line turns out to be
+working fine.
 
 ![](./datagrams-must-be-this-tall-to-ride/3-adsl-tester.png){ loading=lazy }
 /// caption
@@ -149,17 +148,16 @@ config interface 'wan'
     option password '$ISP_PROVIDED_PASSWORD'
 ```
 
-and that... worked! No PPPoE timeout, an IP address was negotiated and I could finally
-connect to the internet! Hell I even got an IPv6 address.
+and that... worked! No PPPoE timeout, an IP address was negotiated and I could
+finally connect to the internet! Hell I even got an IPv6 address.
 
 So all is good now, right? Right??
 
 ## A bitter taste
 
-So I start surfing, but something is off. Sometimes, website fail to load. 
-Software updates don't go through. In most cases, the issues are
-intermittent, almost forgivable. But in other cases the issues reproducing
-consistently.
+So I start surfing, but something is off. Sometimes, website fail to load.
+Software updates don't go through. In most cases, the issues are intermittent,
+almost forgivable. But in other cases the issues reproducing consistently.
 
 Here are a few exmaples:
 
@@ -173,14 +171,14 @@ TODO: add winget command and error message
 
 - The `steamcommunity.org` website wouldn't load,
 
-I decide to analyze the `steamcommunity.org` failure in more detail. I 
-picked this issue in particular because it can be reproduce from a browser, 
-which has very many useful tools to inspect network requests.
+I decided to analyze the `steamcommunity.org` failure in more detail. I picked
+this issue in particular because it can be reproduce from a browser, which has
+very many useful tools to inspect network requests.
 
-I open Chrome, I fire the developers tools, select the Network tab, and ensure the
-"disable cache" checkbox is selected. I reload the page and, indeed, I find that there
-is a specific asset that fails to be transferred, resulting the website styling 
-not loading.
+I open Chrome, I fire the developers tools, select the Network tab, and ensure
+the "disable cache" checkbox is selected. I reload the page and, indeed, I find
+that there is a specific asset that fails to be transferred, resulting the
+website styling not loading.
 
 TODO: Add picture
 
@@ -194,8 +192,8 @@ This gives me a big curl command, with plenty of options.
 TODO
 ```
 
-I expect some of these headers might be required for the remote host to behave in
-the same way, so I run it as-is. Sure enough I can reproduce the error:
+I expect some of these headers might be required for the remote host to behave
+in the same way, so I run it as-is. Sure enough I can reproduce the error:
 
 ```
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -221,15 +219,15 @@ Wait, what?
 
 Ok now, time to think.
 
-Explanation 1; perhaps the second request got answered by a different remote host? For
-good measure, I hardcode the IP of the host in the Windows HOSTS file. But the
-results still reproduce.
+Explanation 1; perhaps the second request got answered by a different remote
+host? For good measure, I hardcode the IP of the host in the Windows HOSTS file.
+But the results still reproduce.
 
-Explanation: Perhaps _all_ the headers are required for the request to be 
-accepted by the reverse proxy? What if instead of removing headers, I add 
-some? This might be troublesome because the remote load balancer might
-strip my request of any non-standard HTTP header, or even block the request.
-Well let's try with a few options:
+Explanation: Perhaps _all_ the headers are required for the request to be
+accepted by the reverse proxy? What if instead of removing headers, I add some?
+This might be troublesome because the remote load balancer might strip my
+request of any non-standard HTTP header, or even block the request. Well let's
+try with a few options:
 
 ```
 TODO script
@@ -275,7 +273,7 @@ It seems that the precise content of the header does not matter. It's the length
 of the request that matters. 
 
 To determine which are the request lengths that trigger the issue, I extend the
-script to repeat the request over and over for a range of values, obtaining the 
+script to repeat the request over and over for a range of values, obtaining the
 following image.
 
 ![](./datagrams-must-be-this-tall-to-ride/X-compare-captures.jpg){ loading=lazy }
@@ -340,7 +338,7 @@ TODO:
 https://youtu.be/-JIuKjaY3r4?t=203
 
 So the common denominator between the two tests, is not anything at the Network
-Layer, the Layer 3 of the ISO model. It's further down to Layer 2, where IP 
+Layer, the Layer 3 of the ISO model. It's further down to Layer 2, where IP
 reigns supreme.
 
 
@@ -354,7 +352,7 @@ TODO: Add diagram of issue
 
 # Drafting possible solutions
 
-How to workaround the issue?
+How to work around the issue?
 
 My first attempt was to filter outbound packets on the router so that they are
 split if they have a size matching one of the "forbidden" ones.
@@ -375,7 +373,12 @@ Cons:
 
 ## Conclusions
 
-Follow-up work: extend to IPv6.
+* Maingau Energie sucks
+
+Follow-up work: 
+* Use eBPF instead
+* extend to IPv6
 
 
-\*[ISP]: Internet Service Provider \*[VDSL]: Very high speed Digital Subscriber Line
+\*[ISP]: Internet Service Provider 
+\*[VDSL]: Very high speed Digital Subscriber Line

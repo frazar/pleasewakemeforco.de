@@ -1,0 +1,20 @@
+words = [
+    "adsl",
+    "datagram",
+    "francesco",
+    "maingau",
+    "openwrt",
+    "vdsl",
+    "Energie",
+    "ebpf"
+]
+
+
+# List of regex patterns to ignore when spell checking
+# For code files: patterns match against the full source, tokens within matches are skipped
+# Tip: Use single quotes for literal strings to avoid escaping backslashes
+# Default: []
+ignore_patterns = [
+    '^[A-Z]{2,}$',             # All caps words like "HTML", "CSS"
+    'https?://[^\s]+'          # URLs
+]
