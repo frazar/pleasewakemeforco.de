@@ -422,9 +422,9 @@ I then fire up Wireshark on my laptop and
 configure it to connect via SSH to the router following [this guide](https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/).
 
 I proceed capture the network traffic on my router while running the `curl`
-command from my laptop. To have a reference of what the "normal" traffic should
-look like, I also capture the traffic obtained while connected to a mobile
-hotspot rather than my ADSL router.
+command from my laptop. To have a sense of what the "normal" traffic should look
+like, I also capture the traffic obtained while connected to a mobile hotspot
+(whose internet connection works fine).
 
 ![](./datagrams-must-be-this-tall-to-ride/50-compare-adsl-vs-hotspot-captures.png){ loading=lazy }
 /// caption
