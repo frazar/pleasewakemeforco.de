@@ -300,7 +300,8 @@ What if instead of removing an HTTP header, I add one? Well, this might create
 more troubles: the website's load balancer might strip my request of any HTTP
 header it does not expect, or even reject the request completely. I try using a
 header name with the conventional `X-` name prefix to increase the chances of my
-request not being rejected. Also, I'll use a Bash run from WSL from now on, because I'm more familiar with the syntax.
+request not being rejected. Also, I'll use a Bash run from WSL from now on,
+because I'm more familiar with the syntax.
 
 ```bash
 #!/bin/bash
@@ -393,7 +394,7 @@ script to repeat the request over and over for a wider range of values. Also, to
 reduce the chance of flukes, I repeat each test 5 times. I then plot a graph
 showing the percentage of failures for a given requested size.
 
-![](./datagrams-must-be-this-tall-to-ride/X0-failure-rate-vs-request-size.jpg){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/50-failure-rate-vs-request-size.jpg){ loading=lazy }
 /// caption
 TODO
 ///
@@ -403,8 +404,8 @@ Is that.. a pattern?
 ## Dissecting packets
 
 So far I have managed to investigate more about the conditions in which the
-request timeout is observed. However it is not yet clear _why_ the timeouts
-occur. It's time too look more closely at these network requests.
+request timeout is observed. However I still don't know _why_ the timeouts
+occur. It's time too look more closely at the network traffic.
 
 In order to capture network traffic of the DSL device, I need to install
 `tcpdump` on the router. Thanks to OpenWRT, this is as simple as running
@@ -413,30 +414,86 @@ In order to capture network traffic of the DSL device, I need to install
 opkg install tcpdump
 ```
 
-I then fire up [Wireshark](https://www.wireshark.org/) on my laptop and
+I then fire up Wireshark on my laptop and
 configure it to connect via SSH to the router following [this guide](https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/).
 
-I re-run the usual `curl` command twice:
+I proceed capture the network traffic on my router while running the `curl`
+command from my laptop. To have a reference of what the "normal" traffic should
+look like, I also capture the traffic obtained while connected to a mobile
+hotspot rather than my ADSL router.
 
-- once while connected to my ADSL router
-- once while connected to my mobile hotspot
+![](./datagrams-must-be-this-tall-to-ride/50-compare-adsl-vs-hotspot-captures.png){ loading=lazy }
+/// caption
+The network traffic captured when connecting through the ADSL router (left side,
+public IP `109.25.X.X`) and through the mobile hotspot (right side, public IP
+`100.86.X.X`). In both captures, the same resource is retrieved from the remote
+server with IP `2.16.X.X`.
+///
 
-and compare the two captures.
+By comparing the two captures, I can conclude that the network traffic looks
+exactly the same up until packet No. 18. Instead, from packet No. 19 on, the
+network traffic starts to diverge:
 
-TODO: capture + breakdown
+- When connected to the mobile hotspot (right side): Packet No. 19 is an
+  acknoledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
+  the remote server. The packet means that the laptop confirms the correct
+  reception of all TCP segments transmitted by the remote server up to and
+  including packet No. 18 (Wireshark helpfully shows a small "✔️" symbol next to
+  packet No. 18 when packet No. 19 is selected).
 
-Here we're seeing the (many) TCP requests exchanged between my router and the
-remote host to get the steammcommunity.org
+  ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
 
-Comparing the two captures, I observe that
+  After this, the remote server (IP `2.16.X.X`) sends Packet No. 20,
+  acknowledging the HTTP request in Packet No. 15.
 
-So I end up with a bunch of re-transmissions. But why? Is it because the ACK for
-my request never gets there, or is it because the network response never comes
-back?
+  ![](./datagrams-must-be-this-tall-to-ride/53-hotspot-packet-20.png){ loading=lazy }
+
+  Then, it proceeds to send the HTTP response.
+
+- Instead, when connected to the ADSL router (left side), packet No. 19 is a TCP
+  Retransmission packet that the remote host (Source IP `2.16.X.X`) sends to my
+  laptop to request an explicit acknoledgment of the data received this far. The
+  packet has the TCP Push (`PSH`) flag set, requesting that my laptop answer
+  immediately rather than buffering its response.
+  My laptop honors the request immediately with packet No. 20, which
+  acknowledges all the data transmitted by the remote server up to and including
+  packet No. 18.
+
+  ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
+
+  Somehow, however, the remote server does not answer after that. Evidently, its
+  waiting for my laptop to do something. After a few milliseconds of stalling,
+  my laptop realizes, and decides to retransmit the oldest packet that the
+  remote server has not acknoledged yet, packet No. 15.
+
+  ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
+
+  This can also be confirmed by looking at the packet size, which is 572 for
+  both packets No. 15 and 21.
+
+  But gets nothing back.
+
+  In an incredible display of patience and perseverance, my laptop keeps
+  retransmitting the same packet over and over (packets No. 22 through 27), over
+  the course of 14 seconds of pure suspence.
+
+  Eventually, the remote server gives up and closes the TCP transaction by
+  sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets from
+  the remote server do not specify if any of the retransmitted packets has ever
+  been received.
+
+But why is this happening? I see two possible explanations:
+
+- either the packets sent by my laptop do not reach the remote server, or
+- the `ACK`s from the remote do not reach my laptop.
 
 TODO: Add graphical diagram
 
-I can not capture packets as the server side. Unless..
+To rule out any of the two, we'd need to get the packet capture on the remote
+side as well. Unfortunately, it's unlikely that Akamai is willing to provide
+that to me.
+
+What else can be done then?
 
 ## The ultimate test
 
@@ -454,10 +511,10 @@ I have added arrows to link together matching packets on the right and left side
 Here is my reconstruction of the exchange, following the packet numbering of the left pane:
 
 - ✅ Packets No. 1 to 3 are exchanged correctly.
-- ⛔ Packet No. 4 only appears in the left pane (indeed, there is no packet with protocol
+- ❌ Packet No. 4 only appears in the left pane (indeed, there is no packet with protocol
   "HTTP" in the right pane), indicating that it never reached its destination.
   Note that it has the "cursed" frame size 176.
-- ⛔ Packets No. 5 to 8 are all attempts at retransmitting packet No. 4. In all
+- ❌ Packets No. 5 to 8 are all attempts at retransmitting packet No. 4. In all
   cases, the retransmission does not reach its destination. It is not a
   coincidence that because they also have the "cursed" frame size.
 - ⚠️ `curl` reaches the 3-second timeout specified in the script and closes the
@@ -466,7 +523,7 @@ Here is my reconstruction of the exchange, following the packet numbering of the
   (perhaps because it does not have a "cursed" size). The packet has the
   Sequence number 109, which the VM did not expect. Wireshark kindly highlights that in the right pane by showing the label `Previous segment not captured` in the "Info" column.
 - ⚠️ Since the Sequence number is off, the remote VM sends back Packet No. 9., signaling that it can not aknowledge the `FIN` request, since something in the middle is missing.
-- ⛔ The client then tries to re-send the packet multiplt times, but all subsequent TCP retransmissions also fail, having the same "cursed" size.
+- ❌ The client then tries to re-send the packet multiplt times, but all subsequent TCP retransmissions also fail, having the same "cursed" size.
 
 This test confirms that the issue affects outgoing packets travelling from my
 network to the outside Internet. But not all packets are affected. It seems that the packet size is significant in determining the outcome, but what about the packet protocol?
@@ -528,7 +585,10 @@ the IP header to have a variable number of "options", whose size can range from
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/2560px-IPv4_Packet-en.svg.png){ loading=lazy }
 /// caption
-By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA Internet Program Protocol Specification_, p. 1 DOI: [10.17487/RFC0791](dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=79949694
+By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA
+Internet Program Protocol Specification_, p. 1 DOI:
+[10.17487/RFC0791](dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0,
+https://commons.wikimedia.org/w/index.php?curid=79949694
 ///
 
 So a possiblity is to add a sufficient number of IP header options so that the
