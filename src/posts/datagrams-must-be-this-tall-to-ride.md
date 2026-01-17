@@ -177,10 +177,10 @@ issues reproduce consistently.
 
 Here are a few examples:
 
-- On a Debian box, `docker login ghcr.io` _always_ fails with `TLS handshake
-timeout`
+- On a Debian box, `docker login ghcr.io` _always_ fails with "TLS handshake
+  timeout":
 
-    ```txt
+    ```
     $ echo test | docker login ghcr.io -u USERNAME --password-stdin
     Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
     ```
@@ -197,9 +197,10 @@ timeout`
     ```
 
     > _**Side Question:**_
-    > _Honestly, how do you force PowerShell to show error messages in English? On
-    > Linux, I would just set the `LC_ALL=C` environment variable. On Windows, is
-    > the only option to change the system language and reboot the machine?_
+    > _Honestly, how do you force PowerShell to show error messages in English?
+    > On Linux, I would just set the `LC_ALL=C` environment variable. On
+    > Windows, is the only option to change the system language and reboot the
+    > machine?_
 
 - The `steamcommunity.org` website doesn't load,
 
@@ -452,19 +453,20 @@ network traffic starts to diverge:
 
 - Instead, when connected to the ADSL router (left side), packet No. 19 is a TCP
   Retransmission packet that the remote host (Source IP `2.16.X.X`) sends to my
-  laptop to request an explicit acknowledgment of the data received this far. The
-  packet has the TCP Push (`PSH`) flag set, requesting that my laptop answer
+  laptop to request an explicit acknowledgment of the data received this far.
+  The packet has the TCP Push (`PSH`) flag set, requesting that my laptop answer
   immediately rather than buffering its response.
 
     My laptop honors the request immediately with packet No. 20, which
-    acknowledges all the data transmitted by the remote server up to and including
-    packet No. 18.
+    acknowledges all the data transmitted by the remote server up to and
+    including packet No. 18.
 
     ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
-    Somehow, however, the remote server does not answer after that. Evidently, its
-    waiting for my laptop to do something. After a few milliseconds of stalling,
-    my laptop realizes, and decides to retransmit the oldest packet that the
-    remote server has not acknoledged yet, packet No. 15.
+
+    Somehow, however, the remote server does not answer after that. Evidently,
+    its waiting for my laptop to do something. After a few milliseconds of
+    stalling, my laptop realizes, and decides to retransmit the oldest packet
+    that the remote server has not acknowledged yet, packet No. 15.
 
     ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
     This can also be confirmed by looking at the packet size, which is 572 for
@@ -473,13 +475,13 @@ network traffic starts to diverge:
     But gets nothing back.
 
     In an incredible display of patience and perseverance, my laptop keeps
-    retransmitting the same packet over and over (packets No. 22 through 27), over
-    the course of 14 seconds of pure suspence.
+    retransmitting the same packet over and over (packets No. 22 through 27),
+    over the course of 14 seconds of pure suspence.
 
     Eventually, the remote server gives up and closes the TCP transaction by
-    sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets from
-    the remote server do not specify if any of the retransmitted packets has ever
-    been received.
+    sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets
+    from the remote server do not specify if any of the retransmitted packets
+    has ever been received.
 
 But why is this happening? I see two possible explanations:
 
@@ -496,23 +498,27 @@ What else can be done then?
 
 ## The ultimate test
 
-Ok so the idea is to deploy a small Virtual Machine (VM) on the cloud, connect to it
-via my ISP, and capture the traffic on both sides and see what exactly goes
-missing.
+Ok so the idea is to deploy a small Virtual Machine (VM) on the cloud, connect
+to it via my ISP, and capture the traffic on both sides and see what exactly
+goes missing.
 
 ![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
 /// caption
-The TCP packets captured on my ADSL router (left side, IP `109.250.XX.XX`) and on the remote VM (right side, IP `172.238.XX.XX`).
+The TCP packets captured on my ADSL router (left side, IP `109.250.XX.XX`) and
+on the remote VM (right side, IP `172.238.XX.XX`).
 ///
 
-I have added arrows to link together matching packets on the right and left sides. The direction of the arrow indicates the travelling direction of the packet.
+I have added arrows to link together matching packets on the right and left
+sides. The direction of the arrow indicates the travelling direction of the
+packet.
 
-Here is my reconstruction of the exchange, following the packet numbering of the left pane:
+Here is my reconstruction of the exchange, following the packet numbering of the
+left pane:
 
 - ✅ Packets No. 1 to 3 are exchanged correctly.
-- ❌ Packet No. 4 only appears in the left pane (indeed, there is no packet with protocol
-  "HTTP" in the right pane), indicating that it never reached its destination.
-  Note that it has the "cursed" frame size 176.
+- ❌ Packet No. 4 only appears in the left pane (indeed, there is no packet with
+  protocol "HTTP" in the right pane), indicating that it never reached its
+  destination. Note that it has the "cursed" frame size 176.
 - ❌ Packets No. 5 to 8 are all attempts at retransmitting packet No. 4. In all
   cases, the retransmission does not reach its destination. It is not a
   coincidence that because they also have the "cursed" frame size.
@@ -520,17 +526,26 @@ Here is my reconstruction of the exchange, following the packet numbering of the
   connection with packet No. 9, which has the `FIN` flag on. The packet is
   received correctly by the remote VM and is also visible in the right pane
   (perhaps because it does not have a "cursed" size). The packet has the
-  Sequence number 109, which the VM did not expect. Wireshark kindly highlights that in the right pane by showing the label `Previous segment not captured` in the "Info" column.
-- ⚠️ Since the Sequence number is off, the remote VM sends back Packet No. 9., signaling that it can not aknowledge the `FIN` request, since something in the middle is missing.
-- ❌ The client then tries to re-send the packet multiplt times, but all subsequent TCP retransmissions also fail, having the same "cursed" size.
+  Sequence number 109, which the VM did not expect. Wireshark kindly highlights
+  that in the right pane by showing the label `Previous segment not captured` in
+  the "Info" column.
+- ⚠️ Since the Sequence number is off, the remote VM sends back Packet No. 9.,
+  signaling that it can not acknowledge the `FIN` request, since something in
+  the middle is missing.
+- ❌ The client then tries to re-send the packet multiple times, but all
+  subsequent TCP retransmissions also fail, having the same "cursed" size.
 
-This test confirms that the issue affects outgoing packets travelling from my
-network to the outside Internet. But not all packets are affected. It seems that the packet size is significant in determining the outcome, but what about the packet protocol?
+This test confirms that the issue affects outgoing packets traveling from my
+network to the outside Internet. But not all packets are affected. It seems that
+the packet size is significant in determining the outcome, but what about the
+packet protocol?
 
 # The last piece of the puzzle
 
-So far all tests where based on TCP packets. I decide to try a similar test using `ping`, which uses ICMP packets instead. Luckily, ICMP packets can also have a payload, and its length can be configured with
-the `-s` option. Interestingly, the same failure pattern occurs.
+So far all tests where based on TCP packets. I decide to try a similar test
+using `ping`, which uses ICMP packets instead. Luckily, ICMP packets can also
+have a payload, and its length can be configured with the `-s` option.
+Interestingly, the same failure pattern occurs.
 
 TODO:
 
