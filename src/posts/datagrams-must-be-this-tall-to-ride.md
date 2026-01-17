@@ -440,10 +440,10 @@ differently:
 
 - When connected to the mobile hotspot (right side): Packet No. 19 is an
   acknowledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
-  the remote server. The packet means that the laptop confirms the correct
+  the remote server. The packet indicates that the laptop confirms the correct
   reception of all TCP segments transmitted by the remote server up to and
-  including packet No. 18 (Wireshark helpfully shows a small "✔️" symbol next to
-  packet No. 18 when packet No. 19 is selected).
+  including packet No. 18. To stress this, Wireshark helpfully shows a small "✔️"
+  symbol next to packet No. 18 when packet No. 19 is selected.
 
     ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
 
@@ -472,6 +472,7 @@ differently:
     that the remote server has not acknowledged yet, packet No. 15.
 
     ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
+
     This can also be confirmed by looking at the packet size, which is 572 for
     both packets No. 15 and 21.
 
