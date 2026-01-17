@@ -32,7 +32,7 @@ So I set to find a new ISP and, thanks to [Check24
 website](https://www.check24.de/), found the ISP with the best offer of the
 month: Maingau Energie.
 
-![](./datagrams-must-be-this-tall-to-ride/0-maingau.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/00-maingau.png){ loading=lazy }
 /// caption
 A happy family of Maingau Energie customers. Not how nobody in the promotional
 picture seems to be accessing the internet.
@@ -51,7 +51,7 @@ line. As they leave my house, I'm already firing up the FRITZ!Box admin panel
 and setting up the ADSL parameters and PPPoE credentials. I'm expecting now to
 see what my new public IP looks like but instead I get...
 
-![](./datagrams-must-be-this-tall-to-ride/1-pppoe-timeout.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/10-pppoe-timeout.png){ loading=lazy }
 /// caption
 The FRITZ!Box logs show a PPPoE timeout.
 ///
@@ -61,7 +61,7 @@ Uhm. Strange.
 Looking closer at the admin panel, I can confirm that the ADSL "training" has
 completed fine, and no error is reported.
 
-![](./datagrams-must-be-this-tall-to-ride/2-adsl-ok.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/20-adsl-ok.png){ loading=lazy }
 /// caption
 The ADSL status page shows that the connection was established successfully.
 ///
@@ -84,7 +84,7 @@ connection with a handheld device. This is not at all different from the one the
 first technician used when they setup the line. So, I'm very little surprised
 when my ADSL line turns out to be working fine.
 
-![](./datagrams-must-be-this-tall-to-ride/3-adsl-tester.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/30-adsl-tester.png){ loading=lazy }
 /// caption
 An Argus 163 ADSL testing device shows that the ADSL works fine. Notice how the
 German word for "stop" is spelled with two "p"s.
@@ -94,7 +94,7 @@ I forward a photo of the test results to the Maingau technical support. Surely,
 now that the ADSL functionality has been confirmed, they will be looking at the
 PPPoE issue on their syst..
 
-![](./datagrams-must-be-this-tall-to-ride/4-ticket-closed.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/40-ticket-closed.png){ loading=lazy }
 /// caption
 An email from Maingau technical support declares the issue resolved.
 ///
@@ -225,7 +225,7 @@ To whoever came up with this feature: I owe you a beer.
 This gives me a big and noisy `curl` command, ready to be pasted into a `cmd`
 prompt.
 
-```cmd
+```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
    -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
    -H ^"Accept: */*^" ^
@@ -248,7 +248,7 @@ All right, the error can be reproduce. Let's now try to minimize the command.
 Surely, not all of these headers are _really_ needed. So I remove the
 `-H ^"Cache-Control: no-cache^"` command line argument, and get
 
-```patch
+```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
      -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
      -H ^"Accept: */*^" ^
@@ -277,7 +277,7 @@ Ok now, time to think.
 
 - Rationalization attempt 1: Perhaps the second request got answered by a
   different remote host? For good measure, I hardcode the IP of the host in the
-  Windows HOSTS file. The results are still the same reproduce.
+  Windows HOSTS file. But even after that, the results are the same.
 
 - Rationalization attempt 2: Maybe the issue is exactly the header I decided to
   remove? But no, deleting one of the other headers also makes the request
@@ -315,7 +315,7 @@ function run_curl() {
 for length in {3..20}; do
     header_name="X-$(printf '%0*d' $((length-2)) 1 | tr '0' '1')"
 
-    printf "Length %2d (%s): " "$length" "$header_name"
+    printf "Header \"%s\" (Length %2d): " "$header_name" "$length"
 
     run_curl -H "$header_name: a"
 
@@ -333,55 +333,54 @@ done
 ```txt
 Testing X-[numbers]: pattern with ALL original headers
 
-Length 3 (X-1): TIMEOUT
-Length 4 (X-11): TIMEOUT
-Length 5 (X-111): success
-Length 6 (X-1111): success
-Length 7 (X-11111): TIMEOUT
-Length 8 (X-111111): success
-Length 9 (X-1111111): TIMEOUT
-Length 10 (X-11111111): TIMEOUT
-Length 11 (X-111111111): success
-Length 12 (X-1111111111): success
-Length 13 (X-11111111111): success
-Length 14 (X-111111111111): success
-Length 15 (X-1111111111111): success
-Length 16 (X-11111111111111): success
-Length 17 (X-111111111111111): success
-Length 18 (X-1111111111111111): success
-Length 19 (X-11111111111111111): success
-Length 20 (X-111111111111111111): success
+Header "X-1" (Length 3): TIMEOUT
+Header "X-11" (Length 4): TIMEOUT
+Header "X-111" (Length 5): success
+Header "X-1111" (Length 6): success
+Header "X-11111" (Length 7): TIMEOUT
+Header "X-111111" (Length 8): success
+Header "X-1111111" (Length 9): TIMEOUT
+Header "X-11111111" (Length 10): TIMEOUT
+Header "X-111111111" (Length 11): success
+Header "X-1111111111" (Length 12): success
+Header "X-11111111111" (Length 13): success
+Header "X-111111111111" (Length 14): success
+Header "X-1111111111111" (Length 15): success
+Header "X-11111111111111" (Length 16): success
+Header "X-111111111111111" (Length 17): success
+Header "X-1111111111111111" (Length 18): success
+Header "X-11111111111111111" (Length 19): success
+Header "X-111111111111111111" (Length 20): success
 ```
 
 Oh-oh. This shows that the success or failure depends on the length of the
-header being sent.
+header being sent. Indeed, if I just change the header content, the timeout
+still occurs
 
 ```
-Testing different patterns with full headers:
-  X-ABCDEFGH:  TIMEOUT
-  Y-12345678:  TIMEOUT
-  Custom1234:  TIMEOUT
-  Headerasdf:  TIMEOUT
-  X-TEST1234:  TIMEOUT
-  MyHeader34:  TIMEOUT
+X-ABCDEFGH:  TIMEOUT
+Y-12345678:  TIMEOUT
+Custom1234:  TIMEOUT
+Headerasdf:  TIMEOUT
+X-TEST1234:  TIMEOUT
+MyHeader34:  TIMEOUT
 ```
 
 It seems that the precise content of the header does not matter. It's the
 _length_ of the header that matters.
 
 To determine which are the request lengths that trigger the issue, I extend the
-script to repeat the request over and over for a wider range of values. From the
-outcome of the script, I generate a plot showing for each request size, how many
-timeouts I get over 5 retries.
-obtaining the following image.
+script to repeat the request over and over for a wider range of values. To
+reduce the chance of flukes, I repeat each test 5 times. I then plot a graph
+showing the percentage of failures for a given requested size.
 
-![](./datagrams-must-be-this-tall-to-ride/X-compare-captures.jpg){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/X0-failure-rate-vs-request-size.jpg){ loading=lazy }
 /// caption
 TODO
 ///
 
-This might explain why the issue occurs often, but not always. But why is the
-request failing in the first place?
+Is that.. a pattern?
+
 
 ## Dissecting packets
 
@@ -419,7 +418,7 @@ missing.
 
 TODO: Setup
 
-![](./datagrams-must-be-this-tall-to-ride/X-compare-captures.jpg){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
 /// caption
 TODO
 ///
