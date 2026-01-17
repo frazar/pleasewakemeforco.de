@@ -180,26 +180,26 @@ Here are a few examples:
 - On a Debian box, `docker login ghcr.io` _always_ fails with `TLS handshake
 timeout`
 
-```
-$ echo test | docker login ghcr.io -u USERNAME --password-stdin
-Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
-```
+                                    ```
+                                    $ echo test | docker login ghcr.io -u USERNAME --password-stdin
+                                    Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
+                                    ```
 
 - On all Windows devices, `winget update` was failing with the error message
 
-```
-PS C:\> winget update --all
-Errore durante la ricerca nell'origine: 'msstore'
-Si è verificato un errore imprevisto durante l'esecuzione del comando:
-WinHttpSendRequest: 12002: Timeout dell'operazione
+    ```
+    PS C:\> winget update --all
+    Errore durante la ricerca nell'origine: 'msstore'
+    Si è verificato un errore imprevisto durante l'esecuzione del comando:
+    WinHttpSendRequest: 12002: Timeout dell'operazione
 
-0x80072ee2 : unknown error
-```
+    0x80072ee2 : unknown error
+    ```
 
-> _**Side Question:**_
-> _Honestly, how do you force PowerShell to show error messages in English? On
-> Linux, I would just set the `LC_ALL=C` environment variable. On Windows, is
-> the only option to change the system language and reboot the machine?_
+    > _**Side Question:**_
+    > _Honestly, how do you force PowerShell to show error messages in English? On
+    > Linux, I would just set the `LC_ALL=C` environment variable. On Windows, is
+    > the only option to change the system language and reboot the machine?_
 
 - The `steamcommunity.org` website doesn't load,
 
@@ -210,9 +210,9 @@ WinHttpSendRequest: 12002: Timeout dell'operazione
 
 I decide to investigate the `steamcommunity.org` failure first, since:
 
-1. The issue can be reproduced from a browser, which has very many useful tools
-   to inspect network requests,
-2. I really wanted to replay Patrician III.
+1.  The issue can be reproduced from a browser, which has very many useful tools
+    to inspect network requests,
+2.  I really wanted to replay Patrician III.
 
 I open Firefox, start the developers tools, switch to the "Network" tab, and
 ensure the "disable cache" checkbox is selected. I reload the page and, indeed,
@@ -226,7 +226,7 @@ it can produce an equivalent `curl` command. In this way, the request can be
 reproduced exactly from a terminal prompt. I do exactly that by right-clicking
 on the request and hit the "Copy" > "Copy as cURL (Windows)".
 
-![](./datagrams-must-be-this-tall-to-ride/42-copy-as-curl.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/45-copy-as-curl.png){ loading=lazy }
 /// caption
 To whoever came up with this feature: I owe you a beer.
 ///
@@ -394,9 +394,9 @@ script to repeat the request over and over for a wider range of values. Also, to
 reduce the chance of flukes, I repeat each test 5 times. I then plot a graph
 showing the percentage of failures for a given requested size.
 
-![](./datagrams-must-be-this-tall-to-ride/50-failure-rate-vs-request-size.jpg){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/42-failure-vs-datagram-size.png){ loading=lazy }
 /// caption
-TODO
+Percentage of request failure as a function of the IP datagram size.
 ///
 
 Is that.. a pattern?
