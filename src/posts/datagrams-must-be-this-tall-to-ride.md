@@ -28,28 +28,31 @@ normal, but you can't cancel the contract before the end of the 2nd year. On
 average, you save some money, but you must endure the annoyance of switching to
 a different ISP after the second year.
 
-So I set to find a new ISP and, thanks to [Check24
-website](https://www.check24.de/), found the ISP with the best offer of the
-month: Maingau Energie.
+So here I am looking, for a new ISP to switch to and. Thanks to
+[Check24 website](https://www.check24.de/), I find the ISP with the best offer
+of the month: Maingau Energie.
 
 ![](./datagrams-must-be-this-tall-to-ride/00-maingau.png){ loading=lazy }
 /// caption
-A happy family of Maingau Energie customers. Not how nobody in the promotional
-picture seems to be accessing the internet.
+A happy family of Maingau Energie customers. Note how nobody in the promotional
+picture seems to be actually accessing the internet.
 ///
 
-The company is small compared to the German telecom titans, but their reviews
-seem solid. Also, Maingau Energie does not force you to buy or rent their ADSL
-modem. Cherry on top: they explicitly mentioned my current ADSL modem, a second
-hand [FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
-compatible.
+The company is not one of the renowned German telecom titans, but
 
-So I subscribed. Little did I know about what I was really signing up for.
+- the customers reviews on Check24 seem solid
+- Maingau Energie does not force you to buy or rent their ADSL
+  modem
+- They explicitly mentioned my current ADSL modem, a second hand
+  [FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
+  compatible.
+
+So I sign up. Little do I know about what I am _really_ signing up for.
 
 After a couple of weeks, I get an appointment for a technician to setup the ADSL
-line. As they leave my house, I'm already firing up the FRITZ!Box admin panel
-and setting up the ADSL parameters and PPPoE credentials. I'm expecting now to
-see what my new public IP looks like but instead I get...
+line. As the technician leavse my house, I'm already firing up the FRITZ!Box
+admin panel and setting up the ADSL parameters and PPPoE credentials. I'm
+expecting now to see what my new public IP looks like but instead I get...
 
 ![](./datagrams-must-be-this-tall-to-ride/10-pppoe-timeout.png){ loading=lazy }
 /// caption
@@ -67,22 +70,25 @@ The ADSL status page shows that the connection was established successfully.
 ///
 
 I double-check and redo all the configurations, the credentials, the physical
-connections... nothing changes. Finally, I device to leave the router alone for
+connections... nothing changes. Finally, I decide to leave the router alone for
 some time. I tell myself: "Perhaps it's just some network configuration that has
 not yet propagated fully".
 
 After a few days, I try to hard-reset the ADSL modem and repeat the whole
-process once more. But alas, PPPoE still shows no signs of life.
+process once more. But alas, the PPPoE device on the other side of the
+connection still shows no signs of life.
 
-I then decide to reach to technical support via email. I detail my issues,
-attaching screenshots of the current configuration, the ADSL status, and the the
-error I face. A new technician appointment is scheduled.
+I then decide to reach out to technical support via email. I detail my issues,
+attaching screenshots of the current configuration, the ADSL status, and the
+error I am facing. Soon, another new technician appointment is scheduled.
 
 But when the technician arrives, they know nothing about the PPPoE
 configuration. The only thing they can do is to check the quality of the ADSL
 connection with a handheld device. This is not at all different from the one the
 first technician used when they setup the line. So, I'm very little surprised
-when my ADSL line turns out to be working fine.
+when my ADSL line turns out to be fine. Unfortunately, the fact that the ADSL
+connectivity work is not sufficient to conclude that my internet connection is
+working.
 
 ![](./datagrams-must-be-this-tall-to-ride/30-adsl-tester.png){ loading=lazy }
 /// caption
@@ -118,7 +124,7 @@ By default, the router gives little information for any investigation. But the
 nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
 
 > Malignant minds might think that I have been dying for an excuse to rip
-> out the stock firmware and install OpenWRT. They are not wrong.
+> out the stock firmware and install OpenWRT on my router. They are not wrong.
 
 I head to [the OpenWRT wiki page dedicated to my
 router](https://openwrt.org/toh/avm/avm_fritz_box_7530), I follow the flashing
@@ -163,7 +169,7 @@ So all is good now, right?
 
 Right??
 
-## A bitter taste
+## Bitter taste
 
 I start surfing, but something is off. Sometimes, website fail to load. In most
 cases, the issues are intermittent, almost forgivable. But in other cases the
@@ -202,7 +208,7 @@ WinHttpSendRequest: 12002: Timeout dell'operazione
   An email from Maingau technical support declares the issue resolved.
   ///
 
-I decide to analyze the `steamcommunity.org` failure in more detail, since:
+I decide to investigate the `steamcommunity.org` failure first, since:
 
 1. The issue can be reproduced from a browser, which has very many useful tools
    to inspect network requests,
@@ -216,7 +222,8 @@ the website styling not loading.
 TODO: Add picture
 
 One of the key features of the Network tab is that, for every network request,
-it can produce an equivalent curl command. I do exactly that by right-clicking
+it can produce an equivalent `curl` command. In this way, the reuqest can be
+reproduced exactly from a terminal prompt. I do exactly that by right-clicking
 on the request and hit the "Copy" > "Copy as cURL (Windows)".
 
 ![](./datagrams-must-be-this-tall-to-ride/42-copy-as-curl.png){ loading=lazy }
@@ -224,7 +231,7 @@ on the request and hit the "Copy" > "Copy as cURL (Windows)".
 To whoever came up with this feature: I owe you a beer.
 ///
 
-This gives me a big and noisy `curl` command that I pasted into a `cmd`
+This gives me a big and noisy `curl` command that I paste into a `cmd`
 prompt and run
 
 ```
@@ -243,12 +250,13 @@ C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applic
    -H ^"Pragma: no-cache^" ^
    -H ^"Cache-Control: no-cache^" ^
    -O NUL
+
 curl: (52) Empty reply from server
 ```
 
 All right, the error can be reproduced. Let's now try to minimize the command.
 Surely, not all of these headers are _really_ needed. So I remove the last
-`-H ...` command line argument, and get...
+`-H ...` command line option, and get...
 
 ```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
@@ -273,33 +281,32 @@ C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applic
 
 a successful response.
 
-Wait, what? I've just removed a random header!
+Wait, what?! I just remove a random header and everything works?
 
 Ok now, time to think.
 
-- Rationalization attempt 1: Perhaps the second request got answered by a
+- Rationalization attempt #1: Perhaps the second request got answered by a
   different remote host? For good measure, I hardcode the IP of the host in the
-  Windows HOSTS file. But even after that, the results are the same. Also,
-  replaying the request any number of times does not change the outcomes.
+  Windows HOSTS file and retry. But even after that, the results are the same.
+  Also, replaying the request any number of times does not change the outcomes.
 
-- Rationalization attempt 2: Maybe the issue is exactly the header I decided to
-  remove? But no, even without any of the other headers, the request
-  succeeds.
+- Rationalization attempt #2: Maybe the issue is exactly the header I decided to
+  remove? But no, even without any of the other headers, the request succeeds.
 
-Ok, I'll admit I'm a bit clueless by now. So let's try to explore more to make
-sense of the situation.
+Ok, I'll admit I'm a bit clueless by now. So let's try to investigate some more
+to try and make sense of the situation.
 
 What if instead of removing an HTTP header, I add one? Well, this might create
 more troubles: the website's load balancer might strip my request of any HTTP
-header it does not expect, or even block the request outright. I try using a
+header it does not expect, or even reject the request completely. I try using a
 header name with the conventional `X-` name prefix to increase the chances of my
-request not being dropped. Also, let's use Bash in WSL from now on.
+request not being rejected. Also, I'll use a Bash run from WSL from now on, because I'm more familiar with the syntax.
 
 ```bash
 #!/bin/bash
 
-# run_curl: Sends the same HTTP request that fails in the browser,
-#           but any extra HTTP header specified as arguments.
+# run_curl: Sends the same HTTP request that fails in the browser, but also
+#           adding any extra HTTP header that is passed in as argument.
 function run_curl() {
     timeout 3 curl -s -o /dev/null \
         -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0' \
@@ -315,24 +322,24 @@ function run_curl() {
         'https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=PU33sk4crNva&l=english&_cdn=akamai'
 }
 
-# Repeats the HTTP request with an extra, dummy header of increasing lenght. The
+# Repeat the HTTP request with an extra, dummy header of increasing length. The
 # header has the form:
 #
 #   X-1...1: a
 #
 # with the number of '1' characters varying from 3 to 20
-for length in {3..20}; do
+for LENGTH in {3..20}; do
     # Build the header name and value
-    header_name="X-$(printf '%0*d' $((length-2)) 1 | tr '0' '1')"
+    HEADER_NAME="X-$(printf '%0*d' $((LENGTH-2)) 1 | tr '0' '1')"
 
-    printf "Header \"%s\" (Length %2d): " "$header_name" "$length"
+    printf "Header \"%s\" (Length %2d): " "$HEADER_NAME" "$LENGTH"
 
-    run_curl -H "$header_name: a"
+    run_curl -H "$HEADER_NAME: a"
 
-    result=$?  # Get the exit code of the last command
-    if [ $result -eq 0 ]; then
+    RESULT=$?  # Get the exit code of the last command
+    if [ $RESULT -eq 0 ]; then
         echo " success"
-    elif [ $result -eq 124 ]; then
+    elif [ $RESULT -eq 124 ]; then
         echo " TIMEOUT"
     else
         echo " FAILED"
@@ -365,8 +372,9 @@ The results show that when the header has a length of 3, 4, 7, 9, or 10
 characters the request fails with a timeout. In all other cases, the request
 succeeds.
 
-To make sure the header content is not significant, I run another test with a
-bunch of random values, but same length:
+To make sure the header value does not affect the outcome, I run another test
+with a bunch of random values, but fixed length.
+In all cases, the timeout still occurs.
 
 ```
 X-ABCDEFGH:  TIMEOUT
@@ -376,8 +384,6 @@ Headerasdf:  TIMEOUT
 X-TEST1234:  TIMEOUT
 MyHeader34:  TIMEOUT
 ```
-
-In all cases, the timeout still occurs.
 
 Conclusion: the content of the header does not matter. It's the _length_ of the
 header that does.
@@ -396,9 +402,9 @@ Is that.. a pattern?
 
 ## Dissecting packets
 
-So far I have managed to define the conditions in which the request timeout is
-observed. However it is not yet clear _why_ the timeouts occur. It's time too
-look more closely at these network requests.
+So far I have managed to investigate more about the conditions in which the
+request timeout is observed. However it is not yet clear _why_ the timeouts
+occur. It's time too look more closely at these network requests.
 
 In order to capture the DSL device, I need to install `tcpdump` on the router.
 Thanks to OpenWRT, this is as simple as running
