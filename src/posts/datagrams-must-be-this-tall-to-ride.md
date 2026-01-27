@@ -205,7 +205,7 @@ WinHttpSendRequest: 12002: Timeout dell'operazione
 
   ![](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
   /// caption
-  An email from Maingau technical support declares the issue resolved.
+  The steamcommunity.org website fails to load.
   ///
 
 I decide to investigate the `steamcommunity.org` failure first, since:
@@ -219,7 +219,7 @@ ensure the "disable cache" checkbox is selected. I reload the page and, indeed,
 I find that there is a specific asset that fails to be transferred, resulting
 the website styling not loading.
 
-TODO: Add picture
+TODO: Add picture of the network tab showing that the manifest.js asset does not load.
 
 One of the key features of the Network tab is that, for every network request,
 it can produce an equivalent `curl` command. In this way, the reuqest can be
@@ -283,7 +283,7 @@ a successful response.
 
 Wait, what?! I just remove a random header and everything works?
 
-Ok now, time to think.
+Ok now, time to think:
 
 - Rationalization attempt #1: Perhaps the second request got answered by a
   different remote host? For good measure, I hardcode the IP of the host in the
@@ -406,18 +406,22 @@ So far I have managed to investigate more about the conditions in which the
 request timeout is observed. However it is not yet clear _why_ the timeouts
 occur. It's time too look more closely at these network requests.
 
-In order to capture the DSL device, I need to install `tcpdump` on the router.
-Thanks to OpenWRT, this is as simple as running
+In order to capture network traffic of the DSL device, I need to install
+`tcpdump` on the router. Thanks to OpenWRT, this is as simple as running
 
 ```sh
 opkg install tcpdump
 ```
 
-I then fire up [WireShark](https://www.wireshark.org/) on my laptop and
-configure it to connect via SSH to the router.
+I then fire up [Wireshark](https://www.wireshark.org/) on my laptop and
+configure it to connect via SSH to the router following [this guide](https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/).
 
-I take a specific request and run it twice, once while connected to my ADSL and
-once while connected to my mobile hotspot, and compare the two captures.
+I re-run the usual `curl` command twice:
+
+- once while connected to my ADSL router
+- once while connected to my mobile hotspot
+
+and compare the two captures.
 
 TODO: capture + breakdown
 
@@ -425,6 +429,7 @@ Here we're seeing the (many) TCP requests exchanged between my router and the
 remote host to get the steammcommunity.org
 
 Comparing the two captures, I observe that
+
 So I end up with a bunch of re-transmissions. But why? Is it because the ACK for
 my request never gets there, or is it because the network response never comes
 back?
@@ -435,22 +440,41 @@ I can not capture packets as the server side. Unless..
 
 ## The ultimate test
 
-Ok so the idea is to deploy a small Virtual Machine on the cloud, connect to it
+Ok so the idea is to deploy a small Virtual Machine (VM) on the cloud, connect to it
 via my ISP, and capture the traffic on both sides and see what exactly goes
 missing.
 
-TODO: Setup
-
 ![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
 /// caption
-TODO
+The TCP packets captured on my ADSL router (left side, IP `109.250.XX.XX`) and on the remote VM (right side, IP `172.238.XX.XX`).
 ///
 
-TODO: Breakdown
+I have added arrows to link together matching packets on the right and left sides. The direction of the arrow indicates the travelling direction of the packet.
 
-For curiosity, I try the same test using ping. Ping sends ICMP packets rather
-than TCP ones, but they too have a payload and its length can be configured with
-the `-s` flag. Interestingly, the same failure pattern occurs.
+Here is my reconstruction of the exchange, following the packet numbering of the left pane:
+
+- ✅ Packets No. 1 to 3 are exchanged correctly.
+- ⛔ Packet No. 4 only appears in the left pane (indeed, there is no packet with protocol
+  "HTTP" in the right pane), indicating that it never reached its destination.
+  Note that it has the "cursed" frame size 176.
+- ⛔ Packets No. 5 to 8 are all attempts at retransmitting packet No. 4. In all
+  cases, the retransmission does not reach its destination. It is not a
+  coincidence that because they also have the "cursed" frame size.
+- ⚠️ `curl` reaches the 3-second timeout specified in the script and closes the
+  connection with packet No. 9, which has the `FIN` flag on. The packet is
+  received correctly by the remote VM and is also visible in the right pane
+  (perhaps because it does not have a "cursed" size). The packet has the
+  Sequence number 109, which the VM did not expect. Wireshark kindly highlights that in the right pane by showing the label `Previous segment not captured` in the "Info" column.
+- ⚠️ Since the Sequence number is off, the remote VM sends back Packet No. 9., signaling that it can not aknowledge the `FIN` request, since something in the middle is missing.
+- ⛔ The client then tries to re-send the packet multiplt times, but all subsequent TCP retransmissions also fail, having the same "cursed" size.
+
+This test confirms that the issue affects outgoing packets travelling from my
+network to the outside Internet. But not all packets are affected. It seems that the packet size is significant in determining the outcome, but what about the packet protocol?
+
+# The last piece of the puzzle
+
+So far all tests where based on TCP packets. I decide to try a similar test using `ping`, which uses ICMP packets instead. Luckily, ICMP packets can also have a payload, and its length can be configured with
+the `-s` option. Interestingly, the same failure pattern occurs.
 
 TODO:
 
@@ -459,14 +483,14 @@ TODO:
 https://youtu.be/-JIuKjaY3r4?t=203
 
 This test is interesting because it shows that both the TCP and ICMP requests
-(which differ wildly) are affected in the same way. This suggests that the root
-cause is not at Layer 3 of the ISO model.
+(which differ wildly in content) are affected in the same way. This suggests
+that the root cause is not at Layer 3 of the ISO model.
 
 It's further down to Layer 2, where IP reigns supreme.
 
 # Drafting possible solutions
 
-To summarize the above findings, my issue is that datagrams sent from my ADSL
+To summarize the above findings, my issue is that IP datagrams sent from my ADSL
 router to the Internet are outright dropped if their size matches one of the
 "cursed" sizes.
 
@@ -474,23 +498,33 @@ TODO: Add diagram of issue
 
 How to address the issue?
 
-My idea is to apply some packet manipulation to outbound packets to change their size and save the from the inevitable drop.
+One possiblity is to perform some packet manipulation on outbound packets to
+change their size and save the from a terrible destiny.
 
-My first idea is to reduce the size of the packets with a "forbbiden" size by
-forcing IP fragmentation of. This is quite simple to implement, because it uses
-the fragmentation feature that is built in TCP. Additionally, fragmentation is a
-built-in IP feature so, if the source host decides to fragment the IP packets
-it sends, the destination host will automatically recombine the fragments.
-I was even able to make the `ping` requests work! However, sometimes TCP packets
-are not allowed to be fragmented. In particular, those related to the TLS
-handshakes.
+I first come up with the idea of reducing the size of the "cursed" packets by
+applying IP fragmentation. This is quite simple to implement, the fragmentation
+feature that is already available in IP. Additionally, if the source host
+fragments the IP packets it sends, the destination host will automatically
+recombine the fragments.
+
+I managed to implement the first approach, and I was even able to make the
+`ping` requests work. However, the are some situations where packets are not
+allowed to be fragmented (for example, TCP packets used in TLS handshakes can
+not be fragmented for security concerns)
 
 If reducing the packet size is not possible, then what about increasing it?
-Unfortunately, the IPv4 payload can not be increased without also affecting how
-the inner Layer 3 packets are parsed. However, the IPv4 header does not have a
-fixed size. Indeed, the IPv4 standard allows the IP header to have a variable
-number of "options", whose size can range from 0 to 40 bytes with steps of 4
-bytes.
+
+An IPv4 packet is composed of:
+
+- an IPv4 header,
+- an IPv4 payload.
+
+Unfortunately, the size of the IPv4 payload can not be increased without also
+affecting how the inner Layer 3 packets are parsed.
+
+On the other hand, the IPv4 header size is not fixed! The IPv4 standard allows
+the IP header to have a variable number of "options", whose size can range from
+0 to 40 bytes with steps of 4 bytes.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/2560px-IPv4_Packet-en.svg.png){ loading=lazy }
 /// caption
@@ -499,7 +533,7 @@ By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA Inter
 
 So a possiblity is to add a sufficient number of IP header options so that the
 overall IP datagram size does not match any of the cursed sizes.
-Unfortunately, IP header options are rarely used in the general Internet and intermediate routers might flag as malicious and drop IPv4 packets that specify these options. In practice
+Unfortunately, IP header options are rarely used in the general Internet and intermediate routers often drop IPv4 packets specifying options.
 
 # Packet inflater
 
