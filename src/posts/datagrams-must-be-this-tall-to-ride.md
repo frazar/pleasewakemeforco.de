@@ -10,7 +10,7 @@ title: Datagrams must be this tall to ride
 
 # Datagrams must be this tall to ride
 
-About that time my ISP was dropping IP datagrams of a certain size.
+Or what to do when your ISP drops IP datagrams of certain sizes.
 
 <!-- more -->
 
@@ -114,15 +114,15 @@ Exasperated, I decide it's time I try to do something on my own.
 
 ## Warming up
 
-You see, the nice thing about my FRITZ!Box 7530 router is that it has 🎉OpenWRT
-support🎉.
+By default, the router gives little information for any investigation. But the
+nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
 
 > Malignant minds might think that I have been dying for an excuse to rip
 > out the stock firmware and install OpenWRT. They are not wrong.
 
 I head to [the OpenWRT wiki page dedicated to my
 router](https://openwrt.org/toh/avm/avm_fritz_box_7530), I follow the flashing
-procedure, and soon the router becomes truly mine. I then start combining the
+procedure, and soon the router becomes _truly_ mine. I then start combining the
 VDSL parameters provided by my ISP with the many examples
 [in the wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
 After a little bit of trial and error, I conjure the following configuration:
@@ -159,13 +159,15 @@ config interface 'wan'
 and that... worked! No PPPoE timeout! An IP address is negotiated and I can
 finally connect to the internet! Hell, I even got an IPv6 address.
 
-So all is good now, right? Right??
+So all is good now, right?
+
+Right??
 
 ## A bitter taste
 
-I start surfing, but something is off. Sometimes, website fail to load.
-Software updates don't go through. In most cases, the issues are intermittent,
-almost forgivable. But in other cases the issues reproducing consistently.
+I start surfing, but something is off. Sometimes, website fail to load. In most
+cases, the issues are intermittent, almost forgivable. But in other cases the
+issues reproduce consistently.
 
 Here are a few examples:
 
@@ -177,7 +179,7 @@ $ echo test | docker login ghcr.io -u USERNAME --password-stdin
 Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
 ```
 
-- On all Windows laptops, `winget update` was failing with the error message
+- On all Windows devices, `winget update` was failing with the error message
 
 ```
 PS C:\> winget update --all
@@ -193,7 +195,7 @@ WinHttpSendRequest: 12002: Timeout dell'operazione
 > Linux, I would just set the `LC_ALL=C` environment variable. On Windows, is
 > the only option to change the system language and reboot the machine?_
 
-- The `steamcommunity.org` website wouldn't load,
+- The `steamcommunity.org` website doesn't load,
 
   ![](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
   /// caption
@@ -202,11 +204,11 @@ WinHttpSendRequest: 12002: Timeout dell'operazione
 
 I decide to analyze the `steamcommunity.org` failure in more detail, since:
 
-- the issue can be reproduced from a browser, which has very many useful tools
-  to inspect network requests,
-- I really wanted to replay Patrician III.
+1. The issue can be reproduced from a browser, which has very many useful tools
+   to inspect network requests,
+2. I really wanted to replay Patrician III.
 
-I open Firefox, start the developers tools, switch to the Network tab, and
+I open Firefox, start the developers tools, switch to the "Network" tab, and
 ensure the "disable cache" checkbox is selected. I reload the page and, indeed,
 I find that there is a specific asset that fails to be transferred, resulting
 the website styling not loading.
@@ -222,8 +224,8 @@ on the request and hit the "Copy" > "Copy as cURL (Windows)".
 To whoever came up with this feature: I owe you a beer.
 ///
 
-This gives me a big and noisy `curl` command, ready to be pasted into a `cmd`
-prompt.
+This gives me a big and noisy `curl` command that I pasted into a `cmd`
+prompt and run
 
 ```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
@@ -244,9 +246,9 @@ C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applic
 curl: (52) Empty reply from server
 ```
 
-All right, the error can be reproduce. Let's now try to minimize the command.
-Surely, not all of these headers are _really_ needed. So I remove the
-`-H ^"Cache-Control: no-cache^"` command line argument, and get
+All right, the error can be reproduced. Let's now try to minimize the command.
+Surely, not all of these headers are _really_ needed. So I remove the last
+`-H ...` command line argument, and get...
 
 ```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
@@ -269,33 +271,35 @@ C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applic
 100  9061  100  9061    0     0  91644      0 --:--:-- --:--:-- --:--:-- 94385
 ```
 
-The request... works!
+a successful response.
 
-Wait, what?
+Wait, what? I've just removed a random header!
 
 Ok now, time to think.
 
 - Rationalization attempt 1: Perhaps the second request got answered by a
   different remote host? For good measure, I hardcode the IP of the host in the
-  Windows HOSTS file. But even after that, the results are the same.
+  Windows HOSTS file. But even after that, the results are the same. Also,
+  replaying the request any number of times does not change the outcomes.
 
 - Rationalization attempt 2: Maybe the issue is exactly the header I decided to
-  remove? But no, deleting one of the other headers also makes the request
-  succeed.
+  remove? But no, even without any of the other headers, the request
+  succeeds.
 
-Ok I'm clueless by now. What if instead of removing an HTTP headers, I add one?
-Well, this might make more troubles: the website's load balancer might strip my
-request of any unexpected HTTP header, or even block the request outright.
-Well let's try using a header name with `X-` prefix to increase our chances.
-Also, let's use Bash from now on.
+Ok, I'll admit I'm a bit clueless by now. So let's try to explore more to make
+sense of the situation.
+
+What if instead of removing an HTTP header, I add one? Well, this might create
+more troubles: the website's load balancer might strip my request of any HTTP
+header it does not expect, or even block the request outright. I try using a
+header name with the conventional `X-` name prefix to increase the chances of my
+request not being dropped. Also, let's use Bash in WSL from now on.
 
 ```bash
 #!/bin/bash
-set -uo pipefail
 
-echo "Testing X-[numbers]: pattern with ALL original headers"
-echo
-
+# run_curl: Sends the same HTTP request that fails in the browser,
+#           but any extra HTTP header specified as arguments.
 function run_curl() {
     timeout 3 curl -s -o /dev/null \
         -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0' \
@@ -311,15 +315,21 @@ function run_curl() {
         'https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=PU33sk4crNva&l=english&_cdn=akamai'
 }
 
-# Test range from 3 to 20 characters
+# Repeats the HTTP request with an extra, dummy header of increasing lenght. The
+# header has the form:
+#
+#   X-1...1: a
+#
+# with the number of '1' characters varying from 3 to 20
 for length in {3..20}; do
+    # Build the header name and value
     header_name="X-$(printf '%0*d' $((length-2)) 1 | tr '0' '1')"
 
     printf "Header \"%s\" (Length %2d): " "$header_name" "$length"
 
     run_curl -H "$header_name: a"
 
-    result=$?
+    result=$?  # Get the exit code of the last command
     if [ $result -eq 0 ]; then
         echo " success"
     elif [ $result -eq 124 ]; then
@@ -331,8 +341,6 @@ done
 ```
 
 ```txt
-Testing X-[numbers]: pattern with ALL original headers
-
 Header "X-1" (Length 3): TIMEOUT
 Header "X-11" (Length 4): TIMEOUT
 Header "X-111" (Length 5): success
@@ -353,9 +361,12 @@ Header "X-11111111111111111" (Length 19): success
 Header "X-111111111111111111" (Length 20): success
 ```
 
-Oh-oh. This shows that the success or failure depends on the length of the
-header being sent. Indeed, if I just change the header content, the timeout
-still occurs
+The results show that when the header has a length of 3, 4, 7, 9, or 10
+characters the request fails with a timeout. In all other cases, the request
+succeeds.
+
+To make sure the header content is not significant, I run another test with a
+bunch of random values, but same length:
 
 ```
 X-ABCDEFGH:  TIMEOUT
@@ -366,11 +377,13 @@ X-TEST1234:  TIMEOUT
 MyHeader34:  TIMEOUT
 ```
 
-It seems that the precise content of the header does not matter. It's the
-_length_ of the header that matters.
+In all cases, the timeout still occurs.
+
+Conclusion: the content of the header does not matter. It's the _length_ of the
+header that does.
 
 To determine which are the request lengths that trigger the issue, I extend the
-script to repeat the request over and over for a wider range of values. To
+script to repeat the request over and over for a wider range of values. Also, to
 reduce the chance of flukes, I repeat each test 5 times. I then plot a graph
 showing the percentage of failures for a given requested size.
 
@@ -381,27 +394,31 @@ TODO
 
 Is that.. a pattern?
 
-
 ## Dissecting packets
 
-Ok, it's time too look more closely at these network requests. In order to
-capture the traffic on the DSL device, I fire up
-[WireShark](https://www.wireshark.org/) on my laptop and install `tcpdump` on
-the router with
+So far I have managed to define the conditions in which the request timeout is
+observed. However it is not yet clear _why_ the timeouts occur. It's time too
+look more closely at these network requests.
+
+In order to capture the DSL device, I need to install `tcpdump` on the router.
+Thanks to OpenWRT, this is as simple as running
 
 ```sh
 opkg install tcpdump
 ```
 
-Then I configure WireShark to connect via SSH to the router. Note that the
-filtering rules here follow the `tcpdump` notation, which is slightly different
-from the language to specify WireShark's filters.
+I then fire up [WireShark](https://www.wireshark.org/) on my laptop and
+configure it to connect via SSH to the router.
 
 I take a specific request and run it twice, once while connected to my ADSL and
 once while connected to my mobile hotspot, and compare the two captures.
 
 TODO: capture + breakdown
 
+Here we're seeing the (many) TCP requests exchanged between my router and the
+remote host to get the steammcommunity.org
+
+Comparing the two captures, I observe that
 So I end up with a bunch of re-transmissions. But why? Is it because the ACK for
 my request never gets there, or is it because the network response never comes
 back?
@@ -435,34 +452,48 @@ TODO:
 
 https://youtu.be/-JIuKjaY3r4?t=203
 
-So the common denominator between the two tests, is not anything at the Network
-Layer, the Layer 3 of the ISO model. It's further down to Layer 2, where IP
-reigns supreme.
+This test is interesting because it shows that both the TCP and ICMP requests
+(which differ wildly) are affected in the same way. This suggests that the root
+cause is not at Layer 3 of the ISO model.
 
-# Unfolding the symptoms
-
-The issue is that packets sent from my ADSL router to the internet never get
-delivered if their size is within a specific size.
-
-TODO: Add diagram of issue
+It's further down to Layer 2, where IP reigns supreme.
 
 # Drafting possible solutions
 
-How to work around the issue?
+To summarize the above findings, my issue is that datagrams sent from my ADSL
+router to the Internet are outright dropped if their size matches one of the
+"cursed" sizes.
 
-My first attempt was to filter outbound packets on the router so that they are
-split if they have a size matching one of the "forbidden" ones.
+TODO: Add diagram of issue
 
-Pros:
+How to address the issue?
 
-- only requires processing on the sending side
-- tested successfully without ping
+My idea is to apply some packet manipulation to outbound packets to change their size and save the from the inevitable drop.
 
-Cons:
+My first idea is to reduce the size of the packets with a "forbbiden" size by
+forcing IP fragmentation of. This is quite simple to implement, because it uses
+the fragmentation feature that is built in TCP. Additionally, fragmentation is a
+built-in IP feature so, if the source host decides to fragment the IP packets
+it sends, the destination host will automatically recombine the fragments.
+I was even able to make the `ping` requests work! However, sometimes TCP packets
+are not allowed to be fragmented. In particular, those related to the TLS
+handshakes.
 
-- sometime TCP packets are not allowed to be split
+If reducing the packet size is not possible, then what about increasing it?
+Unfortunately, the IPv4 payload can not be increased without also affecting how
+the inner Layer 3 packets are parsed. However, the IPv4 header does not have a
+fixed size. Indeed, the IPv4 standard allows the IP header to have a variable
+number of "options", whose size can range from 0 to 40 bytes with steps of 4
+bytes.
 
-## Solution Attempt 2: Artificially increase datagram size
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/2560px-IPv4_Packet-en.svg.png){ loading=lazy }
+/// caption
+By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA Internet Program Protocol Specification_, p. 1 DOI: [10.17487/RFC0791](dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=79949694
+///
+
+So a possiblity is to add a sufficient number of IP header options so that the
+overall IP datagram size does not match any of the cursed sizes.
+Unfortunately, IP header options are rarely used in the general Internet and intermediate routers might flag as malicious and drop IPv4 packets that specify these options. In practice
 
 # Packet inflater
 
@@ -477,8 +508,8 @@ Follow-up work:
 - Use eBPF instead
 - extend to IPv6
 
+## Acknoledgements
+
+Thanks to the folks in the OpenWRT forum for listening to my crazy ravings.
+
 \*[ISP]: Internet Service Provider \*[VDSL]: Very high speed Digital Subscriber Line
-
-```
-
-```
