@@ -203,10 +203,10 @@ WinHttpSendRequest: 12002: Timeout dell'operazione
 
 - The `steamcommunity.org` website doesn't load,
 
-  ![](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
-  /// caption
-  The steamcommunity.org website fails to load.
-  ///
+    ![](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
+    /// caption
+    The steamcommunity.org website fails to load.
+    ///
 
 I decide to investigate the `steamcommunity.org` failure first, since:
 
@@ -222,7 +222,7 @@ the website styling not loading.
 TODO: Add picture of the network tab showing that the manifest.js asset does not load.
 
 One of the key features of the Network tab is that, for every network request,
-it can produce an equivalent `curl` command. In this way, the reuqest can be
+it can produce an equivalent `curl` command. In this way, the request can be
 reproduced exactly from a terminal prompt. I do exactly that by right-clicking
 on the request and hit the "Copy" > "Copy as cURL (Windows)".
 
@@ -435,52 +435,51 @@ exactly the same up until packet No. 18. Instead, from packet No. 19 on, the
 network traffic starts to diverge:
 
 - When connected to the mobile hotspot (right side): Packet No. 19 is an
-  acknoledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
+  acknowledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
   the remote server. The packet means that the laptop confirms the correct
   reception of all TCP segments transmitted by the remote server up to and
   including packet No. 18 (Wireshark helpfully shows a small "✔️" symbol next to
   packet No. 18 when packet No. 19 is selected).
 
-  ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
 
-  After this, the remote server (IP `2.16.X.X`) sends Packet No. 20,
-  acknowledging the HTTP request in Packet No. 15.
+    After this, the remote server (IP `2.16.X.X`) sends Packet No. 20,
+    acknowledging the HTTP request in Packet No. 15.
 
-  ![](./datagrams-must-be-this-tall-to-ride/53-hotspot-packet-20.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride/53-hotspot-packet-20.png){ loading=lazy }
 
-  Then, it proceeds to send the HTTP response.
+    Then, it proceeds to send the HTTP response.
 
 - Instead, when connected to the ADSL router (left side), packet No. 19 is a TCP
   Retransmission packet that the remote host (Source IP `2.16.X.X`) sends to my
-  laptop to request an explicit acknoledgment of the data received this far. The
+  laptop to request an explicit acknowledgment of the data received this far. The
   packet has the TCP Push (`PSH`) flag set, requesting that my laptop answer
   immediately rather than buffering its response.
-  My laptop honors the request immediately with packet No. 20, which
-  acknowledges all the data transmitted by the remote server up to and including
-  packet No. 18.
 
-  ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
+    My laptop honors the request immediately with packet No. 20, which
+    acknowledges all the data transmitted by the remote server up to and including
+    packet No. 18.
 
-  Somehow, however, the remote server does not answer after that. Evidently, its
-  waiting for my laptop to do something. After a few milliseconds of stalling,
-  my laptop realizes, and decides to retransmit the oldest packet that the
-  remote server has not acknoledged yet, packet No. 15.
+    ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
+    Somehow, however, the remote server does not answer after that. Evidently, its
+    waiting for my laptop to do something. After a few milliseconds of stalling,
+    my laptop realizes, and decides to retransmit the oldest packet that the
+    remote server has not acknoledged yet, packet No. 15.
 
-  ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
+    This can also be confirmed by looking at the packet size, which is 572 for
+    both packets No. 15 and 21.
 
-  This can also be confirmed by looking at the packet size, which is 572 for
-  both packets No. 15 and 21.
+    But gets nothing back.
 
-  But gets nothing back.
+    In an incredible display of patience and perseverance, my laptop keeps
+    retransmitting the same packet over and over (packets No. 22 through 27), over
+    the course of 14 seconds of pure suspence.
 
-  In an incredible display of patience and perseverance, my laptop keeps
-  retransmitting the same packet over and over (packets No. 22 through 27), over
-  the course of 14 seconds of pure suspence.
-
-  Eventually, the remote server gives up and closes the TCP transaction by
-  sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets from
-  the remote server do not specify if any of the retransmitted packets has ever
-  been received.
+    Eventually, the remote server gives up and closes the TCP transaction by
+    sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets from
+    the remote server do not specify if any of the retransmitted packets has ever
+    been received.
 
 But why is this happening? I see two possible explanations:
 
@@ -555,7 +554,7 @@ TODO: Add diagram of issue
 
 How to address the issue?
 
-One possiblity is to perform some packet manipulation on outbound packets to
+One possibility is to perform some packet manipulation on outbound packets to
 change their size and save the from a terrible destiny.
 
 I first come up with the idea of reducing the size of the "cursed" packets by
@@ -587,11 +586,11 @@ the IP header to have a variable number of "options", whose size can range from
 /// caption
 By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA
 Internet Program Protocol Specification_, p. 1 DOI:
-[10.17487/RFC0791](dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0,
+[10.17487/RFC0791](https://dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0,
 https://commons.wikimedia.org/w/index.php?curid=79949694
 ///
 
-So a possiblity is to add a sufficient number of IP header options so that the
+So a possibility is to add a sufficient number of IP header options so that the
 overall IP datagram size does not match any of the cursed sizes.
 Unfortunately, IP header options are rarely used in the general Internet and intermediate routers often drop IPv4 packets specifying options.
 
