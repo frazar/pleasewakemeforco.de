@@ -435,8 +435,8 @@ server with IP `2.16.X.X`.
 ///
 
 By comparing the two captures, I can conclude that the network traffic looks
-exactly the same up until packet No. 18. Instead, from packet No. 19 on, the
-network traffic starts to diverge:
+exactly the same up until packet No. 18. From packet No. 19 on, things go
+differently:
 
 - When connected to the mobile hotspot (right side): Packet No. 19 is an
   acknowledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
