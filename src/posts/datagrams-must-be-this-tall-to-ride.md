@@ -443,7 +443,8 @@ differently:
   the remote server. The packet indicates that the laptop confirms the correct
   reception of all TCP segments transmitted by the remote server up to and
   including packet No. 18. To stress this, Wireshark helpfully shows a small "✔️"
-  symbol next to packet No. 18 when packet No. 19 is selected.
+  symbol next to packet No. 18 when packet No. 19 is selected
+  ([source](https://www.wireshark.org/docs/wsug_html_chunked/ChUsePacketListPaneSection.html#id1420)).
 
     ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
 
@@ -468,19 +469,18 @@ differently:
 
     Somehow, however, the remote server does not answer after that. Evidently,
     its waiting for my laptop to do something. After a few milliseconds of
-    stalling, my laptop realizes, and decides to retransmit the oldest packet
-    that the remote server has not acknowledged yet, packet No. 15.
+    stalling, my laptop realizes, and decides to send packet No. 21, which
+    retransmit the oldest packet that the remote server has not yet acknowledged
+    yet, packet No. 15.This can also be confirmed by looking at the packet size,
+    which is 572 for both packets No. 15 and 21.
 
     ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
 
-    This can also be confirmed by looking at the packet size, which is 572 for
-    both packets No. 15 and 21.
-
     But gets nothing back.
 
-    In an incredible display of patience and perseverance, my laptop keeps
-    retransmitting the same packet over and over (packets No. 22 through 27),
-    over the course of 14 seconds of pure suspence.
+    In an incredible display of perseverance, my laptop keeps retransmitting the
+    same packet over and over (packets No. 22 through 27), over the course of 14
+    seconds of pure suspence.
 
     Eventually, the remote server gives up and closes the TCP transaction by
     sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets
@@ -490,7 +490,7 @@ differently:
 But why is this happening? I see two possible explanations:
 
 - either the packets sent by my laptop do not reach the remote server, or
-- the `ACK`s from the remote do not reach my laptop.
+- the corresponding response packets from the remote do not reach my laptop.
 
 TODO: Add graphical diagram
 
@@ -500,10 +500,10 @@ that to me.
 
 What else can be done then?
 
-## The ultimate test
+## We have cloud at home
 
 Ok so the idea is to deploy a small Virtual Machine (VM) on the cloud, connect
-to it via my ISP, and capture the traffic on both sides and see what exactly
+to it via my ADSL, and capture the traffic on both sides and see what exactly
 goes missing.
 
 ![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
