@@ -68,5 +68,13 @@ plugins:
 markdown_extensions:
   - abbr
   - attr_list
+  # For code syntax highlighting
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
   - meta
   - pymdownx.blocks.caption

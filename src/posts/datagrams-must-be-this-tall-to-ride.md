@@ -180,10 +180,10 @@ Here are a few examples:
 - On a Debian box, `docker login ghcr.io` _always_ fails with `TLS handshake
 timeout`
 
-                                    ```
-                                    $ echo test | docker login ghcr.io -u USERNAME --password-stdin
-                                    Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
-                                    ```
+    ```txt
+    $ echo test | docker login ghcr.io -u USERNAME --password-stdin
+    Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
+    ```
 
 - On all Windows devices, `winget update` was failing with the error message
 
