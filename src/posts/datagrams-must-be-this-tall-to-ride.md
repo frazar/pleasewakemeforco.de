@@ -402,6 +402,9 @@ Percentage of request failure as a function of the IP datagram size.
 
 Is that.. a pattern?
 
+So far all that I could make out of this `- . - . -` pattern is that it
+translates to "TETET" in morse code.
+
 ## Dissecting packets
 
 So far I have managed to investigate more about the conditions in which the
