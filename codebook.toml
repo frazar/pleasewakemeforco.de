@@ -6,20 +6,20 @@ words = [
     "ebpf",
     "energie",
     "francesco",
-    "hotspot"
+    "hotspot",
     "maingau",
     "openwrt",
-    "tcpdump"
+    "tcpdump",
     "uhm",
     "vdsl",
     "winget",
     "wireshark",
-    "wsl",
+    "wsl"
 ]
 
 # List of regex patterns to ignore when spell checking. Use single quotes for
 # literal strings to avoid escaping backslashes.
 ignore_patterns = [
     '^[A-Z]{2,}$',    # All caps words like "HTML", "CSS"
-    'https?://[^\s]+' # URLs
+    'https?://[^\s]+', # URLs
 ]
