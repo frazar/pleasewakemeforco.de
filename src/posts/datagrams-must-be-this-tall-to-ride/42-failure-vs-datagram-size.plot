@@ -1,5 +1,15 @@
 #!/usr/bin/gnuplot
 
+COLOR_PRIMARY_FG = "#224aab"
+COLOR_PRIMARY_FG_LIGHT = "#212121"
+
+set grid linecolor rgb COLOR_PRIMARY_FG_LIGHT
+set xlabel textcolor rgb COLOR_PRIMARY_FG_LIGHT
+set ylabel textcolor rgb COLOR_PRIMARY_FG_LIGHT
+set title  textcolor rgb COLOR_PRIMARY_FG_LIGHT
+set xtics  textcolor rgb COLOR_PRIMARY_FG_LIGHT
+set ytics  textcolor rgb COLOR_PRIMARY_FG_LIGHT
+
 set xrange [240:1280+256]
 set yrange [-5:110]
 
@@ -16,27 +26,27 @@ set output '42-failure-vs-datagram-size.png'
 set grid mxtics
 set xtics 256
 set mxtics 4
-set grid mxtics xtics ytics 
-set grid mxtics lt 0 lw 0.5 lc rgb "light-gray"
+set grid mxtics xtics ytics
+set grid mxtics lt 0 lw 0.5 lc rgb COLOR_PRIMARY_FG_LIGHT
 
 set style line 4 dt 2 lw 2 lc rgb "black"
 
 set arrow 1 from 301,70 to 365,70 heads filled lw 2 lc rgb "web-green" front
-set arrow 2 from 256,105 to screen 0.151,0.897 nohead lc rgb "gray" back
-set arrow 3 from 512,95 to screen 0.93,0.75 nohead lc rgb "gray" back
+set arrow 2 from 256,105 to screen 0.151,0.897 nohead lc rgb COLOR_PRIMARY_FG_LIGHT back
+set arrow 3 from 512,95 to screen 0.93,0.75 nohead lc rgb COLOR_PRIMARY_FG_LIGHT back
 
 set label 1 "64" at 327,77 textcolor rgb "web-green" center
 set object 1 rectangle from 256,95 to 512,105 \
-	fillcolor rgb "cyan" \
+	fillcolor rgb "#8cbbff" \
 	fillstyle solid 0.1 \
-	border lc rgb "#707070"
+	border lc rgb "#616161"
 
 set multiplot
 
 plot '42-failure-vs-datagram-size.dat' \
 	using 1:($1 < 1492 ? $2 : NaN) \
 	with linespoints \
-	linecolor rgb 'blue' \
+	linecolor rgb COLOR_PRIMARY_FG \
 	pointtype 5 pointsize .5 \
 	notitle
 
@@ -45,9 +55,9 @@ plot '42-failure-vs-datagram-size.dat' \
 set origin 0.05,0.65
 set size 0.93,0.3
 
-set border lc rgb "#707070"
-set xtics textcolor rgb "#707070"
-set ytics textcolor rgb "#707070"
+set border lc rgb "#616161"
+set xtics textcolor rgb "#616161"
+set ytics textcolor rgb "#616161"
 
 unset arrow 1
 unset arrow 2
@@ -58,7 +68,7 @@ unset object 1
 set object 4 rectangle \
 	from graph 0,0 \
 	to graph 1,1 \
-	fillcolor rgb "cyan" \
+	fillcolor rgb "#8cbbff" \
 	fillstyle solid 0.1 \
 	behind
 
@@ -77,7 +87,7 @@ unset ylabel
 plot '42-failure-vs-datagram-size.dat' \
 	using 1:($1 < 1492 ? $2 : NaN) \
 	with linespoints \
-	linecolor rgb 'blue' \
+	linecolor rgb COLOR_PRIMARY_FG \
 	pointtype 5 pointsize .5 \
 	notitle
 

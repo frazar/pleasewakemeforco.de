@@ -12,6 +12,8 @@ title: Datagrams must be this tall to ride
 
 Or what to do when your ISP drops IP datagrams of certain sizes.
 
+![](./datagrams-must-be-this-tall-to-ride/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
+
 <!-- more -->
 
 ## Entrée
@@ -22,27 +24,26 @@ Service Provider (ISP) contract is bound to expire.
 Here in Germany, ADSL contracts are not cheap. Luckily, you can save a
 non-negligible amount of money if you sign up for a 2-year contract. This kind
 of contract typically has an initial period of time in which you get a
-discounted monthly fee. I'm talking about a _big_ discount. As big as 3x lower
-fees for the first 12 months. After the initial period, the fee goes back to
-normal, but you can't cancel the contract before the end of the 2nd year. On
-average, you save some money, but you must endure the annoyance of switching to
-a different ISP after the second year.
+discounted monthly fee. I'm talking about a _big_ discount. As big as 3 times
+lower for the first 12 months. After the initial period, the fee goes back to
+normal, but you can't cancel the contract before the end of the 2nd year. If you
+cancel your subscription after exactly 24 months, you save some money. But you
+must endure the annoyance of switching to a different ISP after the second year.
 
-So here I am looking, for a new ISP to switch to and. Thanks to
+So here I am, looking for a new ISP to switch to. Thanks to the
 [Check24 website](https://www.check24.de/), I find the ISP with the best offer
 of the month: Maingau Energie.
 
-![](./datagrams-must-be-this-tall-to-ride/00-maingau.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/05-maingau.png){ loading=lazy }
 /// caption
 A happy family of Maingau Energie customers. Note how nobody in the promotional
 picture seems to be actually accessing the internet.
 ///
 
-The company is not one of the renowned German telecom titans, but
+The company is not one of the German telecom titans, but
 
-- the customers reviews on Check24 seem solid
-- Maingau Energie does not force you to buy or rent their ADSL
-  modem
+- the customer reviews seem solid
+- Maingau Energie does not force you to buy or rent their ADSL modem
 - They explicitly mentioned my current ADSL modem, a second hand
   [FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
   compatible.
@@ -50,7 +51,7 @@ The company is not one of the renowned German telecom titans, but
 So I sign up. Little do I know about what I am _really_ signing up for.
 
 After a couple of weeks, I get an appointment for a technician to setup the ADSL
-line. As the technician leavse my house, I'm already firing up the FRITZ!Box
+line. As the technician leaves my house, I'm already firing up the FRITZ!Box
 admin panel and setting up the ADSL parameters and PPPoE credentials. I'm
 expecting now to see what my new public IP looks like but instead I get...
 
@@ -118,13 +119,14 @@ ADSL router. Nobody takes my problem at heart.
 
 Exasperated, I decide it's time I try to do something on my own.
 
-## Warming up
+## Warm up
 
 By default, the router gives little information for any investigation. But the
 nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
 
 > Malignant minds might think that I have been dying for an excuse to rip
-> out the stock firmware and install OpenWRT on my router. They are not wrong.
+> out the stock firmware and install OpenWRT on my router. They are not
+> completely wrong.
 
 I head to [the OpenWRT wiki page dedicated to my
 router](https://openwrt.org/toh/avm/avm_fritz_box_7530), I follow the flashing
@@ -152,7 +154,7 @@ config device
 config device
     option type '8021q'
     option ifname 'dsl0'
-    option vid '7' # VLAN ID 7, as specified by ISP
+    option vid '7' # VLAN ID 7, as specified by the ISP
     option name 'dsl0.7'
 
 config interface 'wan'
@@ -169,9 +171,9 @@ So all is good now, right?
 
 Right??
 
-## Bitter taste
+## A harsh reality
 
-I start surfing, but something is off. Sometimes, website fail to load. In most
+I start surfing, but something is off. Sometimes, websites fail to load. In most
 cases, the issues are intermittent, almost forgivable. But in other cases the
 issues reproduce consistently.
 
@@ -185,7 +187,7 @@ Here are a few examples:
     Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
     ```
 
-- On all Windows devices, `winget update` was failing with the error message
+- On all Windows devices, `winget update --all` fails
 
     ```
     PS C:\> winget update --all
@@ -198,9 +200,8 @@ Here are a few examples:
 
     > _**Side Question:**_
     > _Honestly, how do you force PowerShell to show error messages in English?
-    > On Linux, I would just set the `LC_ALL=C` environment variable. On
-    > Windows, is the only option to change the system language and reboot the
-    > machine?_
+    > On Linux, I would `export LC_ALL=C`. On Windows, is the only option to
+    > change the system language and reboot the machine?_
 
 - The `steamcommunity.org` website doesn't load,
 
@@ -213,14 +214,13 @@ I decide to investigate the `steamcommunity.org` failure first, since:
 
 1.  The issue can be reproduced from a browser, which has very many useful tools
     to inspect network requests,
-2.  I really wanted to replay Patrician III.
+2.  I really wanted to replay
+    [Patrician III](https://store.steampowered.com/app/33570/Patrician_III/).
 
 I open Firefox, start the developers tools, switch to the "Network" tab, and
 ensure the "disable cache" checkbox is selected. I reload the page and, indeed,
 I find that there is a specific asset that fails to be transferred, resulting
 the website styling not loading.
-
-TODO: Add picture of the network tab showing that the manifest.js asset does not load.
 
 One of the key features of the Network tab is that, for every network request,
 it can produce an equivalent `curl` command. In this way, the request can be
@@ -294,15 +294,15 @@ Ok now, time to think:
 - Rationalization attempt #2: Maybe the issue is exactly the header I decided to
   remove? But no, even without any of the other headers, the request succeeds.
 
-Ok, I'll admit I'm a bit clueless by now. So let's try to investigate some more
-to try and make sense of the situation.
+I have to admit that I'm a bit clueless by now. I'll try to investigate some
+more to try and make sense of the situation.
 
 What if instead of removing an HTTP header, I add one? Well, this might create
 more troubles: the website's load balancer might strip my request of any HTTP
-header it does not expect, or even reject the request completely. I try using a
-header name with the conventional `X-` name prefix to increase the chances of my
-request not being rejected. Also, I'll use a Bash run from WSL from now on,
-because I'm more familiar with the syntax.
+header it does not expect, or even reject the request completely... or not.
+I'll try using a header name with the conventional `X-` name prefix to increase
+the chances of my request not being rejected. Also, I'll use a Bash script run
+from WSL from now on, because I'm more familiar with the syntax.
 
 ```bash
 #!/bin/bash
@@ -405,7 +405,7 @@ Is that.. a pattern?
 So far all that I could make out of this `- . - . -` pattern is that it
 translates to "TETET" in morse code.
 
-## Dissecting packets
+## Decomposed packets
 
 So far I have managed to investigate more about the conditions in which the
 request timeout is observed. However I still don't know _why_ the timeouts
@@ -544,7 +544,7 @@ network to the outside Internet. But not all packets are affected. It seems that
 the packet size is significant in determining the outcome, but what about the
 packet protocol?
 
-# The last piece of the puzzle
+## The last piece of the puzzle
 
 So far all tests where based on TCP packets. I decide to try a similar test
 using `ping`, which uses ICMP packets instead. Luckily, ICMP packets can also
@@ -626,8 +626,10 @@ Follow-up work:
 - Use eBPF instead
 - extend to IPv6
 
-## Acknoledgements
+## Acknowledgements
 
+The cover picture comes from
+[this YouTube video](https://youtu.be/lL8ELL9p5ms?t=31).
 Thanks to the folks in the OpenWRT forum for listening to my crazy ravings.
 
 \*[ISP]: Internet Service Provider \*[VDSL]: Very high speed Digital Subscriber Line

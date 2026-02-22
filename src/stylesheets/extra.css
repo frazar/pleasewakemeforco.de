@@ -4,14 +4,14 @@ Color definitions: https://github.com/squidfunk/mkdocs-material/blob/master/src/
 */
 
 [data-md-color-scheme="default"] {
-    --md-primary-fg-color: #0065ff;
+    --md-primary-fg-color: #224aab;
     --md-primary-fg-color--light: #ebebeb;
     --md-primary-fg-color--dark: #aeaeae;
     --md-default-fg-color--light-really: #8cbbff;
     /*--md-default-fg-color--light: var(--md-primary-fg-color);*/
     --md-default-fg-color--lightest: #fff;
 
-    --md-footer-fg-color: #0065ff;
+    --md-footer-fg-color: #224aab;
     /* Accent color shades */
     --md-accent-fg-color: var(--md-primary-fg-color);
     --md-accent-fg-color--transparent: #50505016;
