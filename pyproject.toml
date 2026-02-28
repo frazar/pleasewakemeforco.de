@@ -5,6 +5,5 @@ description = "Source code for the website https://pleasewakemeforco.de"
 readme = "README.md"
 requires-python = "==3.13.9"
 dependencies = [
-    "mkdocs-material[imaging]>=9.7.0",
-    "mkdocs-rss-plugin>=1.17.7",
+    "zensical>=0.0.24",
 ]

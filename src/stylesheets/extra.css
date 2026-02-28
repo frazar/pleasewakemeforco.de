@@ -3,6 +3,19 @@ Documentation: https://squidfunk.github.io/mkdocs-material/setup/changing-the-co
 Color definitions: https://github.com/squidfunk/mkdocs-material/blob/master/src/templates/assets/stylesheets/main/_colors.scss
 */
 
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color: #0065ff;
+    --md-primary-bg-color: #d0d0d;
+    --md-primary-fg-color--light: #abdbe3;
+    --md-primary-fg-color--dark: #063970;
+
+    /* Accent color shades */
+    --md-accent-fg-color: #505050;
+    --md-accent-fg-color--transparent: #50505010;
+    --md-accent-bg-color: #505050;
+    --md-accent-bg-color--light: #ebebeb;
+}
+
 [data-md-color-scheme="default"] {
     --md-primary-fg-color: #224aab;
     --md-primary-fg-color--light: #ebebeb;
@@ -18,84 +31,69 @@ Color definitions: https://github.com/squidfunk/mkdocs-material/blob/master/src/
     --md-accent-bg-color: #505050;
     --md-accent-bg-color--light: #50505011;
 
-    .md-typeset h1,
-    .md-typeset h2,
-    .md-typeset h3 {
-        color: var(--md-primary-fg-color);
-        font-weight: 400;
-    }
-
-    .md-header,
+    /*.md-header,
     .md-footer-meta {
         color: var(--md-primary-fg-color);
         background-color: var(--md-primary-bg-color);
-    }
+    }*/
 
-    .md-header,
+    /*.md-header,
     .md-nav__title {
         border-bottom: 1px solid;
-    }
+    }*/
 
-    .md-footer-meta {
+    /*.md-footer-meta {
         border-top: 1px solid;
-    }
+    }*/
 
-    .md-header--shadow {
+    /*.md-header--shadow {
         box-shadow: none;
-    }
+    }*/
 
-    .md-copyright,
+    /*.md-copyright,
     .md-copyright__highlight,
     html .md-footer-meta.md-typeset a,
     .md-typeset h1 {
         color: var(--md-primary-fg-color);
-    }
+    }*/
 
     /* For small screen width, when the left bar is open, the top of the left menu should
        have white background. */
-    .md-nav--primary .md-nav__title,
+    /*.md-nav--primary .md-nav__title,
     .md-nav--primary .md-nav__title[for="__drawer"] {
         background-color: var(--md-primary-bg-color);
         color: var(--md-primary-fg-color);
         font-weight: 700;
-    }
+    }*/
 
     /* For small screen width, when the left bar is open, there should be no border between
        successive menu elements */
-    .md-nav--primary .md-nav__title ~ .md-nav__list {
+    /*.md-nav--primary .md-nav__title ~ .md-nav__list {
         box-shadow: none;
     }
     .md-nav--primary .md-nav__item {
         border-top: none;
-    }
-    /* Visited links should be light blue, except those in the right side section list for large screens */
-    .md-typeset a:visited {
-        color: var(--md-default-fg-color--light-really);
-    }
+    }*/
 
-    .md-post__title,
+    /*.md-post__title,
     .md-nav__title {
         font-weight: 400;
     }
+    */
 }
 
-[data-md-color-scheme="slate"] {
-    --md-hue: 200deg;
-    --md-primary-fg-color: #0d3a8a;
-    --md-primary-bg-color: #d0d0d;
-    --md-primary-fg-color--light: #abdbe3;
-    --md-primary-fg-color--dark: #063970;
+/* Apply the primary FG color to: */
+/* 1. Section titles */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+/* 2. The title of the navigation bar to the right and to the left */
+.md-nav__title,
+.md-header__topic {
+    color: var(--md-primary-fg-color) !important;
+}
 
-    /* Accent color shades */
-    --md-accent-fg-color: #505050;
-    --md-accent-fg-color--transparent: #50505010;
-    --md-accent-bg-color: #505050;
-    --md-accent-bg-color--light: #ebebeb;
-
-    .md-typeset h1,
-    .md-typeset h2,
-    .md-typeset h3 {
-        color: var(--md-typeset-color);
-        font-weight: 400;
-    }
+/* Visited links should be light blue, except those in the right side section list for large screens */
+*.md-typeset a:visited {
+    color: var(--md-default-fg-color--light-really);
 }
