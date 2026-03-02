@@ -44,7 +44,7 @@ The company is not one of the German telecom titans, but
 
 - the customer reviews seem solid
 - Maingau Energie does not force you to buy or rent their ADSL modem
-- They explicitly mentioned my current ADSL modem, a second hand
+- They explicitly mentioned my current ADSL modem, a second-hand
   [FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
   compatible.
 
@@ -480,7 +480,7 @@ differently:
 
     In an incredible display of perseverance, my laptop keeps retransmitting the
     same packet over and over (packets No. 22 through 27), over the course of 14
-    seconds of pure suspence.
+    seconds of pure suspense.
 
     Eventually, the remote server gives up and closes the TCP transaction by
     sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets
@@ -601,7 +601,7 @@ On the other hand, the IPv4 header size is not fixed! The IPv4 standard allows
 the IP header to have a variable number of "options", whose size can range from
 0 to 40 bytes with steps of 4 bytes.
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/2560px-IPv4_Packet-en.svg.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure.svg)
 /// caption
 By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA
 Internet Program Protocol Specification_, p. 1 DOI:
