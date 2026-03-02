@@ -605,8 +605,7 @@ the IP header to have a variable number of "options", whose size can range from
 /// caption
 By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA
 Internet Program Protocol Specification_, p. 1 DOI:
-[10.17487/RFC0791](https://dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0,
-https://commons.wikimedia.org/w/index.php?curid=79949694
+[10.17487/RFC0791](https://dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0.
 ///
 
 So a possibility is to add a sufficient number of IP header options so that the
