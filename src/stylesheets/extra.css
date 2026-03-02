@@ -97,3 +97,9 @@ header {
 *.md-typeset a:visited {
     color: var(--md-default-fg-color--light-really);
 }
+
+/* Hide search icon */
+.md-search,
+label.md-header__button[for="__search"] {
+    display: none;
+}
