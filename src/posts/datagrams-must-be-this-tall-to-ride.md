@@ -601,7 +601,8 @@ On the other hand, the IPv4 header size is not fixed! The IPv4 standard allows
 the IP header to have a variable number of "options", whose size can range from
 0 to 40 bytes with steps of 4 bytes.
 
-![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure.svg)
+![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure-light.svg#only-light){ loading=lazy width=50% style='margin-left: auto; margin-right: auto; width: 80%; max-width: 800px' }
+![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure-dark.svg#only-dark){ loading=lazy width=50% style='margin-left: auto; margin-right: auto; width: 80%; max-width: 800px; opacity: 0.82' }
 /// caption
 By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA
 Internet Program Protocol Specification_, p. 1 DOI:
