@@ -327,3 +327,6 @@ anchor_linenums = true
 
 # Enable captions
 [project.markdown_extensions.pymdownx.blocks.caption]
+
+# Enable admonitions
+[project.markdown_extensions.admonition]

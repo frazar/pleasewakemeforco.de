@@ -108,10 +108,12 @@ An email from Maingau technical support declares the issue resolved.
 
 or, as GMail automatic translation puts it
 
-> Dear Ladies and Gentlemen,
->
-> Your fault with the number "MAING-XXXXXXXXXXXXXX" has been set to the status
-> "Resolved" and is therefore closed.
+!!! quote ""
+
+     Dear Ladies and Gentlemen,
+
+     Your fault with the number "MAING-XXXXXXXXXXXXXX" has been set to the status
+     "Resolved" and is therefore closed.
 
 I try multiple times to contact customer support via phone or email to convince
 them that no, the issue is not resolved, and that yes, I've tried rebooting the
@@ -124,9 +126,11 @@ Exasperated, I decide it's time I try to do something on my own.
 By default, the router gives little information for any investigation. But the
 nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
 
-> Malignant minds might think that I have been dying for an excuse to rip
-> out the stock firmware and install OpenWRT on my router. They are not
-> completely wrong.
+!!! tip ""
+
+    Malignant minds might think that I have been dying for an excuse to rip
+    out the stock firmware and install OpenWRT on my router. They are not
+    completely wrong.
 
 I head to [the OpenWRT wiki page dedicated to my
 router](https://openwrt.org/toh/avm/avm_fritz_box_7530), I follow the flashing
@@ -198,10 +202,11 @@ Here are a few examples:
     0x80072ee2 : unknown error
     ```
 
-    > _**Side Question:**_
-    > _Honestly, how do you force PowerShell to show error messages in English?
-    > On Linux, I would `export LC_ALL=C`. On Windows, is the only option to
-    > change the system language and reboot the machine?_
+!!! question "Side question"
+
+    Honestly, how do you force PowerShell to show error messages in English? On
+    Linux, I would `export LC_ALL=C`. On Windows, is the only option really
+    changing the system language and reboot the machine?
 
 - The `steamcommunity.org` website doesn't load,
 
