@@ -112,8 +112,8 @@ or, as GMail automatic translation puts it
 
      Dear Ladies and Gentlemen,
 
-     Your fault with the number "MAING-XXXXXXXXXXXXXX" has been set to the status
-     "Resolved" and is therefore closed.
+     Your fault with the number "MAING-XXXXXXXXXXXXXX" has been set to the
+     status "Resolved" and is therefore closed.
 
 I try multiple times to contact customer support via phone or email to convince
 them that no, the issue is not resolved, and that yes, I've tried rebooting the
@@ -126,10 +126,10 @@ Exasperated, I decide it's time I try to do something on my own.
 By default, the router gives little information for any investigation. But the
 nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
 
-!!! tip ""
+!!! tip "Remark"
 
-    Malignant minds might think that I have been dying for an excuse to rip
-    out the stock firmware and install OpenWRT on my router. They are not
+    Malignant minds might think that I have been dying for an excuse to rip out
+    the stock firmware from my router and install OpenWRT. They are not
     completely wrong.
 
 I head to [the OpenWRT wiki page dedicated to my
@@ -312,8 +312,9 @@ from WSL from now on, because I'm more familiar with the syntax.
 ```bash
 #!/bin/bash
 
-# run_curl: Sends the same HTTP request that fails in the browser, but also
-#           adding any extra HTTP header that is passed in as argument.
+# run_curl: Sends the same HTTP request that fails in the
+#           browser, but also adding any extra HTTP header
+#           that is passed in as argument.
 function run_curl() {
     timeout 3 curl -s -o /dev/null \
         -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0' \
@@ -329,8 +330,8 @@ function run_curl() {
         'https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=PU33sk4crNva&l=english&_cdn=akamai'
 }
 
-# Repeat the HTTP request with an extra, dummy header of increasing length. The
-# header has the form:
+# Repeat the HTTP request with an extra, dummy header
+# of increasing length. The header has the form:
 #
 #   X-1...1: a
 #
