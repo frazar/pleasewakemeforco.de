@@ -609,9 +609,7 @@ the IP header to have a variable number of "options", whose size can range from
 ![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure-light.svg#only-light){ loading=lazy width=50% style='margin-left: auto; margin-right: auto; width: 80%; max-width: 800px' }
 ![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure-dark.svg#only-dark){ loading=lazy width=50% style='margin-left: auto; margin-right: auto; width: 80%; max-width: 800px; opacity: 0.82' }
 /// caption
-By Michel Bakni - Postel, J. (September 1981) _RFC 791, IP Protocol, DARPA
-Internet Program Protocol Specification_, p. 1 DOI:
-[10.17487/RFC0791](https://dx.doi.org/10.17487/RFC0791), CC BY-SA 4.0.
+By Michel Bakni - Postel, J. (September 1981) RFC 791, IP Protocol, DARPA Internet Program Protocol Specification, p. 1 DOI: 10.17487/RFC0791, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=79949694
 ///
 
 So a possibility is to add a sufficient number of IP header options so that the
@@ -636,5 +634,3 @@ Follow-up work:
 The cover picture comes from
 [this YouTube video](https://youtu.be/lL8ELL9p5ms?t=31).
 Thanks to the folks in the OpenWRT forum for listening to my crazy ravings.
-
-\*[ISP]: Internet Service Provider \*[VDSL]: Very high speed Digital Subscriber Line
