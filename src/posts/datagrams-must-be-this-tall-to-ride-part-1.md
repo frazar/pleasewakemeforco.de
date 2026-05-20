@@ -10,7 +10,7 @@ title: Datagrams must be this tall to ride
 
 # Datagrams must be this tall to ride
 
-Or what to do when your ISP drops IP datagrams of certain sizes.
+_About that time my ISP started dropping IP datagrams of certain sizes._
 
 ![](./datagrams-must-be-this-tall-to-ride/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
 
@@ -21,14 +21,13 @@ Or what to do when your ISP drops IP datagrams of certain sizes.
 It's July 2025. The end of the month is nearing, and my 2-year-long Internet
 Service Provider (ISP) contract is bound to expire.
 
-Here in Germany, ADSL contracts are not cheap. Luckily, you can save a
-non-negligible amount of money if you sign up for a 2-year contract. This kind
-of contract typically has an initial period of time in which you get a
-discounted monthly fee. I'm talking about a _big_ discount. As big as 3 times
-lower for the first 12 months. After the initial period, the fee goes back to
-normal, but you can't cancel the contract before the end of the 2nd year. If you
-cancel your subscription after exactly 24 months, you save some money. But you
-must endure the annoyance of switching to a different ISP after the second year.
+In Germany, ADSL contracts don't come cheap. You can save non-negligible amounts
+of money if you sign up for a 2-year contract. This kind of contract typically
+has an initial period of time in which you get a discounted monthly fee. The
+discount can be as big as 200€ over the first year. After the initial period,
+however, the fee goes up again. Unfortunately, you can't cancel the contract before the
+end of the 2nd year. Overall, you do save some money if you remember to end your contract after exactly 2 years. But you must endure the annoyance of
+switching to a different ISP after the second year.
 
 So here I am, looking for a new ISP to switch to. Thanks to the
 [Check24 website](https://www.check24.de/), I find the ISP with the best offer
@@ -70,10 +69,12 @@ completed fine, and no error is reported.
 The ADSL status page shows that the connection was established successfully.
 ///
 
-I double-check and redo all the configurations, the credentials, the physical
-connections... nothing changes. Finally, I decide to leave the router alone for
-some time. I tell myself: "Perhaps it's just some network configuration that has
-not yet propagated fully".
+So this doesn't seem to be an issue with the cable.
+
+I double-check and all the configurations, the credentials, the physical
+connections... nothing. Finally, I decide to leave the router alone for
+some time. "Perhaps it's just some network configuration that has
+not yet propagated fully", I lie to myself. But I can already feel that this is getting ugly.
 
 After a few days, I try to hard-reset the ADSL modem and repeat the whole
 process once more. But alas, the PPPoE device on the other side of the
@@ -81,15 +82,15 @@ connection still shows no signs of life.
 
 I then decide to reach out to technical support via email. I detail my issues,
 attaching screenshots of the current configuration, the ADSL status, and the
-error I am facing. Soon, another new technician appointment is scheduled.
+error I am facing.
+
+Soon, another technician appointment is scheduled.
 
 But when the technician arrives, they know nothing about the PPPoE
 configuration. The only thing they can do is to check the quality of the ADSL
 connection with a handheld device. This is not at all different from the one the
 first technician used when they setup the line. So, I'm very little surprised
-when my ADSL line turns out to be fine. Unfortunately, the fact that the ADSL
-connectivity work is not sufficient to conclude that my internet connection is
-working.
+when my ADSL line turns out to be fine.
 
 ![](./datagrams-must-be-this-tall-to-ride/30-adsl-tester.png){ loading=lazy }
 /// caption
@@ -116,14 +117,14 @@ or, as GMail automatic translation puts it
      status "Resolved" and is therefore closed.
 
 I try multiple times to contact customer support via phone or email to convince
-them that no, the issue is not resolved, and that yes, I've tried rebooting the
+them that no, the issue is not resolved, and that yes, I've already tried rebooting the
 ADSL router. Nobody takes my problem at heart.
 
 Exasperated, I decide it's time I try to do something on my own.
 
 ## Warm up
 
-By default, the router gives little information for any investigation. But the
+The router gives little information for any investigation. But the
 nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
 
 !!! tip "Remark"
@@ -136,8 +137,8 @@ I head to [the OpenWRT wiki page dedicated to my
 router](https://openwrt.org/toh/avm/avm_fritz_box_7530), I follow the flashing
 procedure, and soon the router becomes _truly_ mine. I then start combining the
 VDSL parameters provided by my ISP with the many examples
-[in the wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
-After a little bit of trial and error, I conjure the following configuration:
+[in the OpenWRT wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
+After a little bit of trial and error, I conjure up the following configuration:
 
 ```
 config atm-bridge 'atm'
@@ -171,7 +172,9 @@ config interface 'wan'
 and that... worked! No PPPoE timeout! An IP address is negotiated and I can
 finally connect to the internet! Hell, I even got an IPv6 address.
 
-So all is good now, right?
+So all is good.
+
+End of the story, right?
 
 Right??
 
@@ -219,18 +222,18 @@ I decide to investigate the `steamcommunity.org` failure first, since:
 
 1.  The issue can be reproduced from a browser, which has very many useful tools
     to inspect network requests,
-2.  I really wanted to replay
+2.  I really want to replay
     [Patrician III](https://store.steampowered.com/app/33570/Patrician_III/).
 
 I open Firefox, start the developers tools, switch to the "Network" tab, and
-ensure the "disable cache" checkbox is selected. I reload the page and, indeed,
-I find that there is a specific asset that fails to be transferred, resulting
-the website styling not loading.
+ensure the "Disable Cache" option is toggled. I reload the page and find that
+there is a specific asset that fails to be transferred, resulting in the website
+styling not loading.
 
 One of the key features of the Network tab is that, for every network request,
 it can produce an equivalent `curl` command. In this way, the request can be
 reproduced exactly from a terminal prompt. I do exactly that by right-clicking
-on the request and hit the "Copy" > "Copy as cURL (Windows)".
+on the request and hitting "Copy" > "Copy as cURL (Windows)".
 
 ![](./datagrams-must-be-this-tall-to-ride/45-copy-as-curl.png){ loading=lazy }
 /// caption
@@ -261,7 +264,7 @@ curl: (52) Empty reply from server
 ```
 
 All right, the error can be reproduced. Let's now try to minimize the command.
-Surely, not all of these headers are _really_ needed. So I remove the last
+Surely, not all of these headers are _really_ needed. So I start by removing the last
 `-H ...` command line option, and get...
 
 ```
@@ -297,10 +300,9 @@ Ok now, time to think:
   Also, replaying the request any number of times does not change the outcomes.
 
 - Rationalization attempt #2: Maybe the issue is exactly the header I decided to
-  remove? But no, even without any of the other headers, the request succeeds.
+  remove? But no, even when removing some of the other headers instead, the request succeeds.
 
-I have to admit that I'm a bit clueless by now. I'll try to investigate some
-more to try and make sense of the situation.
+I'm a bit clueless by now. Time to shoot in the dark.
 
 What if instead of removing an HTTP header, I add one? Well, this might create
 more troubles: the website's load balancer might strip my request of any HTTP
@@ -310,6 +312,7 @@ the chances of my request not being rejected. Also, I'll use a Bash script run
 from WSL from now on, because I'm more familiar with the syntax.
 
 ```bash
+# test.sh
 #!/bin/bash
 
 # run_curl: Sends the same HTTP request that fails in the
@@ -356,6 +359,7 @@ done
 ```
 
 ```txt
+$ test.sh
 Header "X-1" (Length 3): TIMEOUT
 Header "X-11" (Length 4): TIMEOUT
 Header "X-111" (Length 5): success
@@ -399,7 +403,7 @@ header that does.
 To determine which are the request lengths that trigger the issue, I extend the
 script to repeat the request over and over for a wider range of values. Also, to
 reduce the chance of flukes, I repeat each test 5 times. I then plot a graph
-showing the percentage of failures for a given requested size.
+showing the percentage of failures for a given header size.
 
 ![](./datagrams-must-be-this-tall-to-ride/42-failure-vs-datagram-size.png){ loading=lazy }
 /// caption
@@ -417,19 +421,20 @@ So far I have managed to investigate more about the conditions in which the
 request timeout is observed. However I still don't know _why_ the timeouts
 occur. It's time too look more closely at the network traffic.
 
-In order to capture network traffic of the DSL device, I need to install
+In order to capture the network traffic of the router, I need to install
 `tcpdump` on the router. Thanks to OpenWRT, this is as simple as running
 
 ```sh
+opkg update
 opkg install tcpdump
 ```
 
 I then fire up Wireshark on my laptop and
 configure it to connect via SSH to the router following [this guide](https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/).
 
-I proceed capture the network traffic on my router while running the `curl`
-command from my laptop. To have a sense of what the "normal" traffic should look
-like, I also capture the traffic obtained while connected to a mobile hotspot
+I proceed to capture the network traffic on my router while running the `curl`
+command from my laptop. To have a sense of what the traffic should normally look
+like, I also capture the traffic obtained for the same `curl` command while connected to a mobile hotspot
 (whose internet connection works fine).
 
 ![](./datagrams-must-be-this-tall-to-ride/50-compare-adsl-vs-hotspot-captures.png){ loading=lazy }
@@ -440,17 +445,17 @@ public IP `109.25.X.X`) and through the mobile hotspot (right side, public IP
 server with IP `2.16.X.X`.
 ///
 
-By comparing the two captures, I can conclude that the network traffic looks
-exactly the same up until packet No. 18. From packet No. 19 on, things go
+By comparing the two captures, it seems that the network traffic looks
+exactly the same up until packet No. 18. Starting from packet No. 19 on, the packet sequence starts to diverge
 differently:
 
-- When connected to the mobile hotspot (right side): Packet No. 19 is an
+- **Right side**: When connected to the mobile hotspot, Packet No. 19 is an
   acknowledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
   the remote server. The packet indicates that the laptop confirms the correct
   reception of all TCP segments transmitted by the remote server up to and
   including packet No. 18. To stress this, Wireshark helpfully shows a small "✔️"
   symbol next to packet No. 18 when packet No. 19 is selected
-  ([source](https://www.wireshark.org/docs/wsug_html_chunked/ChUsePacketListPaneSection.html#id1420)).
+  ([docs](https://www.wireshark.org/docs/wsug_html_chunked/ChUsePacketListPaneSection.html#id1420)).
 
     ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
 
@@ -461,7 +466,7 @@ differently:
 
     Then, it proceeds to send the HTTP response.
 
-- Instead, when connected to the ADSL router (left side), packet No. 19 is a TCP
+- **Left side**: When connected to the ADSL router, packet No. 19 is a TCP
   Retransmission packet that the remote host (Source IP `2.16.X.X`) sends to my
   laptop to request an explicit acknowledgment of the data received this far.
   The packet has the TCP Push (`PSH`) flag set, requesting that my laptop answer
@@ -473,16 +478,16 @@ differently:
 
     ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
 
-    Somehow, however, the remote server does not answer after that. Evidently,
+    Somehow, the remote server does not answer after that. I guess
     its waiting for my laptop to do something. After a few milliseconds of
-    stalling, my laptop realizes, and decides to send packet No. 21, which
-    retransmit the oldest packet that the remote server has not yet acknowledged
-    yet, packet No. 15.This can also be confirmed by looking at the packet size,
+    stalling, my laptop realizes that something is off, and decides to send packet No. 21, which
+    re-sends the oldest packet that the remote server has not yet acknowledged
+    yet, packet No. 15. This can also be confirmed by looking at the packet size,
     which is 572 for both packets No. 15 and 21.
 
     ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
 
-    But gets nothing back.
+    But nothing gets back.
 
     In an incredible display of perseverance, my laptop keeps retransmitting the
     same packet over and over (packets No. 22 through 27), over the course of 14
@@ -490,27 +495,47 @@ differently:
 
     Eventually, the remote server gives up and closes the TCP transaction by
     sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets
-    from the remote server do not specify if any of the retransmitted packets
-    has ever been received.
+    from the remote server does not specify if any of the retransmitted packets
+    was received.
 
 But why is this happening? I see two possible explanations:
 
-- either the packets sent by my laptop do not reach the remote server, or
-- the corresponding response packets from the remote do not reach my laptop.
-
-TODO: Add graphical diagram
+- either Packet 19 is dropped on its way to the remote server, or
+- the corresponding response packets from the remote server are dropped before they reach my laptop.
 
 To rule out any of the two, we'd need to get the packet capture on the remote
-side as well. Unfortunately, it's unlikely that Akamai is willing to provide
+side as well. However, I find it unlikely that the Steam DevOps team is willing to provide
 that to me.
 
 What else can be done then?
 
 ## We have cloud at home
 
-Ok so the idea is to deploy a small Virtual Machine (VM) on the cloud, connect
-to it via my ADSL, and capture the traffic on both sides and see what exactly
-goes missing.
+Here's the idea: spin up a small Virtual Machine (VM) on the cloud, connect
+to it via my ADSL, and try to mimic the packet exchange that of the Steam server.
+
+To imitate the HTTP server, I write a small Python script:
+
+```py
+# server.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+```
+
+and run the server with
+
+```bash
+uv run --with "fastapi[standard]" fastapi run server.py --port 80
+```
+
+I send an HTTP request with `curl`, but this time targeting the public IP of my server.
+It still fails!
+This means I can now reproduce the issue and inspect the packets observed at both side of the network.
 
 ![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
 /// caption
@@ -528,25 +553,25 @@ left pane:
 - ✅ Packets No. 1 to 3 are exchanged correctly.
 - ❌ Packet No. 4 only appears in the left pane (indeed, there is no packet with
   protocol "HTTP" in the right pane), indicating that it never reached its
-  destination. Note that it has the "cursed" frame size 176.
+  destination. Perhaps, this is due to its length (176 bytes) being "cursed"?
 - ❌ Packets No. 5 to 8 are all attempts at retransmitting packet No. 4. In all
   cases, the retransmission does not reach its destination. It is not a
-  coincidence that because they also have the "cursed" frame size.
+  coincidence that because they also have the cursed length.
 - ⚠️ `curl` reaches the 3-second timeout specified in the script and closes the
   connection with packet No. 9, which has the `FIN` flag on. The packet is
-  received correctly by the remote VM and is also visible in the right pane
-  (perhaps because it does not have a "cursed" size). The packet has the
+  received correctly by the remote VM! This is also visible in the right pane
+  (perhaps because it does not have the cursed length). The packet has the
   Sequence number 109, which the VM did not expect. Wireshark kindly highlights
   that in the right pane by showing the label `Previous segment not captured` in
   the "Info" column.
 - ⚠️ Since the Sequence number is off, the remote VM sends back Packet No. 9.,
   signaling that it can not acknowledge the `FIN` request, since something in
-  the middle is missing.
-- ❌ The client then tries to re-send the packet multiple times, but all
-  subsequent TCP retransmissions also fail, having the same "cursed" size.
+  the middle definitely went missing.
+- ❌ The client then tries to re-send the packet multiple times. Alas, all
+  subsequent TCP retransmissions also fail, having the cursed length.
 
 This test confirms that the issue affects outgoing packets traveling from my
-network to the outside Internet. But not all packets are affected. It seems that
+network to the outside Internet. Additionally, it seems that
 the packet size is significant in determining the outcome, but what about the
 packet protocol?
 
@@ -564,71 +589,11 @@ TODO:
 https://youtu.be/-JIuKjaY3r4?t=203
 
 This test is interesting because it shows that both the TCP and ICMP requests
-(which differ wildly in content) are affected in the same way. This suggests
+(which differ wildly in content) are affected in the same way, as long as their packet length is the same. This suggests
 that the root cause is not at Layer 3 of the ISO model.
 
 It's further down to Layer 2, where IP reigns supreme.
 
-# Drafting possible solutions
-
-To summarize the above findings, my issue is that IP datagrams sent from my ADSL
-router to the Internet are outright dropped if their size matches one of the
-"cursed" sizes.
-
-TODO: Add diagram of issue
-
-How to address the issue?
-
-One possibility is to perform some packet manipulation on outbound packets to
-change their size and save the from a terrible destiny.
-
-I first come up with the idea of reducing the size of the "cursed" packets by
-applying IP fragmentation. This is quite simple to implement, the fragmentation
-feature that is already available in IP. Additionally, if the source host
-fragments the IP packets it sends, the destination host will automatically
-recombine the fragments.
-
-I managed to implement the first approach, and I was even able to make the
-`ping` requests work. However, the are some situations where packets are not
-allowed to be fragmented (for example, TCP packets used in TLS handshakes can
-not be fragmented for security concerns)
-
-If reducing the packet size is not possible, then what about increasing it?
-
-An IPv4 packet is composed of:
-
-- an IPv4 header,
-- an IPv4 payload.
-
-Unfortunately, the size of the IPv4 payload can not be increased without also
-affecting how the inner Layer 3 packets are parsed.
-
-On the other hand, the IPv4 header size is not fixed! The IPv4 standard allows
-the IP header to have a variable number of "options", whose size can range from
-0 to 40 bytes with steps of 4 bytes.
-
-![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure-light.svg#only-light){ loading=lazy width=50% style='margin-left: auto; margin-right: auto; width: 80%; max-width: 800px' }
-![](./datagrams-must-be-this-tall-to-ride/90-ipv4-packet-structure-dark.svg#only-dark){ loading=lazy width=50% style='margin-left: auto; margin-right: auto; width: 80%; max-width: 800px; opacity: 0.82' }
-/// caption
-By Michel Bakni - Postel, J. (September 1981) RFC 791, IP Protocol, DARPA Internet Program Protocol Specification, p. 1 DOI: 10.17487/RFC0791, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=79949694
-///
-
-So a possibility is to add a sufficient number of IP header options so that the
-overall IP datagram size does not match any of the cursed sizes.
-Unfortunately, IP header options are rarely used in the general Internet and intermediate routers often drop IPv4 packets specifying options.
-
-# Packet inflater
-
-# Packet shrinker
-
-## Conclusions
-
-- Maingau Energie sucks
-
-Follow-up work:
-
-- Use eBPF instead
-- extend to IPv6
 
 ## Acknowledgements
 
