@@ -10,7 +10,7 @@ title: Datagrams must be this tall to ride (Part 1)
 
 _About that time my ISP started dropping IP datagrams of certain sizes._
 
-![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
+![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride-part-1/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
 
 <!-- more -->
 
@@ -32,7 +32,7 @@ So here I am, looking for a new ISP to switch to. Thanks to the
 [Check24 website](https://www.check24.de/), I find the ISP with the best offer
 of the month: Maingau Energie.
 
-![A happy family of Maingau Energie customers. Note how nobody in the promotional picture seems to be actually accessing the internet.](./datagrams-must-be-this-tall-to-ride/05-maingau.png){ loading=lazy }
+![A happy family of Maingau Energie customers. Note how nobody in the promotional picture seems to be actually accessing the internet.](./datagrams-must-be-this-tall-to-ride-part-1/05-maingau.png){ loading=lazy }
 /// caption
 A happy family of Maingau Energie customers. Note how nobody in the promotional
 picture seems to be actually accessing the internet.
@@ -53,7 +53,7 @@ line. As the technician leaves my house, I'm already firing up the FRITZ!Box
 admin panel and setting up the ADSL parameters and PPPoE credentials. I'm
 expecting now to see what my new public IP looks like but instead I get...
 
-![The FRITZ!Box logs show a PPPoE timeout](./datagrams-must-be-this-tall-to-ride/10-pppoe-timeout.png){ loading=lazy }
+![The FRITZ!Box logs show a PPPoE timeout](./datagrams-must-be-this-tall-to-ride-part-1/10-pppoe-timeout.png){ loading=lazy }
 /// caption
 The FRITZ!Box logs show a PPPoE timeout.
 ///
@@ -63,7 +63,7 @@ Uhm. Strange.
 Looking closer at the admin panel, I can confirm that the ADSL "training" has
 completed fine, and no error is reported.
 
-![The ADSL status page shows that the connection was established successfully](./datagrams-must-be-this-tall-to-ride/20-adsl-ok.png){ loading=lazy }
+![The ADSL status page shows that the connection was established successfully](./datagrams-must-be-this-tall-to-ride-part-1/20-adsl-ok.png){ loading=lazy }
 /// caption
 The ADSL status page shows that the connection was established successfully.
 ///
@@ -91,7 +91,7 @@ connection with a handheld device. This is not at all different from the one the
 first technician used when they setup the line. So, I'm very little surprised
 when my ADSL line turns out to be fine.
 
-![An Argus 163 ADSL testing device shows that the ADSL works fine](./datagrams-must-be-this-tall-to-ride/30-adsl-tester.png){ loading=lazy }
+![An Argus 163 ADSL testing device shows that the ADSL works fine](./datagrams-must-be-this-tall-to-ride-part-1/30-adsl-tester.png){ loading=lazy }
 /// caption
 An Argus 163 ADSL testing device shows that the ADSL works fine. Notice how the
 German word for "stop" is spelled with two "p"s.
@@ -101,7 +101,7 @@ I forward a photo of the test results to the Maingau technical support. Surely,
 now that the ADSL functionality has been confirmed, they will be looking at the
 PPPoE issue on their syst..
 
-![An email from Maingau technical support declares the issue resolved](./datagrams-must-be-this-tall-to-ride/40-ticket-closed.png){ loading=lazy }
+![An email from Maingau technical support declares the issue resolved](./datagrams-must-be-this-tall-to-ride-part-1/40-ticket-closed.png){ loading=lazy }
 /// caption
 An email from Maingau technical support declares the issue resolved.
 ///
@@ -212,7 +212,7 @@ Here are a few examples:
 
 - The `steamcommunity.org` website doesn't load,
 
-    ![A screenshot of the steamcommunity.org website failing to load](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
+    ![A screenshot of the steamcommunity.org website failing to load](./datagrams-must-be-this-tall-to-ride-part-1/41-steamcommunity-does-not-load.png){ loading=lazy }
     /// caption
     The steamcommunity.org website fails to load.
     ///
@@ -234,7 +234,7 @@ it can produce an equivalent `curl` command. In this way, the request can be
 reproduced exactly from a terminal prompt. I do exactly that by right-clicking
 on the request and hitting "Copy" > "Copy as cURL (Windows)".
 
-![A creenshot of the Firefox Network tab and the menus for copying the curl command that is equivalent to a request](./datagrams-must-be-this-tall-to-ride/45-copy-as-curl.png){ loading=lazy }
+![A creenshot of the Firefox Network tab and the menus for copying the curl command that is equivalent to a request](./datagrams-must-be-this-tall-to-ride-part-1/45-copy-as-curl.png){ loading=lazy }
 /// caption
 To whoever came up with this feature: I owe you a beer.
 ///
@@ -405,15 +405,12 @@ script to repeat the request over and over for a wider range of values. Also, to
 reduce the chance of flukes, I repeat each test 5 times. I then plot a graph
 showing the percentage of failures for a given header size.
 
-![](./datagrams-must-be-this-tall-to-ride/42-failure-vs-datagram-size.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride-part-1/42-failure-vs-datagram-size.png){ loading=lazy }
 /// caption
 Percentage of request failure as a function of the IP datagram size.
 ///
 
-Is that.. a pattern?
-
-So far all that I could make out of this `- . - . -` pattern is that it
-translates to "TETET" in morse code.
+Is that... a pattern?
 
 ## Decomposed packets
 
@@ -438,7 +435,7 @@ command from my laptop. To have a sense of what the traffic should normally look
 like, I also capture the traffic obtained for the same `curl` command while
 connected to a mobile hotspot (whose internet connection works fine).
 
-![](./datagrams-must-be-this-tall-to-ride/50-compare-adsl-vs-hotspot-captures.png){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride-part-1/50-compare-adsl-vs-hotspot-captures.png){ loading=lazy }
 /// caption
 The network traffic captured when connecting through the ADSL router (left side,
 public IP `109.25.X.X`) and through the mobile hotspot (right side, public IP
@@ -458,12 +455,12 @@ sequence starts to diverge differently:
   symbol next to packet No. 18 when packet No. 19 is selected
   ([docs](https://www.wireshark.org/docs/wsug_html_chunked/ChUsePacketListPaneSection.html#id1420)).
 
-    ![](./datagrams-must-be-this-tall-to-ride/52-hotspot-packet-19.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride-part-1/52-hotspot-packet-19.png){ loading=lazy }
 
     After this, the remote server (IP `2.16.X.X`) sends Packet No. 20,
     acknowledging the HTTP request in Packet No. 15.
 
-    ![](./datagrams-must-be-this-tall-to-ride/53-hotspot-packet-20.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride-part-1/53-hotspot-packet-20.png){ loading=lazy }
 
     Then, it proceeds to send the HTTP response.
 
@@ -477,7 +474,7 @@ sequence starts to diverge differently:
     acknowledges all the data transmitted by the remote server up to and
     including packet No. 18.
 
-    ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride-part-1/54-adsl-packet-19.png){ loading=lazy }
 
     Somehow, the remote server does not answer after that. I guess its waiting
     for my laptop to do something. After a few milliseconds of stalling, my
@@ -486,7 +483,7 @@ sequence starts to diverge differently:
     acknowledged yet, packet No. 15. This can also be confirmed by looking at
     the packet size, which is 572 for both packets No. 15 and 21.
 
-    ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
+    ![](./datagrams-must-be-this-tall-to-ride-part-1/55-adsl-packet-21.png){ loading=lazy }
 
     But nothing gets back.
 
@@ -539,7 +536,7 @@ I send an HTTP request with `curl`, but this time targeting the public IP of my
 server. It still fails! This means I can now reproduce the issue and inspect the
 packets observed at both side of the network.
 
-![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
+![](./datagrams-must-be-this-tall-to-ride-part-1/X0-compare-captures.jpg){ loading=lazy }
 /// caption
 The TCP packets captured on my ADSL router (left side, IP `109.250.XX.XX`) and
 on the remote VM (right side, IP `172.238.XX.XX`).
@@ -582,9 +579,14 @@ packet protocol?
 So far all tests where based on TCP packets. I decide to try a similar test
 using `ping`, which uses ICMP packets instead. Luckily, ICMP packets can also
 have a payload, and its length can be configured with the `-s` option.
-Interestingly, the same failure pattern occurs.
 
-TODO:
+Interestingly, the same failure pattern emerges.
+
+![](./datagrams-must-be-this-tall-to-ride-part-1/110-failure-vs-datagram-size-tcp-and-icmp.png){ loading=lazy }
+/// caption
+Percentage of request failure as a function of the IP datagram size for both TCP
+and ICMP protocols.
+///
 
 > Did they ever fit together?
 
