@@ -1,5 +1,9 @@
+---
+date:
+title: Datagrams must be this tall to ride (Part 2)
+---
 
-# Drafting possible solutions
+## Drafting possible solutions
 
 To summarize the above findings, my issue is that IP datagrams sent from my ADSL
 router to the Internet are outright dropped if their size matches one of the
