@@ -1,6 +1,6 @@
 ---
 date: 2025-11-30
-title: Datagrams must be this tall to ride
+title: Datagrams must be this tall to ride (Part 1)
 ---
 
 <!-- CHECKS:
@@ -8,11 +8,9 @@ title: Datagrams must be this tall to ride
 - first person
 -->
 
-# Datagrams must be this tall to ride
-
 _About that time my ISP started dropping IP datagrams of certain sizes._
 
-![](./datagrams-must-be-this-tall-to-ride/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
+![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
 
 <!-- more -->
 
@@ -25,15 +23,16 @@ In Germany, ADSL contracts don't come cheap. You can save non-negligible amounts
 of money if you sign up for a 2-year contract. This kind of contract typically
 has an initial period of time in which you get a discounted monthly fee. The
 discount can be as big as 200€ over the first year. After the initial period,
-however, the fee goes up again. Unfortunately, you can't cancel the contract before the
-end of the 2nd year. Overall, you do save some money if you remember to end your contract after exactly 2 years. But you must endure the annoyance of
+however, the fee goes up again. Unfortunately, you can't cancel the contract
+before the end of the 2nd year. Overall, you do save some money if you remember
+to end your contract after exactly 2 years. But you must endure the annoyance of
 switching to a different ISP after the second year.
 
 So here I am, looking for a new ISP to switch to. Thanks to the
 [Check24 website](https://www.check24.de/), I find the ISP with the best offer
 of the month: Maingau Energie.
 
-![](./datagrams-must-be-this-tall-to-ride/05-maingau.png){ loading=lazy }
+![A happy family of Maingau Energie customers. Note how nobody in the promotional picture seems to be actually accessing the internet.](./datagrams-must-be-this-tall-to-ride/05-maingau.png){ loading=lazy }
 /// caption
 A happy family of Maingau Energie customers. Note how nobody in the promotional
 picture seems to be actually accessing the internet.
@@ -54,7 +53,7 @@ line. As the technician leaves my house, I'm already firing up the FRITZ!Box
 admin panel and setting up the ADSL parameters and PPPoE credentials. I'm
 expecting now to see what my new public IP looks like but instead I get...
 
-![](./datagrams-must-be-this-tall-to-ride/10-pppoe-timeout.png){ loading=lazy }
+![The FRITZ!Box logs show a PPPoE timeout](./datagrams-must-be-this-tall-to-ride/10-pppoe-timeout.png){ loading=lazy }
 /// caption
 The FRITZ!Box logs show a PPPoE timeout.
 ///
@@ -64,7 +63,7 @@ Uhm. Strange.
 Looking closer at the admin panel, I can confirm that the ADSL "training" has
 completed fine, and no error is reported.
 
-![](./datagrams-must-be-this-tall-to-ride/20-adsl-ok.png){ loading=lazy }
+![The ADSL status page shows that the connection was established successfully](./datagrams-must-be-this-tall-to-ride/20-adsl-ok.png){ loading=lazy }
 /// caption
 The ADSL status page shows that the connection was established successfully.
 ///
@@ -72,9 +71,9 @@ The ADSL status page shows that the connection was established successfully.
 So this doesn't seem to be an issue with the cable.
 
 I double-check and all the configurations, the credentials, the physical
-connections... nothing. Finally, I decide to leave the router alone for
-some time. "Perhaps it's just some network configuration that has
-not yet propagated fully", I lie to myself. But I can already feel that this is getting ugly.
+connections... nothing. Finally, I decide to leave the router alone for some
+time. "Perhaps it's just some network configuration that has not yet propagated
+fully", I lie to myself. But I can already feel that this is getting ugly.
 
 After a few days, I try to hard-reset the ADSL modem and repeat the whole
 process once more. But alas, the PPPoE device on the other side of the
@@ -92,7 +91,7 @@ connection with a handheld device. This is not at all different from the one the
 first technician used when they setup the line. So, I'm very little surprised
 when my ADSL line turns out to be fine.
 
-![](./datagrams-must-be-this-tall-to-ride/30-adsl-tester.png){ loading=lazy }
+![An Argus 163 ADSL testing device shows that the ADSL works fine](./datagrams-must-be-this-tall-to-ride/30-adsl-tester.png){ loading=lazy }
 /// caption
 An Argus 163 ADSL testing device shows that the ADSL works fine. Notice how the
 German word for "stop" is spelled with two "p"s.
@@ -102,7 +101,7 @@ I forward a photo of the test results to the Maingau technical support. Surely,
 now that the ADSL functionality has been confirmed, they will be looking at the
 PPPoE issue on their syst..
 
-![](./datagrams-must-be-this-tall-to-ride/40-ticket-closed.png){ loading=lazy }
+![An email from Maingau technical support declares the issue resolved](./datagrams-must-be-this-tall-to-ride/40-ticket-closed.png){ loading=lazy }
 /// caption
 An email from Maingau technical support declares the issue resolved.
 ///
@@ -117,8 +116,8 @@ or, as GMail automatic translation puts it
      status "Resolved" and is therefore closed.
 
 I try multiple times to contact customer support via phone or email to convince
-them that no, the issue is not resolved, and that yes, I've already tried rebooting the
-ADSL router. Nobody takes my problem at heart.
+them that no, the issue is not resolved, and that yes, I've already tried
+rebooting the ADSL router. Nobody takes my problem at heart.
 
 Exasperated, I decide it's time I try to do something on my own.
 
@@ -140,7 +139,7 @@ VDSL parameters provided by my ISP with the many examples
 [in the OpenWRT wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
 After a little bit of trial and error, I conjure up the following configuration:
 
-```
+```txt
 config atm-bridge 'atm'
     option vpi '1' # Specified by the ISP
     option vci '32' # Specified by the ISP
@@ -213,7 +212,7 @@ Here are a few examples:
 
 - The `steamcommunity.org` website doesn't load,
 
-    ![](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
+    ![A screenshot of the steamcommunity.org website failing to load](./datagrams-must-be-this-tall-to-ride/41-steamcommunity-does-not-load.png){ loading=lazy }
     /// caption
     The steamcommunity.org website fails to load.
     ///
@@ -235,13 +234,13 @@ it can produce an equivalent `curl` command. In this way, the request can be
 reproduced exactly from a terminal prompt. I do exactly that by right-clicking
 on the request and hitting "Copy" > "Copy as cURL (Windows)".
 
-![](./datagrams-must-be-this-tall-to-ride/45-copy-as-curl.png){ loading=lazy }
+![A creenshot of the Firefox Network tab and the menus for copying the curl command that is equivalent to a request](./datagrams-must-be-this-tall-to-ride/45-copy-as-curl.png){ loading=lazy }
 /// caption
 To whoever came up with this feature: I owe you a beer.
 ///
 
-This gives me a big and noisy `curl` command that I paste into a `cmd`
-prompt and run
+This gives me a big and noisy `curl` command that I paste into a `cmd` prompt
+and run
 
 ```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
@@ -264,8 +263,8 @@ curl: (52) Empty reply from server
 ```
 
 All right, the error can be reproduced. Let's now try to minimize the command.
-Surely, not all of these headers are _really_ needed. So I start by removing the last
-`-H ...` command line option, and get...
+Surely, not all of these headers are _really_ needed. So I start by removing the
+last `-H ...` command line option, and get...
 
 ```
 C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&l=english^&_cdn=akamai^" ^
@@ -300,16 +299,17 @@ Ok now, time to think:
   Also, replaying the request any number of times does not change the outcomes.
 
 - Rationalization attempt #2: Maybe the issue is exactly the header I decided to
-  remove? But no, even when removing some of the other headers instead, the request succeeds.
+  remove? But no, even when removing some of the other headers instead, the
+  request succeeds.
 
 I'm a bit clueless by now. Time to shoot in the dark.
 
 What if instead of removing an HTTP header, I add one? Well, this might create
 more troubles: the website's load balancer might strip my request of any HTTP
-header it does not expect, or even reject the request completely... or not.
-I'll try using a header name with the conventional `X-` name prefix to increase
-the chances of my request not being rejected. Also, I'll use a Bash script run
-from WSL from now on, because I'm more familiar with the syntax.
+header it does not expect, or even reject the request completely... or not. I'll
+try using a header name with the conventional `X-` name prefix to increase the
+chances of my request not being rejected. Also, I'll use a Bash script run from
+WSL from now on, because I'm more familiar with the syntax.
 
 ```bash
 # test.sh
@@ -385,8 +385,8 @@ characters the request fails with a timeout. In all other cases, the request
 succeeds.
 
 To make sure the header value does not affect the outcome, I run another test
-with a bunch of random values, but fixed length.
-In all cases, the timeout still occurs.
+with a bunch of random values, but fixed length. In all cases, the timeout still
+occurs.
 
 ```
 X-ABCDEFGH:  TIMEOUT
@@ -429,13 +429,14 @@ opkg update
 opkg install tcpdump
 ```
 
-I then fire up Wireshark on my laptop and
-configure it to connect via SSH to the router following [this guide](https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/).
+I then fire up Wireshark on my laptop and configure it to connect via SSH to the
+router following
+[this guide](https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/).
 
 I proceed to capture the network traffic on my router while running the `curl`
 command from my laptop. To have a sense of what the traffic should normally look
-like, I also capture the traffic obtained for the same `curl` command while connected to a mobile hotspot
-(whose internet connection works fine).
+like, I also capture the traffic obtained for the same `curl` command while
+connected to a mobile hotspot (whose internet connection works fine).
 
 ![](./datagrams-must-be-this-tall-to-ride/50-compare-adsl-vs-hotspot-captures.png){ loading=lazy }
 /// caption
@@ -445,9 +446,9 @@ public IP `109.25.X.X`) and through the mobile hotspot (right side, public IP
 server with IP `2.16.X.X`.
 ///
 
-By comparing the two captures, it seems that the network traffic looks
-exactly the same up until packet No. 18. Starting from packet No. 19 on, the packet sequence starts to diverge
-differently:
+By comparing the two captures, it seems that the network traffic looks exactly
+the same up until packet No. 18. Starting from packet No. 19 on, the packet
+sequence starts to diverge differently:
 
 - **Right side**: When connected to the mobile hotspot, Packet No. 19 is an
   acknowledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
@@ -478,12 +479,12 @@ differently:
 
     ![](./datagrams-must-be-this-tall-to-ride/54-adsl-packet-19.png){ loading=lazy }
 
-    Somehow, the remote server does not answer after that. I guess
-    its waiting for my laptop to do something. After a few milliseconds of
-    stalling, my laptop realizes that something is off, and decides to send packet No. 21, which
-    re-sends the oldest packet that the remote server has not yet acknowledged
-    yet, packet No. 15. This can also be confirmed by looking at the packet size,
-    which is 572 for both packets No. 15 and 21.
+    Somehow, the remote server does not answer after that. I guess its waiting
+    for my laptop to do something. After a few milliseconds of stalling, my
+    laptop realizes that something is off, and decides to send packet No. 21,
+    which re-sends the oldest packet that the remote server has not yet
+    acknowledged yet, packet No. 15. This can also be confirmed by looking at
+    the packet size, which is 572 for both packets No. 15 and 21.
 
     ![](./datagrams-must-be-this-tall-to-ride/55-adsl-packet-21.png){ loading=lazy }
 
@@ -501,18 +502,19 @@ differently:
 But why is this happening? I see two possible explanations:
 
 - either Packet 19 is dropped on its way to the remote server, or
-- the corresponding response packets from the remote server are dropped before they reach my laptop.
+- the corresponding response packets from the remote server are dropped before
+  they reach my laptop.
 
 To rule out any of the two, we'd need to get the packet capture on the remote
-side as well. However, I find it unlikely that the Steam DevOps team is willing to provide
-that to me.
+side as well. However, I find it unlikely that the Steam DevOps team is willing
+to provide that to me.
 
 What else can be done then?
 
 ## We have cloud at home
 
-Here's the idea: spin up a small Virtual Machine (VM) on the cloud, connect
-to it via my ADSL, and try to mimic the packet exchange that of the Steam server.
+Here's the idea: spin up a small Virtual Machine (VM) on the cloud, connect to
+it via my ADSL, and try to mimic the packet exchange that of the Steam server.
 
 To imitate the HTTP server, I write a small Python script:
 
@@ -533,9 +535,9 @@ and run the server with
 uv run --with "fastapi[standard]" fastapi run server.py --port 80
 ```
 
-I send an HTTP request with `curl`, but this time targeting the public IP of my server.
-It still fails!
-This means I can now reproduce the issue and inspect the packets observed at both side of the network.
+I send an HTTP request with `curl`, but this time targeting the public IP of my
+server. It still fails! This means I can now reproduce the issue and inspect the
+packets observed at both side of the network.
 
 ![](./datagrams-must-be-this-tall-to-ride/X0-compare-captures.jpg){ loading=lazy }
 /// caption
@@ -589,8 +591,9 @@ TODO:
 https://youtu.be/-JIuKjaY3r4?t=203
 
 This test is interesting because it shows that both the TCP and ICMP requests
-(which differ wildly in content) are affected in the same way, as long as their packet length is the same. This suggests
-that the root cause is not at Layer 3 of the ISO model.
+(which differ wildly in content) are affected in the same way, as long as their
+packet length is the same. This suggests that the root cause is not at Layer 3
+of the ISO model.
 
 It's further down to Layer 2, where IP reigns supreme.
 
