@@ -3,7 +3,7 @@ date: 2025-11-30
 title: Datagrams must be this tall to ride (Part 1)
 ---
 
-_About that time I changed my ISP provider and everything stopped working._
+_About that time I changed my ISP provider and packets wouldn't ride._
 
 ![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride-part-1/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
 
@@ -157,8 +157,8 @@ config device
 config interface 'wan'
     option device 'dsl0.7'
     option proto 'pppoe'
-    option username '$ISP_PROVIDED_USERNAME' # Specified by the ISP
-    option password '$ISP_PROVIDED_PASSWORD' # Specified by the ISP
+    option username '$ISP_PROVIDED_USERNAME'
+    option password '$ISP_PROVIDED_PASSWORD'
 ```
 
 and that... worked! No PPPoE timeout! An IP address is negotiated and I can
