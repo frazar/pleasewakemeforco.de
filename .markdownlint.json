@@ -2,6 +2,9 @@
     "Reference": "https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.jsonc",
     "default": true,
     "no-hard-tabs": true,
+    "code-block-style": {
+        "style": "fenced"
+    },
     "MD012": false,
     "MD013": {
         "line_length": 80
