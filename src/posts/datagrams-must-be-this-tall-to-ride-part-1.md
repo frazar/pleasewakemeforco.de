@@ -3,16 +3,9 @@ date: 2025-11-30
 title: Datagrams must be this tall to ride (Part 1)
 ---
 
-<!-- CHECKS:
-- present time
-- first person
--->
-
-_About that time my ISP started dropping IP datagrams of certain sizes._
+_About that time I changed my ISP provider and everything stopped working._
 
 ![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride-part-1/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
-
-<!-- more -->
 
 ## Entrée
 
@@ -41,17 +34,17 @@ picture seems to be actually accessing the internet.
 The company is not one of the German telecom titans, but
 
 - the customer reviews seem solid
-- Maingau Energie does not force you to buy or rent their ADSL modem
-- They explicitly mentioned my current ADSL modem, a second-hand
+- Maingau Energie does not force you to buy or rent their ADSL router
+- They explicitly mentioned my current ADSL router, a second-hand
   [FRITZ!Box 7530](https://fritz.com/en/pages/service-fritz-box-7530), as
   compatible.
 
 So I sign up. Little do I know about what I am _really_ signing up for.
 
-After a couple of weeks, I get an appointment for a technician to setup the ADSL
-line. As the technician leaves my house, I'm already firing up the FRITZ!Box
-admin panel and setting up the ADSL parameters and PPPoE credentials. I'm
-expecting now to see what my new public IP looks like but instead I get...
+After a couple of weeks, I get an appointment for a technician to set up the
+ADSL line. As the technician leaves my house, I'm already firing up the
+FRITZ!Box admin panel and setting up the ADSL parameters and PPPoE credentials.
+I'm now expecting to see what my new public IP looks like, but instead I get...
 
 ![The FRITZ!Box logs show a PPPoE timeout](./datagrams-must-be-this-tall-to-ride-part-1/10-pppoe-timeout.png){ loading=lazy }
 /// caption
@@ -60,8 +53,8 @@ The FRITZ!Box logs show a PPPoE timeout.
 
 Uhm. Strange.
 
-Looking closer at the admin panel, I can confirm that the ADSL "training" has
-completed fine, and no error is reported.
+Looking more closely at the admin panel, I can confirm that the ADSL "training"
+has completed fine, and no error is reported.
 
 ![The ADSL status page shows that the connection was established successfully](./datagrams-must-be-this-tall-to-ride-part-1/20-adsl-ok.png){ loading=lazy }
 /// caption
@@ -70,12 +63,12 @@ The ADSL status page shows that the connection was established successfully.
 
 So this doesn't seem to be an issue with the cable.
 
-I double-check and all the configurations, the credentials, the physical
+I double-check all the configurations, the credentials, the physical
 connections... nothing. Finally, I decide to leave the router alone for some
 time. "Perhaps it's just some network configuration that has not yet propagated
 fully", I lie to myself. But I can already feel that this is getting ugly.
 
-After a few days, I try to hard-reset the ADSL modem and repeat the whole
+After a few days, I try to hard-reset the ADSL router and repeat the whole
 process once more. But alas, the PPPoE device on the other side of the
 connection still shows no signs of life.
 
@@ -88,7 +81,7 @@ Soon, another technician appointment is scheduled.
 But when the technician arrives, they know nothing about the PPPoE
 configuration. The only thing they can do is to check the quality of the ADSL
 connection with a handheld device. This is not at all different from the one the
-first technician used when they setup the line. So, I'm very little surprised
+first technician used when they set up the line. So, I'm hardly surprised
 when my ADSL line turns out to be fine.
 
 ![An Argus 163 ADSL testing device shows that the ADSL works fine](./datagrams-must-be-this-tall-to-ride-part-1/30-adsl-tester.png){ loading=lazy }
@@ -110,14 +103,14 @@ or, as GMail automatic translation puts it
 
 !!! quote ""
 
-     Dear Ladies and Gentlemen,
+    Dear Ladies and Gentlemen,
 
-     Your fault with the number "MAING-XXXXXXXXXXXXXX" has been set to the
-     status "Resolved" and is therefore closed.
+    Your fault with the number "MAING-XXXXXXXXXXXXXX" has been set to the
+    status "Resolved" and is therefore closed.
 
 I try multiple times to contact customer support via phone or email to convince
 them that no, the issue is not resolved, and that yes, I've already tried
-rebooting the ADSL router. Nobody takes my problem at heart.
+rebooting the ADSL router. Nobody takes my problem to heart.
 
 Exasperated, I decide it's time I try to do something on my own.
 
@@ -133,13 +126,13 @@ nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
     completely wrong.
 
 I head to [the OpenWRT wiki page dedicated to my
-router](https://openwrt.org/toh/avm/avm_fritz_box_7530), I follow the flashing
-procedure, and soon the router becomes _truly_ mine. I then start combining the
-VDSL parameters provided by my ISP with the many examples
+router](https://openwrt.org/toh/avm/avm_fritz_box_7530), follow the flashing
+procedure, and soon the router welcomes me over SSH. I then start combining
+the DSL parameters provided by my ISP with the many examples
 [in the OpenWRT wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
 After a little bit of trial and error, I conjure up the following configuration:
 
-```txt
+```
 config atm-bridge 'atm'
     option vpi '1' # Specified by the ISP
     option vci '32' # Specified by the ISP
@@ -177,7 +170,8 @@ End of the story, right?
 
 Right??
 
-## A harsh reality
+
+## Bitter taste
 
 I start surfing, but something is off. Sometimes, websites fail to load. In most
 cases, the issues are intermittent, almost forgivable. But in other cases the
@@ -207,8 +201,8 @@ Here are a few examples:
 !!! question "Side question"
 
     Honestly, how do you force PowerShell to show error messages in English? On
-    Linux, I would `export LC_ALL=C`. On Windows, is the only option really
-    changing the system language and reboot the machine?
+    Linux, I would `export LC_ALL=C`. On Windows, is the only option really to
+    change the system language and reboot the machine?
 
 - The `steamcommunity.org` website doesn't load,
 
@@ -224,7 +218,7 @@ I decide to investigate the `steamcommunity.org` failure first, since:
 2.  I really want to replay
     [Patrician III](https://store.steampowered.com/app/33570/Patrician_III/).
 
-I open Firefox, start the developers tools, switch to the "Network" tab, and
+I open Firefox, start the developer tools, switch to the "Network" tab, and
 ensure the "Disable Cache" option is toggled. I reload the page and find that
 there is a specific asset that fails to be transferred, resulting in the website
 styling not loading.
@@ -234,7 +228,7 @@ it can produce an equivalent `curl` command. In this way, the request can be
 reproduced exactly from a terminal prompt. I do exactly that by right-clicking
 on the request and hitting "Copy" > "Copy as cURL (Windows)".
 
-![A creenshot of the Firefox Network tab and the menus for copying the curl command that is equivalent to a request](./datagrams-must-be-this-tall-to-ride-part-1/45-copy-as-curl.png){ loading=lazy }
+![A screenshot of the Firefox Network tab and the menus for copying the curl command that is equivalent to a request](./datagrams-must-be-this-tall-to-ride-part-1/45-copy-as-curl.png){ loading=lazy }
 /// caption
 To whoever came up with this feature: I owe you a beer.
 ///
@@ -289,9 +283,11 @@ C:\>curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applic
 
 a successful response.
 
-Wait, what?! I just remove a random header and everything works?
+Wait, what?!
 
-Ok now, time to think:
+## I notice that I am confused
+
+Ok, time to think:
 
 - Rationalization attempt #1: Perhaps the second request got answered by a
   different remote host? For good measure, I hardcode the IP of the host in the
@@ -302,7 +298,7 @@ Ok now, time to think:
   remove? But no, even when removing some of the other headers instead, the
   request succeeds.
 
-I'm a bit clueless by now. Time to shoot in the dark.
+I'm a bit clueless by now. Time to take a shot in the dark.
 
 What if instead of removing an HTTP header, I add one? Well, this might create
 more troubles: the website's load balancer might strip my request of any HTTP
@@ -412,11 +408,11 @@ Percentage of request failure as a function of the IP datagram size.
 
 Is that... a pattern?
 
-## Decomposed packets
+## Destructured packets
 
 So far I have managed to investigate more about the conditions in which the
 request timeout is observed. However I still don't know _why_ the timeouts
-occur. It's time too look more closely at the network traffic.
+occur. It's time to look more closely at the network traffic.
 
 In order to capture the network traffic of the router, I need to install
 `tcpdump` on the router. Thanks to OpenWRT, this is as simple as running
@@ -445,14 +441,14 @@ server with IP `2.16.X.X`.
 
 By comparing the two captures, it seems that the network traffic looks exactly
 the same up until packet No. 18. Starting from packet No. 19 on, the packet
-sequence starts to diverge differently:
+sequence starts to diverge:
 
 - **Right side**: When connected to the mobile hotspot, Packet No. 19 is an
   acknowledgment (`ACK`) packet that my laptop (Source IP `100.86.X.X`) sends to
   the remote server. The packet indicates that the laptop confirms the correct
   reception of all TCP segments transmitted by the remote server up to and
-  including packet No. 18. To stress this, Wireshark helpfully shows a small "✔️"
-  symbol next to packet No. 18 when packet No. 19 is selected
+  including packet No. 18. To stress this, Wireshark helpfully shows a small
+  "✔️" symbol next to packet No. 18 when packet No. 19 is selected
   ([docs](https://www.wireshark.org/docs/wsug_html_chunked/ChUsePacketListPaneSection.html#id1420)).
 
     ![](./datagrams-must-be-this-tall-to-ride-part-1/52-hotspot-packet-19.png){ loading=lazy }
@@ -476,11 +472,11 @@ sequence starts to diverge differently:
 
     ![](./datagrams-must-be-this-tall-to-ride-part-1/54-adsl-packet-19.png){ loading=lazy }
 
-    Somehow, the remote server does not answer after that. I guess its waiting
+    Somehow, the remote server does not answer after that. I guess it's waiting
     for my laptop to do something. After a few milliseconds of stalling, my
     laptop realizes that something is off, and decides to send packet No. 21,
     which re-sends the oldest packet that the remote server has not yet
-    acknowledged yet, packet No. 15. This can also be confirmed by looking at
+    acknowledged, packet No. 15. This can also be confirmed by looking at
     the packet size, which is 572 for both packets No. 15 and 21.
 
     ![](./datagrams-must-be-this-tall-to-ride-part-1/55-adsl-packet-21.png){ loading=lazy }
@@ -493,7 +489,7 @@ sequence starts to diverge differently:
 
     Eventually, the remote server gives up and closes the TCP transaction by
     sending packet No. 29 with a `FIN` flag. Enigmatically, the last packets
-    from the remote server does not specify if any of the retransmitted packets
+    from the remote server do not specify if any of the retransmitted packets
     was received.
 
 But why is this happening? I see two possible explanations:
@@ -508,33 +504,23 @@ to provide that to me.
 
 What else can be done then?
 
-## We have cloud at home
+## Homemade cloud
 
 Here's the idea: spin up a small Virtual Machine (VM) on the cloud, connect to
-it via my ADSL, and try to mimic the packet exchange that of the Steam server.
+it via my ADSL, and try to mimic the packet exchange of the Steam server.
 
-To imitate the HTTP server, I write a small Python script:
-
-```py
-# server.py
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-```
-
-and run the server with
+To imitate the HTTP server, I invoke the `http.server` module from the Python
+standard library to serve an empty directory via HTTP
 
 ```bash
-uv run --with "fastapi[standard]" fastapi run server.py --port 80
+mkdir empty
+cd empty
+python3 -m http.server 80 --bind "0.0.0.0"
 ```
 
 I send an HTTP request with `curl`, but this time targeting the public IP of my
 server. It still fails! This means I can now reproduce the issue and inspect the
-packets observed at both side of the network.
+packets observed at both sides of the network.
 
 ![](./datagrams-must-be-this-tall-to-ride-part-1/X0-compare-captures.jpg){ loading=lazy }
 /// caption
@@ -543,7 +529,7 @@ on the remote VM (right side, IP `172.238.XX.XX`).
 ///
 
 I have added arrows to link together matching packets on the right and left
-sides. The direction of the arrow indicates the travelling direction of the
+sides. The direction of the arrow indicates the traveling direction of the
 packet.
 
 Here is my reconstruction of the exchange, following the packet numbering of the
@@ -554,10 +540,10 @@ left pane:
   protocol "HTTP" in the right pane), indicating that it never reached its
   destination. Perhaps, this is due to its length (176 bytes) being "cursed"?
 - ❌ Packets No. 5 to 8 are all attempts at retransmitting packet No. 4. In all
-  cases, the retransmission does not reach its destination. It is not a
-  coincidence that because they also have the cursed length.
+  cases, the retransmission does not reach its destination. It might not be a
+  coincidence, because they also have the cursed length.
 - ⚠️ `curl` reaches the 3-second timeout specified in the script and closes the
-  connection with packet No. 9, which has the `FIN` flag on. The packet is
+  connection with packet No. 9, which has the `FIN` flag set. The packet is
   received correctly by the remote VM! This is also visible in the right pane
   (perhaps because it does not have the cursed length). The packet has the
   Sequence number 109, which the VM did not expect. Wireshark kindly highlights
@@ -574,13 +560,15 @@ network to the outside Internet. Additionally, it seems that
 the packet size is significant in determining the outcome, but what about the
 packet protocol?
 
-## The last piece of the puzzle
+## Down the rabbit hole
 
-So far all tests where based on TCP packets. I decide to try a similar test
-using `ping`, which uses ICMP packets instead. Luckily, ICMP packets can also
-have a payload, and its length can be configured with the `-s` option.
+So far all tests were based on HTTP requests sent over TCP packets. I decide to
+try a similar test using `ping`, which uses the ICMP protocol instead. ICMP
+packets also have a payload, and the payload length can be configured with the
+`-s` option of `ping`.
 
-Interestingly, the same failure pattern emerges.
+So why not compare the failure rate of `ping` and that of `curl` for the same
+datagram size?
 
 ![](./datagrams-must-be-this-tall-to-ride-part-1/110-failure-vs-datagram-size-tcp-and-icmp.png){ loading=lazy }
 /// caption
@@ -588,20 +576,27 @@ Percentage of request failure as a function of the IP datagram size for both TCP
 and ICMP protocols.
 ///
 
-> Did they ever fit together?
+Quoting [Al Gore's sixth grade classmate](https://www.youtube.com/watch?v=-JIuKjaY3r4&t=203s),
 
-https://youtu.be/-JIuKjaY3r4?t=203
+!!! quote ""
 
-This test is interesting because it shows that both the TCP and ICMP requests
-(which differ wildly in content) are affected in the same way, as long as their
-packet length is the same. This suggests that the root cause is not at Layer 3
-of the ISO model.
+    _Did they ever fit together?_
 
-It's further down to Layer 2, where IP reigns supreme.
+The data suggests that both the TCP and ICMP requests are affected in the same
+way, as long as the overall datagram length is the same. If that is true, then
+the root cause might lie below Layer 3 of the OSI model.
+
+But honestly, what can I do about this?
+
+!!! quote ""
+
+    _Hysterical evil laughs arise_
 
 
 ## Acknowledgements
 
 The cover picture comes from
 [this YouTube video](https://youtu.be/lL8ELL9p5ms?t=31).
-Thanks to the folks in the OpenWRT forum for listening to my crazy ravings.
+Furthermore, I would like to thank the folks in the OpenWRT forum for their
+very good troubleshooting suggestions and for
+[listening to my crazy ravings](https://forum.openwrt.org/t/tls-ssl-connection-timeouts-with-fritz-box-7530-as-adsl-router/240651).
