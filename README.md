@@ -39,3 +39,29 @@ To work on the repository
     ```bash
     uv run --frozen zensical build
     ```
+
+## Publishing
+
+1.  Switch to main and build the website
+
+    ```bash
+    git switch main
+    rm -rf site
+    uv run --frozen zensical build --strict
+    ```
+
+2.  Switch to the "prod" branch and delete the older version of the site
+
+    ```bash
+    git switch prod
+    git rm -rf docs
+    ```
+
+3.  Add the new version of the site and commit it
+
+    ```bash
+    mv site docs
+    git add docs
+    git commit -m "My message"
+    git push
+    ```
