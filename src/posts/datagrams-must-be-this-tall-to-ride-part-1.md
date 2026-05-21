@@ -590,7 +590,7 @@ But honestly, what can I do about this?
 
 !!! quote ""
 
-    _Hysterical evil laughs arise_
+    _To be continued_
 
 
 ## Acknowledgements
