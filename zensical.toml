@@ -8,6 +8,8 @@
 
 [project]
 
+strict = true
+
 docs_dir = "src"
 
 # The site_name is shown in the page header and the browser window title
@@ -330,3 +332,6 @@ anchor_linenums = true
 
 # Enable admonitions
 [project.markdown_extensions.admonition]
+
+[project.markdown_extensions]
+pymdownx.details = {}

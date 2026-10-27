@@ -1,5 +1,6 @@
 words = [
     "ADSL",
+    "PEB",
     "datagram",
     "datagrams",
     "dsl",
@@ -7,14 +8,18 @@ words = [
     "energie",
     "francesco",
     "hotspot",
+    "initramfs",
     "maingau",
-    "openwrt",
+    "sysupgrade",
+    "scp",
     "tcpdump",
     "uhm",
     "vdsl",
     "winget",
     "wireshark",
-    "wsl"
+    "Wrt",
+    "wsl",
+    "Zensical",
 ]
 
 # List of regex patterns to ignore when spell checking. Use single quotes for

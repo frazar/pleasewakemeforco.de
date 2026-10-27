@@ -117,19 +117,19 @@ Exasperated, I decide it's time I try to do something on my own.
 ## Warm up
 
 The router gives little information for any investigation. But the
-nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWRT support✨.
+nice thing about my FRITZ!Box 7530 router is that it has ✨OpenWrt support✨.
 
 !!! tip "Remark"
 
     Malignant minds might think that I have been dying for an excuse to rip out
-    the stock firmware from my router and install OpenWRT. They are not
+    the stock firmware from my router and install OpenWrt. They are not
     completely wrong.
 
-I head to [the OpenWRT wiki page dedicated to my
+I head to [the OpenWrt wiki page dedicated to my
 router](https://openwrt.org/toh/avm/avm_fritz_box_7530), follow the flashing
 procedure, and soon the router welcomes me over SSH. I then start combining
 the DSL parameters provided by my ISP with the many examples
-[in the OpenWRT wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
+[in the OpenWrt wiki](https://openwrt.org/docs/guide-user/network/wan/isp-configurations).
 After a little bit of trial and error, I conjure up the following configuration:
 
 ```
@@ -169,7 +169,6 @@ So all is good.
 End of the story, right?
 
 Right??
-
 
 ## Bitter taste
 
@@ -415,7 +414,7 @@ request timeout is observed. However I still don't know _why_ the timeouts
 occur. It's time to look more closely at the network traffic.
 
 In order to capture the network traffic of the router, I need to install
-`tcpdump` on the router. Thanks to OpenWRT, this is as simple as running
+`tcpdump` on the router. Thanks to OpenWrt, this is as simple as running
 
 ```sh
 opkg update
@@ -592,11 +591,10 @@ But honestly, what can I do about this?
 
     _To be continued_
 
-
 ## Acknowledgements
 
 The cover picture comes from
 [this YouTube video](https://youtu.be/lL8ELL9p5ms?t=31).
-Furthermore, I would like to thank the folks in the OpenWRT forum for their
+Furthermore, I would like to thank the folks in the OpenWrt forum for their
 very good troubleshooting suggestions and for
 [listening to my crazy ravings](https://forum.openwrt.org/t/tls-ssl-connection-timeouts-with-fritz-box-7530-as-adsl-router/240651).
