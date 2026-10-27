@@ -1,6 +1,6 @@
 ---
 date: 2026-10-27
-title: How to fix a soft bricked FritzBox 7530 after installing OpenWrt
+title: How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
 ---
 
 _This is a filler episode in the post series about tall datagrams._
@@ -11,7 +11,7 @@ _This is a filler episode in the post series about tall datagrams._
     > 2. (this post)
 
 Everybody knows, troubleshooting a misbehaving ISP connection would not be fun
-enough if the router didn't soft brick halfway throughout the investigation
+enough if the router didn't soft-brick halfway through the investigation
 process.
 
 Oh well.
@@ -26,30 +26,23 @@ Oh well.
 
 Here is how the issue presents itself:
 
-1. I flash an OpenWrt image on my FritzBox 7530 router using `sysupgrade`
+1. I flashed an OpenWrt image on my FritzBox 7530 router using `sysupgrade`
 
-    !!! info "Note"
-
-        This could happen either when flashing:
-
-        - on top of the stock firmware, following the OpenWrt flashing process
-          documented in the wiki, or
-        - on top of a pre-existing OpenWrt installation.
-
-2. On the next reboot, the "Power/DSL" LED flashes a few times, than stays
+2. On the next reboot, the "Power/DSL" LED flashes a few times, then stays
    constantly lit up, but the router doesn't actually come online. No SSH
    connectivity can be obtained.
 
 If you have a USB-to-TTL adapter, you can follow the steps mentioned next to
-make sure that the issue you're facing the same issue I am getting. Otherwise,
+make sure that you're facing the same issue I am getting. Otherwise,
 if you feel lucky, you can just skip to the next section.
 
 !!! info "Note"
 
-    If you don't have a USB-to-TTL adapter, can probably borrow one from your
-    local hackerspace. If you really want to buy one, the ["AZDelivery USB TTL
-    Adapter 3.3 V or 5 V with CH340G"](https://www.amazon.de/-/en/dp/B08T24NML9)
-    is the one I used (disclaimer: not an affiliated link).
+    If you don't have a USB-to-TTL adapter, you can probably borrow one from
+    your local hackerspace. If you really want to buy one, the ["AZDelivery USB
+    TTL Adapter 3.3 V or 5 V with
+    CH340G"](https://www.amazon.de/-/en/dp/B08T24NML9) is the one I used
+    (disclaimer: not an affiliated link).
 
 For setting up the serial connection to the router, I recommend reading [the
 dedicated page on the OpenWrt
@@ -62,6 +55,24 @@ It contains a lot of useful guidance for newcomers.
     recommends NOT connecting the VCC pin of the USB-to-TTL adapter. But for my
     adapter, connecting it was required to make it work.
 
+Additionally, [the OpenWrt wiki page for the FritzBox
+7530](https://openwrt.org/toh/avm/avm_fritz_box_7530#serial) contains
+information on the serial port header location and baud rate. Based on that, I
+soldered some female headers for ease of use.
+
+![](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/5-soldered.jpg){ loading=lazy }
+/// caption
+The serial connection headers.
+///
+
+I punched a hole in the plastic case so that the USB-to-TTL adapter can be
+connected without removing the case.
+
+![](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/10-connection.jpg){ loading=lazy }
+/// caption
+Connecting the FritzBox 7530 to the USB-to-TTL adapter.
+///
+
 !!! warning "Warning for Windows Users"
 
     Some USB-to-TTL adapters use a counterfeit PL2303 chip. As a result, they
@@ -73,7 +84,7 @@ It contains a lot of useful guidance for newcomers.
     Framework 3.5, consider also following [these
     steps](https://www.winhelponline.com/blog/net-framework-3-5-error-0x800f0950-windows-10-dism/).
 
-After you've wired the router to the serial. Open a connection with your
+After you've wired the router to the serial, open a connection with your
 favorite serial port interface. For example, using GNU Screen
 
 ```
@@ -81,7 +92,8 @@ $ screen /dev/ttyUSB0 115200
 ```
 
 Once you've established a good serial connection with no garbled text, power
-cycle the router and look at the console output. If following lines are shown:
+cycle the router and look at the console output. If the following lines are
+shown, then you're facing the same issue I did:
 
 ```hl_lines="1 2 3 4 5"
 UBI warning: print_rsvd_warning: cannot reserve enough PEBs for bad PEB handling, reserved 1, need 8
@@ -97,13 +109,11 @@ eth0 PHY4 Down Speed :10 Half duplex
 ...
 ```
 
-then you're facing the same issue.
-
 ## Cause
 
 The cause and solutions were identified by [@mjw99](https://github.com/mjw99) in
 [this GitHub issue](https://github.com/chunkeey/FritzBox-4040-UBOOT/issues/9).
-Thanks mjw99!
+Thanks, mjw99!
 
 The issue seems to be that the NAND storage chip used for storage has too high a
 number of "bad" PEB blocks, and refuses to boot.
@@ -132,9 +142,9 @@ Here are the instructions on how to achieve this:
     !!! tip "Tip"
 
         If you have already flashed U-Boot and have the serial console already
-        setup, there is a way to get the timing right 100% of the time.
+        set up, there is a way to get the timing right 100% of the time.
 
-        1.  Setup the TFTP server to serve the initramfs image as per the
+        1.  Set up the TFTP server to serve the initramfs image as per the
             official steps.
 
         2.  Power-cycle the router with the serial console connected. When the
@@ -153,42 +163,48 @@ Here are the instructions on how to achieve this:
             bootm 0x85000000
             ```
 
-3.  Open a prompt into the intramfs image you just booted, either with the serial
-    console or SSH.
+3.  Open a prompt into the intramfs image you just booted, either with the
+    serial console or SSH.
 
     !!! info "Info"
 
-         If you had already SSH-ed into the system before booting the initramfs
-         image, you might get the following error
+          If you had already SSH-ed into the system before booting the initramfs
+          image, you might get the following error
 
-         ```hl_lines="11"
-         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-         @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
-         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-         IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
-         Someone could be eavesdropping on you right now (man-in-the-middle attack)!
-         It is also possible that a host key has just been changed.
-         The fingerprint for the ED25519 key sent by the remote host is
-         SHA256:yK/IxrI/BERvxC8KdyIX8m1Tz6dyhAtz1X9k386tPqg.
-         Please contact your system administrator.
-         Add correct host key in /home/user/.ssh/known_hosts to get rid of this message.
-         Offending ED25519 key in /home/user/.ssh/known_hosts:57
-         Host key for 192.168.1.1 has changed and you have requested strict checking.
-         Host key verification failed.
-         ```
+          ```hl_lines="11"
+          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+          IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+          Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+          It is also possible that a host key has just been changed.
+          The fingerprint for the ED25519 key sent by the remote host is
+          SHA256:yK/IxrI/BERvxC8KdyIX8m1Tz6dyhAtz1X9k386tPqg.
+          Please contact your system administrator.
+          Add correct host key in /home/user/.ssh/known_hosts to get rid of this message.
+          Offending ED25519 key in /home/user/.ssh/known_hosts:57
+          Host key for 192.168.1.1 has changed and you have requested strict checking.
+          Host key verification failed.
+          ```
 
-         This is likely because the system booted from the initramfs image is
-         using a SSH key generated on-the-fly. Your SSH client is baffled
-         because it expected the SSH key of the original system.
+          This is likely because the system booted from the initramfs image is
+          using a SSH key generated on-the-fly. Your SSH client is baffled
+          because it expected the SSH key of the original system.
 
-         To fix the issue, open the `~/.ssh/known_hosts` file and delete the line
-         mentioned in the error message (in this example, line 57).
+          To fix the issue, open the `~/.ssh/known_hosts` file and delete the
+          line mentioned in the error message (in this example, line 57).
 
 4.  Transfer the sysupgrade image to the router with `scp`
 
     ```
     $ scp -O /path/to/local/my_sysupgrade.bin root@192.168.1.1:/tmp/
     ```
+
+    !!! info "Note"
+
+        The `-O` arugment is required because, by default, the SSH server on
+        OpenWrt does not expose an SFTP server. Therefore, `scp` must be
+        configured to use the "legacy SCP protocol".
 
 5.  Flash the sysupgrade image on the router
 
@@ -197,8 +213,8 @@ Here are the instructions on how to achieve this:
     ```
 
 6.  The router will now update the volumes once more, but their size will still
-    be wrong. Repeat the instructions in step 2 to boot once more the initramfs
-    image.
+    be wrong. Repeat the instructions in step 2 to boot the initramfs
+    image one more time.
 
 7.  Connect once more to the initramfs system, either via the serial console or
     via SSH.
@@ -224,8 +240,8 @@ Here are the instructions on how to achieve this:
     The last line of the command output indicates that 3 volumes are present,
     with IDs 0, 1, and 2.
 
-9.  Now check the volume with ID 2 on the `ubi0` device. It should have a size of
-    around 90MB and name `rootfs_data`.
+9.  Now check the volume with ID 2 on the `ubi0` device. It should have a size
+    of around 90MB and named `rootfs_data`.
 
     ```hl_lines="5 7"
     # ubinfo -d 0 -n 2
@@ -241,7 +257,7 @@ Here are the instructions on how to achieve this:
 10. Resize the volume to a smaller value. Depending on how many bad PEBs you
     have, you can try a bigger or smaller value. If the value you pick is too
     high, you will face the boot error again on the next boot. If the value you
-    pick if too low, you sacrifice a little bit of the storage space for
+    pick is too low, you sacrifice a little bit of the storage space for
     OpenWrt.
 
     ```
@@ -265,8 +281,8 @@ Here are the instructions on how to achieve this:
 
 11. Reboot the device.
 
-    ```sh
-    reboot -f
+    ```
+    # reboot -f
     ```
 
     Now, on the serial console, instead of the PEB error, you will get a message
@@ -295,5 +311,6 @@ Here are the instructions on how to achieve this:
 12. Restore the OpenWrt backup from the GUI (instructions
     [here](https://openwrt.org/docs/guide-user/troubleshooting./backup_restore#restore)).
 
-Unfortunately, the data volume is resized to its full size on every sysupgrade.
-Therefore, you'll have to repeat this process for every OpenWrt update.
+The new volume size is persisted across reboots. Unfortunately, the volume
+will be resized back to its full size on every OpenWrt update. Therefore, you'll
+have to repeat this process after flashing a new version.
