@@ -1,0 +1,1099 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="My personal blog.">
+      
+      
+        <meta name="author" content="Francesco Zardi">
+      
+      
+        <link rel="canonical" href="https://pleasewakemeforco.de/posts/how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/">
+      
+      
+      
+        <link rel="prev" href="../datagrams-must-be-this-tall-to-ride-part-1/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="zensical-0.0.73">
+    
+    
+      
+        <title>How to fix a soft-bricked FritzBox 7530 after installing OpenWrt - Please wake me for code</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.4ab2de0c.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.b60ce83d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Fira Sans";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
+    <div data-md-component="skip">
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Please wake me for code" class="md-header__button md-logo" aria-label="Please wake me for code" data-md-component="logo">
+      <!-- Embed SVG logo -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="165mm" height="165mm" version="1.1" viewBox="0 0 165 165" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(1.5 1.5)">
+  <path d="m28.498 89.238 30.942-9.41-30.942-10.646v-8.0363l44.931 16.622v4.808l-44.931 14.699z" stroke-width="0" style="white-space:pre" aria-label="&gt;"/>
+  <path d="m80.855 41.068s-0.0106 47.88 0 65.728c0.0107 17.928 16.207 14.508 16.207 26.111 0 5.685-0.13826 12.411-0.3607 19.893 4.5152-0.8851 8.94-2.1606 13.221-3.8111-0.16047-5.9584-0.25528-11.371-0.25528-16.082 0-11.603 15.958-7.7414 16.207-26.111v-65.728h-7.2032v65.728c0 3.2719-5.3062 3.2719-5.3062 3.2719s-6.3986 0-6.3986-3.2719v-65.728h-7.2032v65.728c0 3.2719-6.3983 3.2719-6.3983 3.2719s-5.307 0-5.307-3.2719v-65.728z"/>
+  <path d="m81-0.47284a81.473 81.473 0 0 0-81.473 81.473 81.473 81.473 0 0 0 81.473 81.473 81.473 81.473 0 0 0 81.473-81.473 81.473 81.473 0 0 0-81.473-81.473zm0 9.6749a71.798 71.798 0 0 1 71.798 71.798 71.798 71.798 0 0 1-71.798 71.798 71.798 71.798 0 0 1-71.798-71.798 71.798 71.798 0 0 1 71.798-71.798z"/>
+ </g>
+</svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Please wake me for code
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="none" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Please wake me for code" class="md-nav__button md-logo" aria-label="Please wake me for code" data-md-component="logo">
+      <!-- Embed SVG logo -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="165mm" height="165mm" version="1.1" viewBox="0 0 165 165" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(1.5 1.5)">
+  <path d="m28.498 89.238 30.942-9.41-30.942-10.646v-8.0363l44.931 16.622v4.808l-44.931 14.699z" stroke-width="0" style="white-space:pre" aria-label="&gt;"/>
+  <path d="m80.855 41.068s-0.0106 47.88 0 65.728c0.0107 17.928 16.207 14.508 16.207 26.111 0 5.685-0.13826 12.411-0.3607 19.893 4.5152-0.8851 8.94-2.1606 13.221-3.8111-0.16047-5.9584-0.25528-11.371-0.25528-16.082 0-11.603 15.958-7.7414 16.207-26.111v-65.728h-7.2032v65.728c0 3.2719-5.3062 3.2719-5.3062 3.2719s-6.3986 0-6.3986-3.2719v-65.728h-7.2032v65.728c0 3.2719-6.3983 3.2719-6.3983 3.2719s-5.307 0-5.307-3.2719v-65.728z"/>
+  <path d="m81-0.47284a81.473 81.473 0 0 0-81.473 81.473 81.473 81.473 0 0 0 81.473 81.473 81.473 81.473 0 0 0 81.473-81.473 81.473 81.473 0 0 0-81.473-81.473zm0 9.6749a71.798 71.798 0 0 1 71.798 71.798 71.798 71.798 0 0 1-71.798 71.798 71.798 71.798 0 0 1-71.798-71.798 71.798 71.798 0 0 1 71.798-71.798z"/>
+ </g>
+</svg>
+    </a>
+    Please wake me for code
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Foreword
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Posts
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Posts
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datagrams-must-be-this-tall-to-ride-part-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Datagrams must be this tall to ride (Part 1)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Symptoms
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triage" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Triage
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cause" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Cause
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Solution
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#symptoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Symptoms
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triage" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Triage
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cause" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Cause
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Solution
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    Foreword
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../datagrams-must-be-this-tall-to-ride-part-1/" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    Posts
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
+                
+                  
+
+
+  <h1>How to fix a soft-bricked FritzBox 7530 after installing OpenWrt</h1>
+
+<p><em>This is a filler episode in the post series about tall datagrams.</em></p>
+<details class="info">
+<summary>Other posts in the series</summary>
+<blockquote>
+<ol>
+<li><a href=".././datagrams-must-be-this-tall-to-ride-part-1/">Datagrams must be this tall to ride (Part 1)</a></li>
+<li>(this post)</li>
+</ol>
+</blockquote>
+</details>
+<p>Everybody knows troubleshooting a misbehaving ISP connection wouldn't be fun
+unless the router soft-bricked halfway through.</p>
+<p>This reminds me of the lightbulb scene from the "Malcolm in the Middle" series.</p>
+<div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+  <iframe src="https://www.youtube.com/embed/AbSehcT19u0"
+    style="position:absolute; top:0; left:0; width:100%; height:100%;"
+    title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<h2 id="symptoms">Symptoms</h2>
+<p>Here is how the issue presents itself:</p>
+<ol>
+<li>
+<p>I flashed an OpenWrt image on a FritzBox 7530 router using <code>sysupgrade</code>.</p>
+</li>
+<li>
+<p>On the next reboot, the "Power/DSL" LED flashed a few times, then stayed
+   constantly lit up, but the router didn't actually come online. No ping
+   response and no SSH connectivity could be obtained.</p>
+</li>
+</ol>
+<h2 id="triage">Triage</h2>
+<p>If you have a soldering iron and a USB-to-TTL adapter, you can follow the steps
+mentioned next to confirm you're seeing the same issue I am seeing. If instead
+you're feeling lucky, you can just jump to the next section.</p>
+<p>If you don't have a soldering iron and USB-to-TTL adapter, you can probably
+borrow them from your local hackerspace. If you want to buy a USB-to-TTL
+adapter, the <a href="https://www.amazon.de/-/en/dp/B08T24NML9">"AZDelivery USB TTL Adapter with
+CH340G"</a> is the one I used
+(disclaimer: not an affiliated link).</p>
+<p>For wiring the serial connection to the router, I recommend reading <a href="https://openwrt.org/docs/techref/hardware/port.serial#communicate_with_router">the
+dedicated page on the OpenWrt
+wiki</a>.
+It contains a lot of useful guidance for newcomers.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is one thing that the wiki got wrong for my adapter. The wiki
+recommends NOT connecting the VCC pin of the USB-to-TTL adapter. But for my
+adapter, connecting it was required to make it work. Before you connect it,
+make sure that the voltage rating (usually 3.3V or 5V) of the adapter
+matches that of the router.</p>
+</div>
+<p>Additionally, <a href="https://openwrt.org/toh/avm/avm_fritz_box_7530#serial">the OpenWrt wiki page for the FritzBox
+7530</a> contains
+information on the serial port header location. Based on that information, I
+soldered some female headers for ease of use.</p>
+<figure>
+<p><img alt="" loading="lazy" src=".././how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/5-soldered.jpg" /></p>
+<figcaption>
+<p>The serial connection headers soldered on the FritzBox 7530.</p>
+</figcaption>
+</figure>
+<p>I punched a hole in the plastic case so that the USB-to-TTL adapter can be
+connected without removing the case.</p>
+<figure>
+<p><img alt="" loading="lazy" src=".././how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/10-connection.jpg" /></p>
+<figcaption>
+<p>Connecting to the serial port on the FritzBox 7530 through the USB-to-TTL
+adapter.</p>
+</figcaption>
+</figure>
+<div class="admonition warning">
+<p class="admonition-title">Warning for Windows Users and PL2303 chips</p>
+<p>Some USB-to-TTL adapters use a counterfeit PL2303 chip. As a result, they
+might not work out of the box on Windows because the company making the
+original chips, Prolific, released a Windows driver that refuses to work
+with counterfeit chips. Here is <a href="https://www.ifamilysoftware.com/Prolific_PL-2303_Code_10_Fix.html">a working fix for the
+driver</a>,
+which requires .NET Framework 3.5. If you find issues installing .NET
+Framework 3.5, consider also following <a href="https://www.winhelponline.com/blog/net-framework-3-5-error-0x800f0950-windows-10-dism/">these
+steps</a>.</p>
+</div>
+<p>After you've wired the router to the serial, open a connection with your
+favorite serial port interface. For example, using GNU Screen</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ screen -h 10000 /dev/ttyUSB0 115200
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Refresher on GNU screen commands</p>
+<ul>
+<li>Add the <code>-h 10000</code> argument to increase the size of the scrollback buffer
+  to 10000 lines (it's quite limited by default on most distros).</li>
+<li>Enter scrollback mode (where you can use arrows to scroll through the
+  console history) with <code>Ctrl-a</code>, <code>Esc</code>. Exit scrollback mode with <code>Esc</code>.</li>
+<li>Kill current window with <code>Ctrl-a</code>, <code>k</code>.</li>
+</ul>
+</div>
+<p>Once you've established a good serial connection with no garbled text, power
+cycle the router and look at the console output. If the following lines are
+shown, then you're facing the same issue I did:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="hll">UBI warning: print_rsvd_warning: cannot reserve enough PEBs for bad PEB handling, reserved 1, need 8
+</span><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="hll">UBI error: ubi_wl_init_scan: no enough physical eraseblocks (0, need 1)
+</span><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="hll">UBI error: ubi_init: cannot attach mtd1
+</span><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="hll">UBI error: ubi_init: UBI error: cannot initialize UBI, error -12
+</span><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="hll">UBI init error 12
+</span><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>eth0 PHY0 Down Speed :10 Half duplex
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>eth0 PHY1 Down Speed :10 Half duplex
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>eth0 PHY2 Down Speed :10 Half duplex
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>eth0 PHY3 Down Speed :10 Half duplex
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>eth0 PHY4 Down Speed :10 Half duplex
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>...
+</code></pre></div>
+<h2 id="cause">Cause</h2>
+<p>The cause was identified by <a href="https://github.com/mjw99">@mjw99</a> in <a href="https://github.com/chunkeey/FritzBox-4040-UBOOT/issues/9">this GitHub
+issue</a>, along with a
+temporary workaround. Thanks, mjw99! More recently, <a href="https://github.com/openwrt/openwrt/issues/25445">this
+issue</a> was opened on the
+official OpenWrt repository.</p>
+<p>The sequence of events seems to be the following:</p>
+<ol>
+<li>
+<p>When an OpenWrt image is flashed with <code>sysupgrade</code>, all of the storage space
+    available on the FritzBox 7530 is split among 3 volumes:</p>
+<ul>
+<li>A <code>kernel</code> volume of 3.5 MiB</li>
+<li>A <code>rootfs</code> volume of 5.2 MiB</li>
+<li>A <code>rootfs_data</code> volume of 92.5 MiB</li>
+</ul>
+<p>On the FritzBox 7530, the storage device is a NAND flash chip. To provide
+wear leveling of NAND storage, OpenWrt uses Unsorted Block Images (UBI).</p>
+</li>
+<li>
+<p>On the next reboot after <code>sysupgrade</code> is run, UBI first checks for Physical
+    Erase Blocks (PEBs) marked as "bad". A PEB is the smallest block of storage
+    that can be erased on a NAND chip (if you're interested, you can find
+    <a href="https://flashdba.com/2014/06/20/understanding-flash-blocks-pages-and-program-erases/">here</a>
+    a very interesting blog series about how NAND storage works and even a
+    little bit of its history). PEBs can be marked as bad either by the
+    manufacturer or after a failed I/O operation.</p>
+</li>
+<li>
+<p>If the good PEBs are not sufficient to back the requested volume size plus
+    some spares (as in the case of my router), UBI reports an error and the
+    U-Boot bootloader cannot proceed with regular boot.</p>
+</li>
+</ol>
+<h2 id="solution">Solution</h2>
+<p>At the time of writing, a permanent fix is not available. A <a href="https://github.com/chunkeey/FritzBox-4040-UBOOT/pull/15">potential
+fix</a> is under review
+for the U-Boot bootloader used on FritzBox 7530 but has not been merged upstream
+yet.</p>
+<p>A temporary fix is described next. It consists of shrinking the size of the
+<code>rootfs_data</code> volume. In this way, the number of free PEBs is sufficient for UBI
+to back the requested volumes. The new volume size is persisted across reboots.
+Unfortunately, the <code>rootfs_data</code> volume will be resized back to its full size
+whenever <code>sysupgrade</code> is run. Therefore, you'll have to repeat this process
+after flashing a new OpenWrt version.</p>
+<ol>
+<li>
+<p>First, gather:</p>
+<ul>
+<li>the initramfs image of the OpenWrt version you wish to install
+  (<a href="https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-25.12.6-ipq40xx-generic-avm_fritzbox-7530-initramfs-uImage.itb">example</a>),</li>
+<li>the sysupgrade image of the OpenWrt version you wish to install
+  (<a href="https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-25.12.6-ipq40xx-generic-avm_fritzbox-7530-squashfs-sysupgrade.bin">example</a>),</li>
+<li>a backup of your OpenWrt config.</li>
+</ul>
+</li>
+<li>
+<p>Boot the initramfs image of OpenWrt. Since this is loaded from RAM, it will
+    run regardless of the PEBs' state. You can do this by following steps 1
+    through 3 of the flashing instructions on <a href="https://openwrt.org/toh/avm/avm_fritz_box_7530#installation">the FritzBox 7530 wiki
+    page</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Getting the device to boot from TFTP might require several attempts to
+get the timing right. If you have already flashed U-Boot and have the
+serial console already set up, there is a way to reliably boot an image
+from a TFTP server.</p>
+<ol>
+<li>
+<p>Set up the TFTP server to serve the initramfs image as explained in
+    the OpenWrt wiki.</p>
+</li>
+<li>
+<p>Power-cycle the router with the serial console connected. When the
+    console shows the message <code>Hit any key to stop autoboot</code>, then hit
+    any key. This will get you the U-Boot interactive prompt.</p>
+</li>
+<li>
+<p>Type the following commands to set up networking</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>setenv ipaddr 192.168.1.1
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>setenv netmask 255.255.255.0
+</code></pre></div>
+<p>Test connectivity to the TFTP server (assuming its IP is
+192.168.1.70)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ping 192.168.1.70
+</code></pre></div>
+<p>Then boot the initramfs image named <code>FRITZ7530.bin</code> served by the
+TFTP server</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>setenv serverip 192.168.1.70
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>tftpboot 0x85000000 FRITZ7530.bin
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>bootm 0x85000000
+</code></pre></div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Open a shell on the initramfs image you just booted, either with the serial
+    console or SSH.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If you had already connected with SSH to the system before booting the
+initramfs image, you might get the following error</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>It is also possible that a host key has just been changed.
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>The fingerprint for the ED25519 key sent by the remote host is
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>SHA256:yK/IxrI/BERvxC8KdyIX8m1Tz6dyhAtz1X9k386tPqg.
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>Please contact your system administrator.
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>Add correct host key in /home/user/.ssh/known_hosts to get rid of this message.
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="hll">Offending ED25519 key in /home/user/.ssh/known_hosts:57
+</span><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>Host key for 192.168.1.1 has changed and you have requested strict checking.
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>Host key verification failed.
+</code></pre></div>
+<p>This is likely because the system booted from the initramfs image is
+using an SSH key generated on-the-fly. Your SSH client is baffled
+because it expected the SSH key of the original system.</p>
+<p>To fix the issue, run <code>ssh-keygen -R 192.168.1.1</code> to delete all known
+fingerprints of the OpenWrt SSH keys.</p>
+</div>
+</li>
+<li>
+<p>Transfer the sysupgrade image to the router. For example, with <code>scp</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ scp -O /path/to/local/my_sysupgrade.bin root@192.168.1.1:/tmp/
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Note</p>
+<p>The <code>-O</code> argument is required because, by default, the SSH server on
+OpenWrt does not expose an SFTP server. Therefore, <code>scp</code> must be
+configured to use the "legacy SCP protocol".</p>
+</div>
+</li>
+<li>
+<p>Flash the sysupgrade image on the router, with the <code>-n</code> argument to discard
+    the existing configuration (you already have the backup, right?)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># sysupgrade -n /tmp/my_sysupgrade.bin
+</code></pre></div>
+</li>
+<li>
+<p><code>sysupgrade</code> now recreates the <code>rootfs_data</code> volume to occupy all of the
+    available storage, which will make the router fail to boot again. To ensure
+    a successful boot, the volume needs to be shrunk first. To do so, repeat the
+    instructions in step 2 to boot the initramfs image one more time.</p>
+</li>
+<li>
+<p>Connect once more to the initramfs system, either via the serial console or
+    via SSH.</p>
+</li>
+<li>
+<p>Use the <code>ubinfo</code> command to verify the current volumes on UBI device <code>ubi0</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a># ubinfo -d 0
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>ubi0
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Volumes count:                           3
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Logical eraseblock size:                 126976 bytes, 124.0 KiB
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Total amount of logical eraseblocks:     849 (107802624 bytes, 102.8 MiB)
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Amount of available logical eraseblocks: 0 (0 bytes)
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Maximum count of volumes                 128
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>Count of bad physical eraseblocks:       23
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Count of reserved physical eraseblocks:  0
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>Current maximum erase counter value:     54
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>Minimum input/output unit size:          2048 bytes
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>Character device major/minor:            245:0
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="hll">Present volumes:                         0, 1, 2
+</span></code></pre></div>
+<p>The last line of the command output indicates that 3 UBI volumes are
+present, with IDs 0, 1, and 2.</p>
+</li>
+<li>
+<p>Now check the volume with ID 2 on the <code>ubi0</code> device. It should have a size
+    of around 92.5 MiB and should be named <code>rootfs_data</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a># ubinfo -d 0 -n 2
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Volume ID:   2 (on ubi0)
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Type:        dynamic
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>Alignment:   1
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="hll">Size:        764 LEBs (97009664 bytes, 92.5 MiB)
+</span><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>State:       OK
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="hll">Name:        rootfs_data
+</span><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>Character device major/minor: 245:3
+</code></pre></div>
+</li>
+<li>
+<p>Resize the volume to a smaller value. Depending on how many bad PEBs you
+    have, you can try a larger or smaller value. If the value you pick is too
+    large, you will face the boot error again on the next boot (but no worries,
+    you just need to repeat these steps once more). If the value you pick is too
+    small, you waste storage space that could be used by OpenWrt. In my case,
+    I chose a conservative value</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a># ubirsvol /dev/ubi0 -N rootfs_data -s 60MiB
+</code></pre></div>
+<p>Now, let's check the size again to verify that the volume was shrunk.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a># ubinfo -d 0 -n 2
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Volume ID:   2 (on ubi0)
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Type:        dynamic
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Alignment:   1
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="hll">Size:        496 LEBs (62980096 bytes, 60.0 MiB)
+</span><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>State:       OK
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>Name:        rootfs_data
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>Character device major/minor: 245:3
+</code></pre></div>
+</li>
+<li>
+<p>Reboot the device.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a># reboot -f
+</code></pre></div>
+<p>On the next reboot, the serial console should display a message like</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Read 0x0 bytes from volume [kernel] offset 0x0 to 85000000
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>No size specified -&gt; Using max size (0x383000)
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>UBI: scrubbed PEB 721 (LEB 0:0), data moved to PEB 467
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>UBI: scrubbed PEB 725 (LEB 0:4), data moved to PEB 516
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>UBI: scrubbed PEB 727 (LEB 0:6), data moved to PEB 504
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>UBI: scrubbed PEB 731 (LEB 0:10), data moved to PEB 0
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>UBI: scrubbed PEB 732 (LEB 0:11), data moved to PEB 498
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>UBI: scrubbed PEB 735 (LEB 0:14), data moved to PEB 489
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>UBI: scrubbed PEB 738 (LEB 0:17), data moved to PEB 480
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>UBI: scrubbed PEB 739 (LEB 0:18), data moved to PEB 462
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>UBI: scrubbed PEB 740 (LEB 0:19), data moved to PEB 458
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>UBI: scrubbed PEB 743 (LEB 0:22), data moved to PEB 303
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>UBI: scrubbed PEB 745 (LEB 0:24), data moved to PEB 250
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>UBI: scrubbed PEB 746 (LEB 0:25), data moved to PEB 244
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>## Booting kernel from FIT Image at 85000000 ...
+</code></pre></div>
+<p>and the system should boot fine.</p>
+</li>
+<li>
+<p>Restore the OpenWrt backup from the web interface at http://192.168.1.1
+    (instructions
+    <a href="https://openwrt.org/docs/guide-user/troubleshooting/backup_restore#restore">here</a>).</p>
+</li>
+</ol>
+<details class="info">
+<summary>Other posts in the series</summary>
+<blockquote>
+<ol>
+<li><a href=".././datagrams-must-be-this-tall-to-ride-part-1/">Datagrams must be this tall to ride (Part 1)</a></li>
+<li>(this post)</li>
+</ol>
+</blockquote>
+</details>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../datagrams-must-be-this-tall-to-ride-part-1/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Datagrams must be this tall to ride (Part 1)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Datagrams must be this tall to ride (Part 1)
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Francesco Zardi
+
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/frazar" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/francesco-zardi/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.path","navigation.sections","navigation.top","navigation.tracking"],"redirect":null,"search":"../../assets/javascripts/workers/search.c47bb847.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.77dd0ce9.min.js"></script>
+      
+    
+  </body>
+</html>
