@@ -7,6 +7,11 @@ _About that time I changed my ISP provider and packets wouldn't ride._
 
 ![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride-part-1/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
 
+??? info "Other posts in the series"
+
+    > 1. (this post)
+    > 2. [How to fix a soft-bricked FritzBox 7530 after installing OpenWrt](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md)
+
 ## Entrée
 
 It's July 2025. The end of the month is nearing, and my 2-year-long Internet
@@ -590,6 +595,11 @@ But honestly, what can I do about this?
 !!! quote ""
 
     _To be continued_
+
+??? info "Other posts in the series"
+
+    > 1. (this post)
+    > 2. [How to fix a soft-bricked FritzBox 7530 after installing OpenWrt](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md)
 
 ## Acknowledgements
 

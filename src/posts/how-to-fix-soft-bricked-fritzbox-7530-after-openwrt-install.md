@@ -22,7 +22,7 @@ Oh well.
     title="YouTube video player" frameborder="0" allowfullscreen></iframe>
 </div>
 
-## Triage
+## Symptoms
 
 Here is how the issue presents itself:
 
@@ -32,19 +32,19 @@ Here is how the issue presents itself:
    constantly lit up, but the router doesn't actually come online. No SSH
    connectivity can be obtained.
 
-If you have a USB-to-TTL adapter, you can follow the steps mentioned next to
-make sure that you're facing the same issue I am getting. Otherwise,
-if you feel lucky, you can just skip to the next section.
+## Triage
 
-!!! info "Note"
+If you have a soldering iron and a USB-to-TTL adapter, you can follow the steps
+mentioned next to be certain that you're facing the same issue I am getting.
+If instead you feel lucky, you can just jump to the next section.
 
-    If you don't have a USB-to-TTL adapter, you can probably borrow one from
-    your local hackerspace. If you really want to buy one, the ["AZDelivery USB
-    TTL Adapter 3.3 V or 5 V with
-    CH340G"](https://www.amazon.de/-/en/dp/B08T24NML9) is the one I used
-    (disclaimer: not an affiliated link).
+If you don't have a soldering iron and USB-to-TTL adapter, you can probably
+borrow them from your local hackerspace. If you want to buy a USB-to-TTL adapter,
+the ["AZDelivery USB TTL Adapter 3.3 V or 5 V with
+CH340G"](https://www.amazon.de/-/en/dp/B08T24NML9) is the one I used
+(disclaimer: not an affiliated link).
 
-For setting up the serial connection to the router, I recommend reading [the
+For wiring the serial connection to the router, I recommend reading [the
 dedicated page on the OpenWrt
 wiki](https://openwrt.org/docs/techref/hardware/port.serial#communicate_with_router).
 It contains a lot of useful guidance for newcomers.
@@ -57,12 +57,12 @@ It contains a lot of useful guidance for newcomers.
 
 Additionally, [the OpenWrt wiki page for the FritzBox
 7530](https://openwrt.org/toh/avm/avm_fritz_box_7530#serial) contains
-information on the serial port header location and baud rate. Based on that, I
-soldered some female headers for ease of use.
+information on the serial port header location. Based on that, I soldered some
+female headers for ease of use.
 
 ![](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/5-soldered.jpg){ loading=lazy }
 /// caption
-The serial connection headers.
+The serial connection headers soldered on the FritzBox 7530.
 ///
 
 I punched a hole in the plastic case so that the USB-to-TTL adapter can be
@@ -70,7 +70,8 @@ connected without removing the case.
 
 ![](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install/10-connection.jpg){ loading=lazy }
 /// caption
-Connecting the FritzBox 7530 to the USB-to-TTL adapter.
+Connecting to the serial port on the FritzBox 7530 through the USB-to-TTL
+adapter.
 ///
 
 !!! warning "Warning for Windows Users"
@@ -111,9 +112,13 @@ eth0 PHY4 Down Speed :10 Half duplex
 
 ## Cause
 
-The cause and solutions were identified by [@mjw99](https://github.com/mjw99) in
-[this GitHub issue](https://github.com/chunkeey/FritzBox-4040-UBOOT/issues/9).
-Thanks, mjw99!
+The cause was identified by [@mjw99](https://github.com/mjw99) in [this GitHub
+issue](https://github.com/chunkeey/FritzBox-4040-UBOOT/issues/9), along with a
+temporary workaround. Thanks, mjw99! More recently, [this
+issue](https://github.com/openwrt/openwrt/issues/25445) was opened on the
+OpenWrt repository and [a potential
+fix](https://github.com/chunkeey/FritzBox-4040-UBOOT/pull/15) is under review
+for the U-Boot bootloader used on FritzBox 7530
 
 The issue seems to be that the NAND storage chip used for storage has too high a
 number of "bad" PEB blocks, and refuses to boot.
@@ -194,7 +199,7 @@ Here are the instructions on how to achieve this:
           To fix the issue, open the `~/.ssh/known_hosts` file and delete the
           line mentioned in the error message (in this example, line 57).
 
-4.  Transfer the sysupgrade image to the router with `scp`
+4.  Transfer the sysupgrade image to the router. For example, with `scp`
 
     ```
     $ scp -O /path/to/local/my_sysupgrade.bin root@192.168.1.1:/tmp/
@@ -241,7 +246,7 @@ Here are the instructions on how to achieve this:
     with IDs 0, 1, and 2.
 
 9.  Now check the volume with ID 2 on the `ubi0` device. It should have a size
-    of around 90MB and named `rootfs_data`.
+    of around 90MB and should be named `rootfs_data`.
 
     ```hl_lines="5 7"
     # ubinfo -d 0 -n 2
@@ -257,8 +262,8 @@ Here are the instructions on how to achieve this:
 10. Resize the volume to a smaller value. Depending on how many bad PEBs you
     have, you can try a bigger or smaller value. If the value you pick is too
     high, you will face the boot error again on the next boot. If the value you
-    pick is too low, you sacrifice a little bit of the storage space for
-    OpenWrt.
+    pick is too low, you waste storage space that could be used by OpenWrt. In
+    my case, the following value worked
 
     ```
     # ubirsvol /dev/ubi0 -N rootfs_data -s 60MiB
@@ -277,16 +282,13 @@ Here are the instructions on how to achieve this:
     Character device major/minor: 245:3
     ```
 
-    All looks fine!
-
 11. Reboot the device.
 
     ```
     # reboot -f
     ```
 
-    Now, on the serial console, instead of the PEB error, you will get a message
-    along these lines
+    On the next reboot, the serial console should display a message like
 
     ```
     Read 0x0 bytes from volume [kernel] offset 0x0 to 85000000
@@ -312,5 +314,10 @@ Here are the instructions on how to achieve this:
     [here](https://openwrt.org/docs/guide-user/troubleshooting./backup_restore#restore)).
 
 The new volume size is persisted across reboots. Unfortunately, the volume
-will be resized back to its full size on every OpenWrt update. Therefore, you'll
-have to repeat this process after flashing a new version.
+will be resized back to its full size on the next sysupgrade. Therefore, you'll
+have to repeat this process after flashing a new OpenWrt version.
+
+??? info "Other posts in the series"
+
+    > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
+    > 2. (this post)
