@@ -823,33 +823,33 @@ procedure, and soon the router welcomes me over SSH. I then start combining
 the DSL parameters provided by my ISP with the many examples
 <a href="https://openwrt.org/docs/guide-user/network/wan/isp-configurations">in the OpenWrt wiki</a>.
 After a little bit of trial and error, I conjure up the following configuration:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>config atm-bridge 'atm'
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    option vpi '1' # Specified by the ISP
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    option vci '32' # Specified by the ISP
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    option encaps 'llc'
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    option payload 'bridged'
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    option nameprefix 'dsl'
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>config dsl 'dsl'
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    option annex 'j'
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    option tone 'b'
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    option ds_snr_offset '0'
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>config device
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    option name 'dsl0'
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>config device
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    option type '8021q'
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    option ifname 'dsl0'
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    option vid '7' # VLAN ID 7, as specified by the ISP
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    option name 'dsl0.7'
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>config interface 'wan'
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    option device 'dsl0.7'
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    option proto 'pppoe'
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    option username '$ISP_PROVIDED_USERNAME'
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    option password '$ISP_PROVIDED_PASSWORD'
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>config atm-bridge 'atm'
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    option vpi '1' # Specified by the ISP
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    option vci '32' # Specified by the ISP
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    option encaps 'llc'
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    option payload 'bridged'
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    option nameprefix 'dsl'
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>config dsl 'dsl'
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    option annex 'j'
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    option tone 'b'
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    option ds_snr_offset '0'
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>config device
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    option name 'dsl0'
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>config device
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    option type '8021q'
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    option ifname 'dsl0'
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    option vid '7' # VLAN ID 7, as specified by the ISP
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    option name 'dsl0.7'
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>config interface 'wan'
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    option device 'dsl0.7'
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    option proto 'pppoe'
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>    option username '$ISP_PROVIDED_USERNAME'
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    option password '$ISP_PROVIDED_PASSWORD'
+</span></code></pre></div>
 <p>and that... worked! No PPPoE timeout! An IP address is negotiated and I can
 finally connect to the internet! Hell, I even got an IPv6 address.</p>
 <p>So all is good.</p>
@@ -864,19 +864,19 @@ issues reproduce consistently.</p>
 <li>
 <p>On a Debian box, <code>docker login ghcr.io</code> <em>always</em> fails with "TLS handshake
   timeout":</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ echo test | docker login ghcr.io -u USERNAME --password-stdin
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ echo test | docker login ghcr.io -u USERNAME --password-stdin
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Error response from daemon: Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
+</span></code></pre></div>
 </li>
 <li>
 <p>On all Windows devices, <code>winget update --all</code> fails</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>PS C:\&gt; winget update --all
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Errore durante la ricerca nell'origine: 'msstore'
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Si è verificato un errore imprevisto durante l'esecuzione del comando:
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>WinHttpSendRequest: 12002: Timeout dell'operazione
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>0x80072ee2 : unknown error
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>PS C:\&gt; winget update --all
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Errore durante la ricerca nell'origine: 'msstore'
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Si è verificato un errore imprevisto durante l'esecuzione del comando:
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>WinHttpSendRequest: 12002: Timeout dell'operazione
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>0x80072ee2 : unknown error
+</span></code></pre></div>
 </li>
 </ul>
 <div class="admonition question">
@@ -919,46 +919,46 @@ on the request and hitting "Copy" &gt; "Copy as cURL (Windows)".</p>
 </figure>
 <p>This gives me a big and noisy <code>curl</code> command that I paste into a <code>cmd</code> prompt
 and run</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C:\&gt;curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&amp;l=english^&amp;_cdn=akamai^" ^
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>   -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>   -H ^"Accept: */*^" ^
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>   -H ^"Accept-Language: en-US,en;q=0.9^" ^
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>   -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>   -H ^"Sec-Fetch-Storage-Access: none^" ^
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>   -H ^"Connection: keep-alive^" ^
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>   -H ^"Referer: https://steamcommunity.com/^" ^
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>   -H ^"Sec-Fetch-Dest: script^" ^
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>   -H ^"Sec-Fetch-Mode: no-cors^" ^
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>   -H ^"Sec-Fetch-Site: cross-site^" ^
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>   -H ^"Priority: u=2^" ^
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>   -H ^"Pragma: no-cache^" ^
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>   -H ^"Cache-Control: no-cache^" ^
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>   -O NUL
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>curl: (52) Empty reply from server
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C:\&gt;curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&amp;l=english^&amp;_cdn=akamai^" ^
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>   -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>   -H ^"Accept: */*^" ^
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>   -H ^"Accept-Language: en-US,en;q=0.9^" ^
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>   -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>   -H ^"Sec-Fetch-Storage-Access: none^" ^
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>   -H ^"Connection: keep-alive^" ^
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>   -H ^"Referer: https://steamcommunity.com/^" ^
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>   -H ^"Sec-Fetch-Dest: script^" ^
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>   -H ^"Sec-Fetch-Mode: no-cors^" ^
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>   -H ^"Sec-Fetch-Site: cross-site^" ^
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>   -H ^"Priority: u=2^" ^
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>   -H ^"Pragma: no-cache^" ^
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>   -H ^"Cache-Control: no-cache^" ^
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>   -O NUL
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>curl: (52) Empty reply from server
+</span></code></pre></div>
 <p>All right, the error can be reproduced. Let's now try to minimize the command.
 Surely, not all of these headers are <em>really</em> needed. So I start by removing the
 last <code>-H ...</code> command line option, and get...</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>C:\&gt;curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&amp;l=english^&amp;_cdn=akamai^" ^
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>     -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>     -H ^"Accept: */*^" ^
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>     -H ^"Accept-Language: en-US,en;q=0.9^" ^
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>     -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>     -H ^"Sec-Fetch-Storage-Access: none^" ^
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>     -H ^"Connection: keep-alive^" ^
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>     -H ^"Referer: https://steamcommunity.com/^" ^
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>     -H ^"Sec-Fetch-Dest: script^" ^
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>     -H ^"Sec-Fetch-Mode: no-cors^" ^
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>     -H ^"Sec-Fetch-Site: cross-site^" ^
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>     -H ^"Priority: u=2^" ^
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>     -H ^"Pragma: no-cache^" ^
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>     -o NUL
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>                                 Dload  Upload   Total   Spent    Left  Speed
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>100  9061  100  9061    0     0  91644      0 --:--:-- --:--:-- --:--:-- 94385
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>C:\&gt;curl.exe ^"https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=nbKNVX6KpsXN^&amp;l=english^&amp;_cdn=akamai^" ^
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>     -H ^"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0^" ^
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>     -H ^"Accept: */*^" ^
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>     -H ^"Accept-Language: en-US,en;q=0.9^" ^
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>     -H ^"Accept-Encoding: gzip, deflate, br, zstd^" ^
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>     -H ^"Sec-Fetch-Storage-Access: none^" ^
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>     -H ^"Connection: keep-alive^" ^
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>     -H ^"Referer: https://steamcommunity.com/^" ^
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>     -H ^"Sec-Fetch-Dest: script^" ^
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>     -H ^"Sec-Fetch-Mode: no-cors^" ^
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>     -H ^"Sec-Fetch-Site: cross-site^" ^
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>     -H ^"Priority: u=2^" ^
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>     -H ^"Pragma: no-cache^" ^
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>     -o NUL
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>                                 Dload  Upload   Total   Spent    Left  Speed
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>100  9061  100  9061    0     0  91644      0 --:--:-- --:--:-- --:--:-- 94385
+</span></code></pre></div>
 <p>a successful response.</p>
 <p>Wait, what?!</p>
 <h2 id="i-notice-that-i-am-confused">I notice that I am confused</h2>
@@ -983,84 +983,84 @@ header it does not expect, or even reject the request completely... or not. I'll
 try using a header name with the conventional <code>X-</code> name prefix to increase the
 chances of my request not being rejected. Also, I'll use a Bash script run from
 WSL from now on, because I'm more familiar with the syntax.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># test.sh</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">#!/bin/bash</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># run_curl: Sends the same HTTP request that fails in the</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">#           browser, but also adding any extra HTTP header</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">#           that is passed in as argument.</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">function</span><span class="w"> </span>run_curl<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Accept: */*'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Accept-Language: en-US,en;q=0.5'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Accept-Encoding: gzip, deflate, br, zstd'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Connection: keep-alive'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Referer: https://steamcommunity.com/'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Sec-Fetch-Dest: script'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Sec-Fetch-Mode: no-cors'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Sec-Fetch-Site: cross-site'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">        </span><span class="s1">'https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=PU33sk4crNva&amp;l=english&amp;_cdn=akamai'</span>
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="o">}</span>
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># Repeat the HTTP request with an extra, dummy header</span>
-<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="c1"># of increasing length. The header has the form:</span>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1">#</span>
-<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="c1">#   X-1...1: a</span>
-<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1">#</span>
-<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="c1"># with the number of '1' characters varying from 3 to 20</span>
-<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="k">for</span><span class="w"> </span>LENGTH<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">3</span>..20<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">    </span><span class="c1"># Build the header name and value</span>
-<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">    </span><span class="nv">HEADER_NAME</span><span class="o">=</span><span class="s2">"X-</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">'%0*d'</span><span class="w"> </span><span class="k">$((</span><span class="nv">LENGTH</span><span class="o">-</span><span class="m">2</span><span class="k">))</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">'0'</span><span class="w"> </span><span class="s1">'1'</span><span class="k">)</span><span class="s2">"</span>
-<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>
-<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">"Header \"%s\" (Length %2d): "</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HEADER_NAME</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$LENGTH</span><span class="s2">"</span>
-<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>
-<a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">    </span>run_curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"</span><span class="nv">$HEADER_NAME</span><span class="s2">: a"</span>
-<a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
-<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">    </span><span class="nv">RESULT</span><span class="o">=</span><span class="nv">$?</span><span class="w">  </span><span class="c1"># Get the exit code of the last command</span>
-<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$RESULT</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" success"</span>
-<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">    </span><span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$RESULT</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">124</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" TIMEOUT"</span>
-<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">    </span><span class="k">else</span>
-<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" FAILED"</span>
-<a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="w">    </span><span class="k">fi</span>
-<a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="k">done</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ test.sh
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Header "X-1" (Length 3): TIMEOUT
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Header "X-11" (Length 4): TIMEOUT
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Header "X-111" (Length 5): success
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Header "X-1111" (Length 6): success
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>Header "X-11111" (Length 7): TIMEOUT
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>Header "X-111111" (Length 8): success
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>Header "X-1111111" (Length 9): TIMEOUT
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Header "X-11111111" (Length 10): TIMEOUT
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>Header "X-111111111" (Length 11): success
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>Header "X-1111111111" (Length 12): success
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>Header "X-11111111111" (Length 13): success
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>Header "X-111111111111" (Length 14): success
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Header "X-1111111111111" (Length 15): success
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>Header "X-11111111111111" (Length 16): success
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>Header "X-111111111111111" (Length 17): success
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>Header "X-1111111111111111" (Length 18): success
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>Header "X-11111111111111111" (Length 19): success
-<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>Header "X-111111111111111111" (Length 20): success
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># test.sh</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">#!/bin/bash</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># run_curl: Sends the same HTTP request that fails in the</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">#           browser, but also adding any extra HTTP header</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">#           that is passed in as argument.</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">function</span><span class="w"> </span>run_curl<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Accept: */*'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Accept-Language: en-US,en;q=0.5'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Accept-Encoding: gzip, deflate, br, zstd'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Connection: keep-alive'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Referer: https://steamcommunity.com/'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Sec-Fetch-Dest: script'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Sec-Fetch-Mode: no-cors'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">        </span>-H<span class="w"> </span><span class="s1">'Sec-Fetch-Site: cross-site'</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">        </span><span class="s1">'https://community.akamai.steamstatic.com/public/javascript/applications/community/manifest.js?v=PU33sk4crNva&amp;l=english&amp;_cdn=akamai'</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="o">}</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># Repeat the HTTP request with an extra, dummy header</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="c1"># of increasing length. The header has the form:</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="c1">#</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="c1">#   X-1...1: a</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1">#</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="c1"># with the number of '1' characters varying from 3 to 20</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="k">for</span><span class="w"> </span>LENGTH<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">3</span>..20<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">    </span><span class="c1"># Build the header name and value</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="w">    </span><span class="nv">HEADER_NAME</span><span class="o">=</span><span class="s2">"X-</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">'%0*d'</span><span class="w"> </span><span class="k">$((</span><span class="nv">LENGTH</span><span class="o">-</span><span class="m">2</span><span class="k">))</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">'0'</span><span class="w"> </span><span class="s1">'1'</span><span class="k">)</span><span class="s2">"</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s2">"Header \"%s\" (Length %2d): "</span><span class="w"> </span><span class="s2">"</span><span class="nv">$HEADER_NAME</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$LENGTH</span><span class="s2">"</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">    </span>run_curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"</span><span class="nv">$HEADER_NAME</span><span class="s2">: a"</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">    </span><span class="nv">RESULT</span><span class="o">=</span><span class="nv">$?</span><span class="w">  </span><span class="c1"># Get the exit code of the last command</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$RESULT</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" success"</span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">    </span><span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$RESULT</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">124</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" TIMEOUT"</span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">    </span><span class="k">else</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" FAILED"</span>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="w">    </span><span class="k">fi</span>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="k">done</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ test.sh
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Header "X-1" (Length 3): TIMEOUT
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Header "X-11" (Length 4): TIMEOUT
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Header "X-111" (Length 5): success
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Header "X-1111" (Length 6): success
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>Header "X-11111" (Length 7): TIMEOUT
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>Header "X-111111" (Length 8): success
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>Header "X-1111111" (Length 9): TIMEOUT
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Header "X-11111111" (Length 10): TIMEOUT
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>Header "X-111111111" (Length 11): success
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>Header "X-1111111111" (Length 12): success
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>Header "X-11111111111" (Length 13): success
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>Header "X-111111111111" (Length 14): success
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Header "X-1111111111111" (Length 15): success
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>Header "X-11111111111111" (Length 16): success
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>Header "X-111111111111111" (Length 17): success
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>Header "X-1111111111111111" (Length 18): success
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>Header "X-11111111111111111" (Length 19): success
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>Header "X-111111111111111111" (Length 20): success
+</span></code></pre></div>
 <p>The results show that when the header has a length of 3, 4, 7, 9, or 10
 characters the request fails with a timeout. In all other cases, the request
 succeeds.</p>
 <p>To make sure the header value does not affect the outcome, I run another test
 with a bunch of random values, but fixed length. In all cases, the timeout still
 occurs.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>X-ABCDEFGH:  TIMEOUT
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Y-12345678:  TIMEOUT
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Custom1234:  TIMEOUT
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Headerasdf:  TIMEOUT
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>X-TEST1234:  TIMEOUT
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>MyHeader34:  TIMEOUT
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>X-ABCDEFGH:  TIMEOUT
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Y-12345678:  TIMEOUT
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Custom1234:  TIMEOUT
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Headerasdf:  TIMEOUT
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>X-TEST1234:  TIMEOUT
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>MyHeader34:  TIMEOUT
+</span></code></pre></div>
 <p>Conclusion: the content of the header does not matter. It's the <em>length</em> of the
 header that does.</p>
 <p>To determine which are the request lengths that trigger the issue, I extend the
@@ -1080,9 +1080,9 @@ request timeout is observed. However I still don't know <em>why</em> the timeout
 occur. It's time to look more closely at the network traffic.</p>
 <p>In order to capture the network traffic of the router, I need to install
 <code>tcpdump</code> on the router. Thanks to OpenWrt, this is as simple as running</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>opkg<span class="w"> </span>update
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>opkg<span class="w"> </span>install<span class="w"> </span>tcpdump
-</code></pre></div>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>opkg<span class="w"> </span>update
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>opkg<span class="w"> </span>install<span class="w"> </span>tcpdump
+</span></code></pre></div>
 <p>I then fire up Wireshark on my laptop and configure it to connect via SSH to the
 router following
 <a href="https://jmwoccassionalnotes.blog/2025/03/04/wireshark-remote-capture-over-ssh/">this guide</a>.</p>
@@ -1159,10 +1159,10 @@ to provide that to me.</p>
 it via my ADSL, and try to mimic the packet exchange of the Steam server.</p>
 <p>To imitate the HTTP server, I invoke the <code>http.server</code> module from the Python
 standard library to serve an empty directory via HTTP</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mkdir<span class="w"> </span>empty
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">cd</span><span class="w"> </span>empty
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">80</span><span class="w"> </span>--bind<span class="w"> </span><span class="s2">"0.0.0.0"</span>
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mkdir<span class="w"> </span>empty
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">cd</span><span class="w"> </span>empty
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">80</span><span class="w"> </span>--bind<span class="w"> </span><span class="s2">"0.0.0.0"</span>
+</span></code></pre></div>
 <p>I send an HTTP request with <code>curl</code>, but this time targeting the public IP of my
 server. It still fails! This means I can now reproduce the issue and inspect the
 packets observed at both sides of the network.</p>
