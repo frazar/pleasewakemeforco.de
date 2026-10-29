@@ -98,8 +98,9 @@ $ screen -h 10000 /dev/ttyUSB0 115200
     - Add the `-h 10000` argument to increase the size of the scrollback buffer
       to 10000 lines (it's quite limited by default on most distros).
     - Enter scrollback mode (where you can use arrows to scroll through the
-      console history) with `Ctrl-a`, `Esc`. Exit scrollback mode with `Esc`.
-    - Kill current window with `Ctrl-a`, `k`.
+      console history) with ++ctrl+a++, followed by ++esc++. Exit scrollback
+      mode with ++esc++.
+    - Kill current window with ++ctrl+a++, followed by ++k++.
 
 Once you've established a good serial connection with no garbled text, power
 cycle the router and look at the console output. If the following lines are
