@@ -174,13 +174,13 @@ whenever `sysupgrade` is run. Therefore, you'll have to repeat this process
 after flashing a new OpenWrt version.
 
 1.  First, gather:
-    - the initramfs image of the OpenWrt version you wish to install
+    - the `initramfs` image of the OpenWrt version you wish to install
       ([example](https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-25.12.6-ipq40xx-generic-avm_fritzbox-7530-initramfs-uImage.itb)),
-    - the sysupgrade image of the OpenWrt version you wish to install
+    - the `sysupgrade` image of the OpenWrt version you wish to install
       ([example](https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-25.12.6-ipq40xx-generic-avm_fritzbox-7530-squashfs-sysupgrade.bin)),
     - a backup of your OpenWrt config.
 
-2.  Boot the initramfs image of OpenWrt. Since this is loaded from RAM, it will
+2.  Boot the `initramfs` image of OpenWrt. Since this is loaded from RAM, it will
     run regardless of the PEBs' state. You can do this by following steps 1
     through 3 of the flashing instructions on [the FritzBox 7530 wiki
     page](https://openwrt.org/toh/avm/avm_fritz_box_7530#installation).
@@ -192,7 +192,7 @@ after flashing a new OpenWrt version.
         serial console already set up, there is a way to reliably boot an image
         from a TFTP server.
 
-        1.  Set up the TFTP server to serve the initramfs image as explained in
+        1.  Set up the TFTP server to serve the `initramfs` image as explained in
             the OpenWrt wiki.
 
         2.  Power-cycle the router with the serial console connected. When the
@@ -213,7 +213,7 @@ after flashing a new OpenWrt version.
             ping 192.168.1.70
             ```
 
-            Then boot the initramfs image named `FRITZ7530.bin` served by the
+            Then boot the `initramfs` image named `FRITZ7530.bin` served by the
             TFTP server
 
             ```
@@ -222,13 +222,13 @@ after flashing a new OpenWrt version.
             bootm 0x85000000
             ```
 
-3.  Open a shell on the initramfs image you just booted, either with the serial
+3.  Open a shell on the `initramfs` image you just booted, either with the serial
     console or SSH.
 
     !!! info "Info"
 
         If you had already connected with SSH to the system before booting the
-        initramfs image, you might get the following error
+        `initramfs` image, you might get the following error
 
         ```hl_lines="11"
         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -246,14 +246,14 @@ after flashing a new OpenWrt version.
         Host key verification failed.
         ```
 
-        This is likely because the system booted from the initramfs image is
+        This is likely because the system booted from the `initramfs` image is
         using an SSH key generated on-the-fly. Your SSH client is baffled
         because it expected the SSH key of the original system.
 
         To fix the issue, run `ssh-keygen -R 192.168.1.1` to delete all known
         fingerprints of the OpenWrt SSH keys.
 
-4.  Transfer the sysupgrade image to the router. For example, with `scp`
+4.  Transfer the `sysupgrade` image to the router. For example, with `scp`
 
     ```
     $ scp -O /path/to/local/my_sysupgrade.bin root@192.168.1.1:/tmp/
@@ -265,8 +265,8 @@ after flashing a new OpenWrt version.
         OpenWrt does not expose an SFTP server. Therefore, `scp` must be
         configured to use the "legacy SCP protocol".
 
-5.  Flash the sysupgrade image on the router, with the `-n` argument to discard
-    the existing configuration (you already have the backup, right?)
+5.  Flash the `sysupgrade` image on the router, with the `-n` argument to
+    discard the existing configuration (you already have the backup, right?)
 
     ```
     # sysupgrade -n /tmp/my_sysupgrade.bin
@@ -275,9 +275,9 @@ after flashing a new OpenWrt version.
 6.  `sysupgrade` now recreates the `rootfs_data` volume to occupy all of the
     available storage, which will make the router fail to boot again. To ensure
     a successful boot, the volume needs to be shrunk first. To do so, repeat the
-    instructions in step 2 to boot the initramfs image one more time.
+    instructions in step 2 to boot the `initramfs` image one more time.
 
-7.  Connect once more to the initramfs system, either via the serial console or
+7.  Connect once more to the `initramfs system, either via the serial console or
     via SSH.
 
 8.  Use the `ubinfo` command to verify the current volumes on UBI device `ubi0`:
