@@ -1,5 +1,5 @@
 ---
-date: 2026-10-27
+date: 2026/10/27
 title: How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
 previous_page:
     url: posts/datagrams-must-be-this-tall-to-ride-part-2

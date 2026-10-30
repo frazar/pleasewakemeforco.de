@@ -1,5 +1,5 @@
 ---
-date: 2026-10-29
+date: 2026/10/29
 title: Datagrams must be this tall to ride (Part 2)
 previous_page:
     url: posts/how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install
