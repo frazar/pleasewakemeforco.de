@@ -71,6 +71,15 @@ extra_css = ["stylesheets/extra.css"]
 # Read more: https://zensical.org/docs/customization/#additional-javascript
 #extra_javascript = ["javascripts/extra.js"]
 
+nav = [
+    { "Foreword" = "index.md" },
+    { "Posts" = [
+        "posts/datagrams-must-be-this-tall-to-ride-part-2.md",
+        "posts/how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md",
+        "posts/datagrams-must-be-this-tall-to-ride-part-1.md",
+    ] },
+]
+
 # ----------------------------------------------------------------------------
 # Section for configuring theme options
 # ----------------------------------------------------------------------------

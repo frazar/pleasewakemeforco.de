@@ -1,13 +1,16 @@
 ---
 date: 2026-10-29
 title: Datagrams must be this tall to ride (Part 2)
+previous_page:
+    url: posts/how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install
+    title: How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
 ---
 
 _The finale of the post series about tall datagrams._
 
 # TODO: write image
 
-??? info "Other posts in the series"
+??? info "This post is part of a series"
 
     > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
     2.
@@ -45,7 +48,7 @@ Needs a shrinker too
 
 ## Epilogue
 
-??? info "Other posts in the series"
+??? info "This post is part of a series"
 
     > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
     2.

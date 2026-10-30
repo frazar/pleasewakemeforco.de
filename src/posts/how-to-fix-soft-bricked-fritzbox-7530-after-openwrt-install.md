@@ -1,11 +1,17 @@
 ---
 date: 2026-10-27
 title: How to fix a soft-bricked FritzBox 7530 after installing OpenWrt
+previous_page:
+    url: posts/datagrams-must-be-this-tall-to-ride-part-2
+    title: Datagrams must be this tall to ride (Part 2)
+next_page:
+    url: posts/datagrams-must-be-this-tall-to-ride-part-1
+    title: Datagrams must be this tall to ride (Part 1)
 ---
 
 _This is a filler episode in the post series about tall datagrams._
 
-??? info "Other posts in the series"
+??? info "This post is part of a series"
 
     > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
     > 2. (this post)
@@ -364,7 +370,7 @@ after flashing a new OpenWrt version.
     (instructions
     [here](https://openwrt.org/docs/guide-user/troubleshooting/backup_restore#restore)).
 
-??? info "Other posts in the series"
+??? info "This post is part of a series"
 
     > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
     > 2. (this post)

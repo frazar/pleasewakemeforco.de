@@ -1,13 +1,16 @@
 ---
 date: 2026-05-21
 title: Datagrams must be this tall to ride (Part 1)
+next_page:
+    url: posts/datagrams-must-be-this-tall-to-ride-part-1
+    title: Datagrams must be this tall to ride (Part 1)
 ---
 
 _About that time I changed my ISP provider and packets wouldn't ride._
 
 ![A very complex rollercoaster structure from the Rollercoaster Tycoon game](./datagrams-must-be-this-tall-to-ride-part-1/03-youtube_lL8ELL9p5ms_0m31s.png){ loading=lazy }
 
-??? info "Other posts in the series"
+??? info "This post is part of a series"
 
     > 1. (this post)
     > 2. [How to fix a soft-bricked FritzBox 7530 after installing OpenWrt](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md)
@@ -596,7 +599,7 @@ But honestly, what can I do about this?
 
     _To be continued_
 
-??? info "Other posts in the series"
+??? info "This post is part of a series"
 
     > 1. (this post)
     > 2. [How to fix a soft-bricked FritzBox 7530 after installing OpenWrt](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md)
