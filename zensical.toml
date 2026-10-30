@@ -335,6 +335,9 @@ admonition = {}
 # and block-level element with a special syntax. Enables image lazy loading.
 attr_list = {}
 
+# For footnotes
+footnotes = {}
+
 # For captions
 pymdownx.blocks.caption = {}
 

@@ -592,7 +592,7 @@ Quoting [Al Gore's sixth grade classmate](https://www.youtube.com/watch?v=-JIuKj
 
 The data suggests that both the TCP and ICMP requests are affected in the same
 way, as long as the overall datagram length is the same. If that is true, then
-the root cause might lie below Layer 3 of the OSI model.
+the root cause might lie below Layer 3 of the ISO model.
 
 But honestly, what can I do about this?
 
