@@ -15,6 +15,7 @@ _This is a filler episode in the post series about tall datagrams._
 
     > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
     > 2. (this post)
+    > 3. [Datagrams must be this tall to ride (Part 2)](./datagrams-must-be-this-tall-to-ride-part-2.md)
 
 Everybody knows troubleshooting a misbehaving ISP connection wouldn't be fun
 unless the router soft-bricked halfway through.
@@ -374,3 +375,4 @@ after flashing a new OpenWrt version.
 
     > 1. [Datagrams must be this tall to ride (Part 1)](./datagrams-must-be-this-tall-to-ride-part-1.md)
     > 2. (this post)
+    > 3. [Datagrams must be this tall to ride (Part 2)](./datagrams-must-be-this-tall-to-ride-part-2.md)

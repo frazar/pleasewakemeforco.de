@@ -14,6 +14,7 @@ _About that time I changed my ISP provider and packets wouldn't ride._
 
     > 1. (this post)
     > 2. [How to fix a soft-bricked FritzBox 7530 after installing OpenWrt](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md)
+    > 3. [Datagrams must be this tall to ride (Part 2)](./datagrams-must-be-this-tall-to-ride-part-2.md)
 
 ## Entrée
 
@@ -603,6 +604,7 @@ But honestly, what can I do about this?
 
     > 1. (this post)
     > 2. [How to fix a soft-bricked FritzBox 7530 after installing OpenWrt](./how-to-fix-soft-bricked-fritzbox-7530-after-openwrt-install.md)
+    > 3. [Datagrams must be this tall to ride (Part 2)](./datagrams-must-be-this-tall-to-ride-part-2.md)
 
 ## Acknowledgements
 

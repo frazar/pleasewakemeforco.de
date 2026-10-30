@@ -8,7 +8,7 @@ previous_page:
 
 _The finale of the post series about tall datagrams._
 
-# TODO: write image
+**TODO: write image**
 
 ??? info "This post is part of a series"
 
