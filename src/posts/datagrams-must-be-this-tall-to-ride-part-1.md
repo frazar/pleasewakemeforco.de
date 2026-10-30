@@ -2,8 +2,8 @@
 date: 2026/05/21
 title: Datagrams must be this tall to ride (Part 1)
 next_page:
-    url: posts/datagrams-must-be-this-tall-to-ride-part-1
-    title: Datagrams must be this tall to ride (Part 1)
+    url: posts/datagrams-must-be-this-tall-to-ride-part-2
+    title: Datagrams must be this tall to ride (Part 2)
 ---
 
 _About that time I changed my ISP provider and packets wouldn't ride._
